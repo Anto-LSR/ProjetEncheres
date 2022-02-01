@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+	<Resource maxWaitMillis="10000" maxIdle="4" maxTotal="8"
+		url="jdbc:sqlserver://localhost;databasename=Encheres"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		password="Pa$$w0rd" username="sa" type="javax.sql.DataSource"
+		name="jdbc/encheresCNXPool" />
+</Context>
