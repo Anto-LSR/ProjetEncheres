@@ -13,11 +13,9 @@ public class Categorie {
 		this.articles = new ArrayList();
 	}
 
-	public Categorie(int noCategorie, String libelle, List<ArticleVendu> articles) {
+	public Categorie(String libelle) {
 		this.articles = new ArrayList();
-		setNoCategorie(noCategorie);
 		setLibelle(libelle);
-		setArticles(articles);
 	}
 
 	

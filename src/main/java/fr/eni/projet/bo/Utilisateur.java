@@ -25,7 +25,6 @@ public class Utilisateur {
 		this.encheres = new ArrayList();
 
 		setCredit(credit);
-		;
 		setPseudo(pseudo);
 		setNom(nom);
 		setPrenom(prenom);
