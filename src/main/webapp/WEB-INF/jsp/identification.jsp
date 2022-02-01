@@ -46,7 +46,7 @@
 					</div>
 
 					<div class="loginButtons__container">
-						<button  type="submit">Créer un compte</button>
+						<button type="submit">Créer un compte</button>
 					</div>
 
 
