@@ -11,12 +11,7 @@ public class Utilisateur {
 	private List<Enchere> encheres = null;
 	private List<ArticleVendu> achats  = null;
 	private List <ArticleVendu> ventes= null;
-	
-	
-	
-	
-	
-	
+		
 	public Utilisateur() {
 		this.ventes = new ArrayList();
 		this.achats = new ArrayList();
