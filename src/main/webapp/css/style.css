@@ -1,0 +1,40 @@
+/* INSCRIPTION */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: 'Roboto', sans-serif;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+.form__container {
+	width: 309px;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.input__container{
+	margin: 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.buttons__container{
+	margin: 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.form__container button{
+	height: 50px;
+	width: 120px;
+}

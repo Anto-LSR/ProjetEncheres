@@ -15,11 +15,20 @@ public class ConnectionProvider {
                 context = new InitialContext();
                 dataSource = (DataSource) context.lookup("java:comp/env/jdbc/encheresCNXPool");
             } catch (NamingException e) {
+            	System.out.println("probleme de contexte"+e.getCause());
                 e.printStackTrace();
             }
     }
-    public static Connection getConnection() throws SQLException{
-        return dataSource.getConnection();
+    public static Connection getConnection() {
+		Connection cnx = null;
+    	try {
+			cnx = dataSource.getConnection();
+		} catch (SQLException e) {
+			System.out.println("probleme de connexion"+e.getCause());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnx;
     }
     public static void closeConnection (Connection cnx) {
         try {
