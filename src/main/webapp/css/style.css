@@ -32,9 +32,51 @@ main {
 	margin: 8px;
 	display: flex;
 	justify-content: space-between;
+
 }
 
 .form__container button{
 	height: 50px;
 	width: 120px;
+}
+
+/*Page login */
+.loginoption__container{
+
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.connection__container{
+	
+    display: flex;
+}
+
+
+.loginButtons__container{
+	
+		margin: 8px;
+	display: flex;
+	justify-content: center;
+	
+}
+
+
+/* page profil */
+
+
+.profilButtons__container{
+	
+			margin: 8px;
+	display: flex;
+	justify-content: space-around;
+	
+	
+}
+
+.profilButtons__container button{
+	width: 80px;
+	
 }
