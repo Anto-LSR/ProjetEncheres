@@ -60,7 +60,7 @@ public class IdentificationServlet extends HttpServlet {
 		} else { // L'utilisateur existe : connexion
 			HttpSession session = request.getSession();
 			session.setAttribute("utilisateur", utilisateur);
-			response.sendRedirect(request.getContextPath() + "/profil");
+			response.sendRedirect(request.getContextPath() + "/editerprofil");
 		}
 
 	}
