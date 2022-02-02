@@ -12,8 +12,8 @@
 	<header>
 		<a href="${pageContext.request.contextPath }/"><h1>Encheres.org</h1></a>
 		<ul>
-		<li><a>S'inscrire</a></li>
-		<li><a>Se connecter</a></li>
+			<li><a href="${pageContext.request.contextPath }/inscription">S'inscrire</a></li>
+			<li><a href="${pageContext.request.contextPath }/identification">Se connecter</a></li>
 		</ul>
 	</header>
 </body>
