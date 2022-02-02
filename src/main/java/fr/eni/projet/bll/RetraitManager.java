@@ -17,6 +17,7 @@ public class RetraitManager {
 
 		return instance;
 
+		
 	}
 
 	public void insertRetrait(Retrait retrait) {
