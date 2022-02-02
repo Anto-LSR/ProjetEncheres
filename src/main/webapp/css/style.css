@@ -18,17 +18,15 @@ header {
 	flex-direction: column;
 }
 
-header h1{
+header h1 {
 	color: black;
 }
 
-
-
-header ul{
+header ul {
 	display: flex;
 }
 
-header li{
+header li {
 	margin: 5px;
 	color: blue;
 	cursor: pointer;
@@ -83,15 +81,50 @@ main {
 	justify-content: center;
 }
 
-/* page profil */
+/* page EDITER profil */
 .profilButtons__container {
 	margin: 8px;
 	display: flex;
 	justify-content: space-around;
 }
 
+/*PAGE MON PROFIL*/
+.profile__container {
+	width: 339px;
+}
+
+.profile__container h1 {
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+.profile__container li {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.profile__container .fieldname {
+	font-weight: 600;
+}
+
+.profile__container button {
+	width: 80px;
+	height: 40px;
+}
+
 .profilButtons__container button {
 	width: 80px;
+}
+
+.profile__container .updateBtn {
+	text-align: center;
+}
+
+.updateBtn__container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 /*PAGE ACCUEIL*/
