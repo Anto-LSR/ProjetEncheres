@@ -19,8 +19,9 @@
 				<h3>Mon Profil</h3>
 				<form method="post"
 					action="<%=request.getContextPath()%>/inscription"
-					autocomplete="off" >
-					
+					autocomplete="off">
+					<input autocomplete="false" name="hidden" type="text"
+						style="display: none;">
 					<div class="input__container">
 						<label for="pseudo">Pseudo:</label> <input type=text id="pseudo"
 							name="pseudo" value="${utilisateur.pseudo}">
@@ -39,8 +40,8 @@
 					</div>
 					<div class="input__container">
 						<label for="telephone">Telephone:</label> <input type="text"
-							id="telephone" value="telephone"
-							placeholder="${utilisateur.telephone}">
+							id="telephone"  value="${utilisateur.getTelephone()}"
+							autocomplete="false">
 					</div>
 					<div class="input__container">
 						<label for="rue">Rue:</label> <input type="text" id="rue"
@@ -48,8 +49,8 @@
 					</div>
 					<div class="input__container">
 						<label for="codepostal">Code postal:</label> <input type="text"
-							id="codepostal" value="codepostal"
-							placeholder="${utilisateur.codePostal}">
+							id="codepostal" 
+							value="${utilisateur.codePostal}" autocomplete="false">
 					</div>
 					<div class="input__container">
 						<label for="ville">Ville:</label> <input type="text" id="ville"
