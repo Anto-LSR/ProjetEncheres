@@ -74,8 +74,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			rs = stmt.executeQuery(SQL_SELECT_ALL);
 
 			while (rs.next()) {
-				if (rs.getInt("noArticle") != i) {
-					i = rs.getInt("noArticle");
+				if (rs.getInt("no_article") != i) {
+					i = rs.getInt("no_article");
 
 					articleVendu = new ArticleVendu();
 
