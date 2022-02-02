@@ -35,7 +35,8 @@ public class UtilisateurManager {
 	}
 
 	public List<Utilisateur> selectAllUsers() {
-		List<Utilisateur> users = new ArrayList();
+
+		List<Utilisateur> users = new ArrayList<>();
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
 		users = ud.selectAllUsers();
 		return users;
@@ -50,6 +51,7 @@ public class UtilisateurManager {
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
 		ud.deleteUser(utilisateur);
 	}
+
 
 	public List<InputError> verifUser(Utilisateur utilisateur) { // <-----------VERIFIER CONDITIONS ERREURS
 		List<InputError> errors = new ArrayList<>();
@@ -91,5 +93,7 @@ public class UtilisateurManager {
 	public boolean isAlphaNumeric(String str) {
 		return str != null && str.matches("^[a-zA-Z0-9]*$");
 	}
+
+
 
 }
