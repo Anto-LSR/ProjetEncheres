@@ -16,6 +16,7 @@ public class ArticleVenduManager {
 
 	}
 
+	
 	public static ArticleVenduManager getInstance() {
 		if (instance == null) {
 			instance = new ArticleVenduManager();
