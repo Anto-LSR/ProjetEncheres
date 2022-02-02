@@ -34,7 +34,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, articleVendu.getNomArticle());
-			pstmt.setString(1, articleVendu.getDescription());
+			pstmt.setString(2, articleVendu.getDescription());
 			pstmt.setDate(3, Date.valueOf(articleVendu.getDateDebutEncheres()));
 			pstmt.setDate(4, Date.valueOf(articleVendu.getDateFinEncheres()));
 			pstmt.setInt(5, articleVendu.getPrixInitial());
