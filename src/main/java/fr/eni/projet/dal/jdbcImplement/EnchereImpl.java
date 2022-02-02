@@ -176,7 +176,13 @@ public class EnchereImpl implements EnchereDAO {
 
 	@Override
 	public List<Enchere> selectByDateFin() {
-		// TODO Auto-generated method stub
+		Connection cnx = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		int i = 0;
+		Enchere enchere = new Enchere();
+		List<Enchere> liste_enchere_by_dateFin = new ArrayList<>();
+		
 		return null;
 	}
 
