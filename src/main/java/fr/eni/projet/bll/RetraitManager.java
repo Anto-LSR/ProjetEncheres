@@ -12,24 +12,18 @@ public class RetraitManager {
 
 		if (instance == null) {
 			instance = new RetraitManager();
-
 		}
-
 		return instance;
-
-		
 	}
 
 	public void insertRetrait(Retrait retrait) {
 		RetraitDAO rt = DAOFactory.createNewRetraitImpl();
 		rt.insertRetrait(retrait);
-
 	}
 
 	public void updateRetrait(Retrait retrait) {
 		RetraitDAO rt = DAOFactory.createNewRetraitImpl();
 		rt.updateRetrait(retrait);
-
 	}
 
 	public void deleteRetrait(Retrait retrait) {
@@ -38,11 +32,8 @@ public class RetraitManager {
 	}
 
 	public Retrait selectRetraitByNo(Retrait retrait) {
-		
-		
 		RetraitDAO rt = DAOFactory.createNewRetraitImpl();
 		Retrait newretrait = rt.selectRetraitByNo(retrait);
-		
 		return newretrait;
 	}
 	

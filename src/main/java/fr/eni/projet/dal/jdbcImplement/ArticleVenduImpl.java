@@ -23,6 +23,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_LETTER = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? OR description LIKE ?;";
 	private final static String SQL_SELECT_BY_NAME = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article = ?;";
 	private final static String SQL_SELECT_BY_CATEGORIE = " SELECT * FROM ARTICLES_VENDUS WHERE no_categorie = ? ;";
+	private final static String SQL_SELECT_BY_DATE_FIN = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.date_fin_encheres > GETDATE() ORDER BY a.date_fin_encheres ASC  ";
+	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.no_utilisateur= ?;";
 
 	@Override
 	public int insertArticle(ArticleVendu articleVendu) {
@@ -221,6 +223,63 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
 
+		return null;
+	}
+
+	public List<ArticleVendu> selectByUtilisateur() {
+		Connection cnx = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		int i = 0;
+		ArticleVendu articleVendu = null;
+		List<ArticleVendu> liste_aticles_by_utilisateur = new ArrayList<>();
+		
+
+		try {
+			cnx = ConnectionProvider.getConnection();
+			stmt = cnx.createStatement();
+			rs = stmt.executeQuery(SQL_SELECT_BY_UTILISATEUR);
+			
+			while (rs.next()) {
+				if (rs.getInt("no_article") != i) {
+					i = rs.getInt("no_article");
+				
+					articleVendu = new ArticleVendu();
+					articleVendu.setNoArticle(rs.getInt("no_article"));
+					articleVendu.setDescription(rs.getString("description"));
+					articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
+					articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+					articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+					articleVendu.setPrixVente(rs.getInt("prix_vente"));
+					Utilisateur utilisateur = new Utilisateur();
+					utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+					articleVendu.setUtilisateurVendeur(utilisateur);
+					Categorie categorie = new Categorie();
+					categorie.setNoCategorie(rs.getInt("no_categorie"));
+					articleVendu.setCategorie(categorie);
+					
+					liste_aticles_by_utilisateur.add(articleVendu);
+				}
+				return liste_aticles_by_utilisateur;
+				}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, stmt);
+		}	
+		return null;
+	}
+
+	@Override
+	public List<ArticleVendu> selectByDateFin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ArticleVendu> selectByDateDebut() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

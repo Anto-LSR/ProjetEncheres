@@ -10,5 +10,8 @@ public interface ArticleVenduDAO {
 	public List<ArticleVendu> selectByLetter(String recherche);
 	public ArticleVendu selectByName (ArticleVendu articleByName);
 	public List<ArticleVendu> selectArticleByCategorie(ArticleVendu articleByCategorie);
+	public List<ArticleVendu> selectByUtilisateur();
+	public List<ArticleVendu> selectByDateFin();
+	public List<ArticleVendu> selectByDateDebut();
 	
 }

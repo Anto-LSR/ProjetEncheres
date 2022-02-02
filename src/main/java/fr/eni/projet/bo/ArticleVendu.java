@@ -21,6 +21,7 @@ public class ArticleVendu {
 	// constructeurs
 	public ArticleVendu() {
 		this.encheres = new ArrayList();
+		setDateDebutEncheres(dateDebutEncheres);
 	}
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
@@ -64,7 +65,7 @@ public class ArticleVendu {
 	}
 
 	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
-		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateDebutEncheres = LocalDate.now();
 	}
 
 	public LocalDate getDateFinEncheres() {
