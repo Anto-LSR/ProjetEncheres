@@ -76,6 +76,7 @@ public class InscriptionServlet extends HttpServlet {
 		if (errors.isEmpty() && !error) {
 			System.out.println("pas d'erreur");
 			um.insertUser(utilisateur);
+			request.getRequestDispatcher("WEB-INF/jsp/identification.jsp").forward(request, response);
 		} else {
 			error = true;
 			for (InputError err : errors) {

@@ -10,11 +10,13 @@ import java.util.List;
 import fr.eni.projet.DBTools.ConnectionProvider;
 import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.dal.UtilisateurDAO;
+import fr.eni.projet.helpers.HashPassword;
 
 public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) \r\n"
 			+ "VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?);";
 
+	private final static String SQL_LOGIN = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ? OR email = ? AND mot_de_passe = ?;";
 	@Override
 	public int insertUser(Utilisateur utilisateur) {
 		Connection cnx = null;
@@ -75,6 +77,43 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	public void deleteUser(Utilisateur utilisateur) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Utilisateur selectByLogin(Utilisateur utilisateur) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Utilisateur user = null;
+		
+		cnx = ConnectionProvider.getConnection();
+		try {
+			pstmt = cnx.prepareStatement(SQL_LOGIN);
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, HashPassword.hashpassword(utilisateur.getMotDePasse()));
+			pstmt.setString(3, utilisateur.getEmail());
+			pstmt.setString(4, HashPassword.hashpassword(utilisateur.getMotDePasse()));
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				user = new Utilisateur();
+				user.setPseudo(rs.getString("pseudo"));
+				user.setNom(rs.getString("nom"));
+				user.setPrenom(rs.getString("prenom"));
+				user.setEmail(rs.getString("email"));
+				user.setTelephone(rs.getString("telephone"));
+				user.setRue(rs.getString("rue"));
+				user.setCodePostal(rs.getString("code_postal"));
+				user.setVille(rs.getString("ville"));
+				user.setCredit(rs.getInt("credit"));
+			}
+			return user;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+		return user;
 	}
 
 }

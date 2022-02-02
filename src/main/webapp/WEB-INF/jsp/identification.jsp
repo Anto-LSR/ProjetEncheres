@@ -17,7 +17,7 @@
 			<div class="form__container">
 
 				<form method="post"
-					action="<%=request.getContextPath()%>/inscription">
+					action="<%=request.getContextPath()%>/identification">
 
 					<div class="input__container">
 						<label for="identifiant">Identifiant:</label> <input type=text

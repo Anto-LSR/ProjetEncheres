@@ -10,4 +10,5 @@ public interface UtilisateurDAO {
 	public List<Utilisateur>selectAllUsers();
 	public void updateUser(Utilisateur utilisateur); 
 	public void deleteUser(Utilisateur utilisateur);
+	public Utilisateur selectByLogin(Utilisateur utilisateur);
 }

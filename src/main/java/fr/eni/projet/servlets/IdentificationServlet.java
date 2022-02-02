@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.projet.bll.UtilisateurManager;
+import fr.eni.projet.bo.Utilisateur;
+
 /**
  * Servlet implementation class IdentificationServlet
  */
@@ -34,8 +37,26 @@ public class IdentificationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String identifiant = request.getParameter("identifiant");
+		String password = request.getParameter("motdepasse");
+		UtilisateurManager um = UtilisateurManager.getInstance();
+		Utilisateur utilisateur = new Utilisateur();
+		if(identifiant.contains("@")) {
+			utilisateur.setEmail(identifiant);
+			utilisateur.setMotDePasse(password);
+		}else {
+			utilisateur.setPseudo(identifiant);
+			utilisateur.setMotDePasse(password);		
+		}
+		utilisateur = um.selectByLogin(utilisateur);
+		if(utilisateur == null) {
+			System.out.println("connection impossible");
+			request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
+		} else {
+			System.out.println("bravo vous êtes connecté PUTAIN");
+		}
+		
+	
 	}
 
 }

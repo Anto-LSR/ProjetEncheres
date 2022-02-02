@@ -92,6 +92,12 @@ public class UtilisateurManager {
 
 		return errors;
 	}
+	
+	public Utilisateur selectByLogin(Utilisateur utilisateur) {
+		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
+		Utilisateur user = ud.selectByLogin(utilisateur);
+		return user;
+	}
 
 	public boolean isAlphaNumeric(String str) {
 		return str != null && str.matches("^[a-zA-Z0-9]*$");
