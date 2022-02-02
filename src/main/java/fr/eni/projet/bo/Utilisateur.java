@@ -167,4 +167,14 @@ public class Utilisateur {
 	public void addToArticleAchat(ArticleVendu articlevendu) {
 		this.achats.add(articlevendu);
 	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", credit=" + credit + ", pseudo=" + pseudo + ", nom="
+				+ nom + ", prenom=" + prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue
+				+ ", codePostal=" + codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", administrateur="
+				+ administrateur + ", encheres=" + encheres + ", achats=" + achats + ", ventes=" + ventes + "]";
+	}
+	
+	
 }

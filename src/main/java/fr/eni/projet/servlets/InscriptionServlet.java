@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.projet.bll.InputError;
 import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.Utilisateur;
+import fr.eni.projet.helpers.HashPassword;
 
 /**
  * Servlet implementation class InscriptionServlet
@@ -48,12 +49,14 @@ public class InscriptionServlet extends HttpServlet {
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codepostal");
 		String ville = request.getParameter("ville");
-		String motdepasse = request.getParameter("motdepasse");
-		String verif = request.getParameter("confirmation");
+		String motdepasse = HashPassword.hashpassword(request.getParameter("motdepasse"));
+		String verif = HashPassword.hashpassword(request.getParameter("confirmation"));
+		System.out.println(verif);
 		if (!motdepasse.equals(verif)) {
 			error = true;
 			System.out.println("erreur sur les mdp");
 			request.setAttribute("passError", "Les mots de passes doivent être identiques");
+			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		Utilisateur utilisateur = new Utilisateur();
@@ -67,35 +70,47 @@ public class InscriptionServlet extends HttpServlet {
 		utilisateur.setVille(ville);
 		utilisateur.setMotDePasse(motdepasse);
 		utilisateur.setAdministrateur(false);
-		
+		System.out.println(utilisateur.toString());
+
 		List<InputError> errors = um.verifUser(utilisateur);// <-----------ERRORS NON RELEVEE
-		if (errors.isEmpty() || !error) {
+		if (errors.isEmpty() && !error) {
+			System.out.println("pas d'erreur");
 			um.insertUser(utilisateur);
 		} else {
+			error = true;
 			for (InputError err : errors) {
-				
-				if(err.getNom().equals("alphaError")){
+
+				if (err.getNom().trim().equals("alphaError")) {
 					request.setAttribute("alphaError", err.getDescription());
-				} else if (err.getNom().equals("pseudoNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("pseudoNull")) {
+
 					request.setAttribute("pseudoNull", err.getDescription());
 					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
-				} else if (err.getNom().equals("nomNull")) {
+				} else if (err.getNom().trim().equals("nomNull")) {
 					request.setAttribute("nomNull", err.getDescription());
-				}else if (err.getNom().equals("prenomNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("prenomNull")) {
 					request.setAttribute("prenomNull", err.getDescription());
-				}else if (err.getNom().equals("emailNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("emailNull")) {
 					request.setAttribute("emailNull", err.getDescription());
-				}else if (err.getNom().equals("rueNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("rueNull")) {
 					request.setAttribute("rueNull", err.getDescription());
-				}else if (err.getNom().equals("codePostalNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("codePostalNull")) {
 					request.setAttribute("codePostalNull", err.getDescription());
-				}else if (err.getNom().equals("villeNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("villeNull")) {
 					request.setAttribute("villeNull", err.getDescription());
-				}else if (err.getNom().equals("passNull")) {
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				} else if (err.getNom().trim().equals("passNull")) {
 					request.setAttribute("passNull", err.getDescription());
-				}				
+					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+				}
 			}
-		}		
+		}
 	}
 
 	public boolean isAlphaNumeric(String str) {
