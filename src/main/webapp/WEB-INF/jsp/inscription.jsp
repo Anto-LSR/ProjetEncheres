@@ -97,10 +97,12 @@
 					<c:if test="${passError != null}">
 						<p class="error">${passError}</p>
 					</c:if>
-					
+
 					<div class="buttons__container">
 						<button type="submit">Créer</button>
-						<button>Annuler</button>
+						<a href="${pageContext.request.contextPath }/accueil">
+							<button type="button">Annuler</button>
+						</a>
 					</div>
 				</form>
 			</div>

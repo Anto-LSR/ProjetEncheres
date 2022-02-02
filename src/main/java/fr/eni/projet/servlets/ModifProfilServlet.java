@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ProfilServlet
  */
-@WebServlet("/profil")
-public class ProfilServlet extends HttpServlet {
+@WebServlet("/editerprofil")
+public class ModifProfilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProfilServlet() {
+    public ModifProfilServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,7 @@ public class ProfilServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/modifprofil.jsp").forward(request, response);
 	}
 
 	/**

@@ -67,7 +67,7 @@
 					<div class="profilButtons__container">
 						<button type="submit">Enregistrer</button>
 						<button type="submit">Supprimer mon Compte</button>
-						<button>Retour</button>
+						<a href="${pageContext.request.contextPath }/"><button type="button">Retour</button></a>
 					</div>
 				</form>
 			</div>
