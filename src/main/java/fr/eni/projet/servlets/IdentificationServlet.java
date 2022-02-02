@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.Utilisateur;
@@ -49,11 +50,13 @@ public class IdentificationServlet extends HttpServlet {
 			utilisateur.setMotDePasse(password);		
 		}
 		utilisateur = um.selectByLogin(utilisateur);
-		if(utilisateur == null) {
+		if(utilisateur == null) { //Aucun utilisateur pour cette combinaison 
 			System.out.println("connection impossible");
 			request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
-		} else {
-			System.out.println("bravo vous êtes connecté PUTAIN");
+		} else { // L'utilisateur existe : connexion
+			HttpSession session = request.getSession();
+			session.setAttribute("utilisateur", utilisateur);
+			response.sendRedirect(request.getContextPath()+ "/profil");
 		}
 		
 	

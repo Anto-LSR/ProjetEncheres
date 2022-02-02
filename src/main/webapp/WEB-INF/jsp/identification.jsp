@@ -45,12 +45,12 @@
 						</div>
 					</div>
 
-					<div class="loginButtons__container">
-						<button type="submit">Créer un compte</button>
-					</div>
 
 
 				</form>
+					<div class="loginButtons__container">
+						<a href="<%=request.getContextPath()%>/inscription"> <button>Créer un compte</button></a>
+					</div>
 			</div>
 
 		</main>
