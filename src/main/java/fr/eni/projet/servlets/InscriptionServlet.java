@@ -39,6 +39,7 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		boolean error = false;
 
 		String pseudo = request.getParameter("pseudo");
@@ -51,13 +52,14 @@ public class InscriptionServlet extends HttpServlet {
 		String ville = request.getParameter("ville");
 		String motdepasse = HashPassword.hashpassword(request.getParameter("motdepasse"));
 		String verif = HashPassword.hashpassword(request.getParameter("confirmation"));
-		System.out.println(verif);
+		
 		if (!motdepasse.equals(verif)) {
 			error = true;
-			System.out.println("erreur sur les mdp");
+			
 			request.setAttribute("passError", "Les mots de passes doivent être identiques");
 			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}
+		
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setPseudo(pseudo);
@@ -70,9 +72,10 @@ public class InscriptionServlet extends HttpServlet {
 		utilisateur.setVille(ville);
 		utilisateur.setMotDePasse(motdepasse);
 		utilisateur.setAdministrateur(false);
-		System.out.println(utilisateur.toString());
+		
 
 		List<InputError> errors = um.verifUser(utilisateur);// <-----------ERRORS NON RELEVEE
+		
 		if (errors.isEmpty() && !error) {
 			System.out.println("pas d'erreur");
 			um.insertUser(utilisateur);

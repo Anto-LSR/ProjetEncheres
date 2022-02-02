@@ -55,15 +55,13 @@ public class UtilisateurManager {
 
 	public List<InputError> verifUser(Utilisateur utilisateur) { // <-----------VERIFIER CONDITIONS ERREURS
 		List<InputError> errors = new ArrayList<>();
-		System.out.println("verifUser");
-		System.out.println(utilisateur.getPseudo());
-		System.out.println(utilisateur.toString());
+
+
 		if (!isAlphaNumeric(utilisateur.getPseudo().trim())) {
 			
 			InputError err = new InputError("alphaError", "Le pseudo doit être composé de caractère alpha-numériques.");
 			errors.add(err);
 		} else if (utilisateur.getPseudo().trim().isBlank() | utilisateur.getPseudo() == null) { // <------------CA DOIT ETRE CA
-			System.out.println("coucou");
 			InputError err = new InputError("pseudoNull", "Le champ Pseudo doit être rempli");
 			errors.add(err);
 		} else if (utilisateur.getNom().trim().isBlank() |utilisateur.getNom() == null) {

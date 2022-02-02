@@ -105,6 +105,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 				user.setCodePostal(rs.getString("code_postal"));
 				user.setVille(rs.getString("ville"));
 				user.setCredit(rs.getInt("credit"));
+				user.setNoUtilisateur(rs.getInt("no_utilisateur"));
 			}
 			return user;
 		} catch (SQLException e) {

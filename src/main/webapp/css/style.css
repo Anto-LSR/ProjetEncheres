@@ -1,10 +1,37 @@
 /* INSCRIPTION */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 * {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	height: 8vh;
+	margin-bottom: 20px;
+	flex-direction: column;
+}
+
+header h1{
+	color: black;
+}
+
+
+
+header ul{
+	display: flex;
+}
+
+header li{
+	margin: 5px;
+	color: blue;
+	cursor: pointer;
 }
 
 form {
@@ -22,64 +49,66 @@ main {
 	align-items: center;
 }
 
-.input__container{
+.input__container {
 	margin: 8px;
 	display: flex;
 	justify-content: space-between;
 }
 
-.buttons__container{
+.buttons__container {
 	margin: 8px;
 	display: flex;
 	justify-content: space-between;
-
 }
 
-.form__container button{
+.form__container button {
 	height: 50px;
 	width: 120px;
 }
 
 /*Page login */
-.loginoption__container{
-
+.loginoption__container {
 	display: flex;
-    flex-direction: column;
-    justify-content: center;
+	flex-direction: column;
+	justify-content: center;
 }
 
-
-.connection__container{
-	
-    display: flex;
+.connection__container {
+	display: flex;
 }
 
-
-.loginButtons__container{
-	
-		margin: 8px;
+.loginButtons__container {
+	margin: 8px;
 	display: flex;
 	justify-content: center;
-	
 }
-
-
-
 
 /* page profil */
-
-
-.profilButtons__container{
-	
-			margin: 8px;
+.profilButtons__container {
+	margin: 8px;
 	display: flex;
 	justify-content: space-around;
-	
-	
 }
 
-.profilButtons__container button{
+.profilButtons__container button {
 	width: 80px;
-	
 }
 
+/*PAGE ACCUEIL*/
+.searchBtn {
+	width: 100% !important;
+}
+
+.searchForm input {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.filterDiv {
+	display: flex;
+	justify-content: space-between;
+}
+
+#categories {
+	width: 60%
+}

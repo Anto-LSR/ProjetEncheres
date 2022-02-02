@@ -14,42 +14,47 @@
 
 	<div class="container">
 		<main>
+
 			<div class="form__container">
 				<h3>Mon Profil</h3>
 				<form method="post"
-					action="<%=request.getContextPath()%>/inscription">
-
+					action="<%=request.getContextPath()%>/inscription"
+					autocomplete="off">
+					<input autocomplete="false" name="hidden" type="text"
+						style="display: none;">
 					<div class="input__container">
 						<label for="pseudo">Pseudo:</label> <input type=text id="pseudo"
-							name="pseudo">
+							name="pseudo" value="${utilisateur.pseudo}">
 					</div>
 					<div class="input__container">
 						<label for="nom">Nom:</label> <input type="text" id="nom"
-							name="nom">
+							name="nom" value="${utilisateur.nom}">
 					</div>
 					<div class="input__container">
 						<label for="prenom">Prénom:</label> <input type="text" id="prenom"
-							name="prenom">
+							name="prenom" value="${utilisateur.prenom}">
 					</div>
 					<div class="input__container">
 						<label for="mail">Email:</label> <input type="email" id="mail"
-							name="mail">
+							name="mail" value="${utilisateur.email}">
 					</div>
 					<div class="input__container">
-						<label for="nom">Telephone:</label> <input type="text"
-							id="telephone" name="telephone">
+						<label for="telephone">Telephone:</label> <input type="text"
+							id="telephone"  value="${utilisateur.getTelephone()}"
+							autocomplete="false">
 					</div>
 					<div class="input__container">
 						<label for="rue">Rue:</label> <input type="text" id="rue"
-							name="rue">
+							name="rue" value="${utilisateur.rue}">
 					</div>
 					<div class="input__container">
-						<label for="nom">Code postal:</label> <input type="text"
-							id="codepostal" name="codepostal">
+						<label for="codepostal">Code postal:</label> <input type="text"
+							id="codepostal" 
+							value="${utilisateur.codePostal}" autocomplete="false">
 					</div>
 					<div class="input__container">
-						<label for="nom">Ville:</label> <input type="text" id="ville"
-							name="ville">
+						<label for="ville">Ville:</label> <input type="text" id="ville"
+							name="ville" value="${utilisateur.ville}">
 					</div>
 					<div class="input__container">
 						<label for="motdepasse">Mot de passe:</label> <input
