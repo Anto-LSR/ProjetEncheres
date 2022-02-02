@@ -16,12 +16,17 @@
 		<main>
 			<div class="form__container">
 			<h3>Créer un compte</h3>
-			<form method="post" action="<%=request.getContextPath() %>/inscription">
+			<form method="post" action="<%=request.getContextPath()%>/inscription">
 				
 				<div class="input__container">
 				<label for="pseudo">Pseudo:</label>
 				<input type=text id="pseudo" name="pseudo">
 				</div>
+				
+				<c:if test="${pseudoNull != null}">
+				<h1>{$pseudoNull}</h1>
+				</c:if >
+				
 				<div class="input__container">
 				<label for="nom">Nom:</label>
 				<input type="text" id="nom" name="nom">
