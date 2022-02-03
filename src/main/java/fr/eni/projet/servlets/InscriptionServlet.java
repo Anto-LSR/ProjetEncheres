@@ -79,6 +79,7 @@ public class InscriptionServlet extends HttpServlet {
 		if (errors.isEmpty() && !error) {
 			System.out.println("pas d'erreur");
 			um.insertUser(utilisateur);
+			request.setAttribute("success", "Compte créé avec succès");
 			request.getRequestDispatcher("WEB-INF/jsp/identification.jsp").forward(request, response);
 		} else {
 			error = true;

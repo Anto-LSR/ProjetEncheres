@@ -15,8 +15,9 @@ import fr.eni.projet.helpers.HashPassword;
 public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) \r\n"
 			+ "VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?);";
-
 	private final static String SQL_LOGIN = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ? OR email = ? AND mot_de_passe = ?;";
+	private final static String SQL_UPDATE = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?;";
+
 	@Override
 	public int insertUser(Utilisateur utilisateur) {
 		Connection cnx = null;
@@ -25,7 +26,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 
 		try {
 			cnx = ConnectionProvider.getConnection();
-			pstmt = cnx.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS );
+			pstmt = cnx.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, utilisateur.getPseudo());
 			pstmt.setString(2, utilisateur.getNom());
 			pstmt.setString(3, utilisateur.getPrenom());
@@ -38,11 +39,11 @@ public class UtilisateurImpl implements UtilisateurDAO {
 			pstmt.setInt(10, 0);
 			pstmt.setInt(11, 0);
 			int nbLignes = pstmt.executeUpdate();
-			if(nbLignes != 1) {
+			if (nbLignes != 1) {
 				System.err.println("ERREUR SUR L'INSERTION UTILISATEUR"); // <---A MODIFIER
 			}
-			rs = pstmt.getGeneratedKeys();			
-			if(rs.next()) {
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
 				int noUtilisateur = rs.getInt(1);
 				return noUtilisateur;
 			}
@@ -69,7 +70,35 @@ public class UtilisateurImpl implements UtilisateurDAO {
 
 	@Override
 	public void updateUser(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+
+		cnx = ConnectionProvider.getConnection();
+		try {
+			pstmt = cnx.prepareStatement(SQL_UPDATE);
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, utilisateur.getNom());
+			pstmt.setString(3, utilisateur.getPrenom());
+			pstmt.setString(4, utilisateur.getEmail());
+			pstmt.setString(5, utilisateur.getTelephone());
+			pstmt.setString(6, utilisateur.getRue());
+			pstmt.setString(7, utilisateur.getCodePostal());
+			pstmt.setString(8, utilisateur.getVille());
+			pstmt.setString(9, utilisateur.getMotDePasse());
+			pstmt.setInt(10, utilisateur.getNoUtilisateur());
+
+			int nbLignes = pstmt.executeUpdate();
+
+			if (nbLignes != 1) {
+				System.out.println("erreur d'update profil");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
 
 	}
 
@@ -85,7 +114,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Utilisateur user = null;
-		
+
 		cnx = ConnectionProvider.getConnection();
 		try {
 			pstmt = cnx.prepareStatement(SQL_LOGIN);
@@ -94,7 +123,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 			pstmt.setString(3, utilisateur.getEmail());
 			pstmt.setString(4, HashPassword.hashpassword(utilisateur.getMotDePasse()));
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				user = new Utilisateur();
 				user.setPseudo(rs.getString("pseudo"));
 				user.setNom(rs.getString("nom"));
@@ -111,7 +140,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
 		return user;

@@ -19,6 +19,13 @@
 				<form method="post"
 					action="<%=request.getContextPath()%>/identification">
 
+					<c:if test="${loginError != null }">
+
+						<p class="loginError">${loginError}</p>
+					</c:if>
+					<c:if test="${success != null }">
+						<p class="success">${success }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="identifiant">Identifiant:</label> <input type=text
 							id="indentifiant" name="identifiant">
@@ -48,9 +55,11 @@
 
 
 				</form>
-					<div class="loginButtons__container">
-						<a href="<%=request.getContextPath()%>/inscription"> <button>Créer un compte</button></a>
-					</div>
+				<div class="loginButtons__container">
+					<a href="<%=request.getContextPath()%>/inscription">
+						<button>Créer un compte</button>
+					</a>
+				</div>
 			</div>
 
 		</main>

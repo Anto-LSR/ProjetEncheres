@@ -65,6 +65,16 @@ main {
 }
 
 /*Page login */
+.success {
+	text-align: center;
+	color: green;
+}
+
+.loginError {
+	text-align: center;
+	color: red;
+}
+
 .loginoption__container {
 	display: flex;
 	flex-direction: column;
@@ -154,9 +164,8 @@ main {
 .checkboxmenu {
 	margin: 0% 15%;
 	width: 70%
-	
 }
 
-.checkboxmenu input{
+.checkboxmenu input {
 	margin: 5px 0px;
 }
