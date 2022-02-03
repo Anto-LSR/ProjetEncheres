@@ -14,7 +14,7 @@
 		<ul>
 		<li><a>Vendre un article</a></li>
 		<li><a href="${pageContext.request.contextPath }/monprofil">Mon profil</a></li>
-		<li><a>Deconnexion</a></li>
+		<li><a href="${pageContext.request.contextPath }/deconnection">Deconnexion</a></li>
 		</ul>
 	</header>
 </body>

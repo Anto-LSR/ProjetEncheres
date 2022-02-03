@@ -37,7 +37,7 @@ public class InscriptionServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("Non Connecté 'Page Inscription' non accessible");
+				System.out.println("Non Connecté 'Page Inscription' accessible");
 			} else {
 				isConnected = true;
 				session.setAttribute("connected", true);
