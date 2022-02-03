@@ -13,50 +13,60 @@
 
 				<h3>Filtres :</h3>
 
-				<div>
-					<input type="radio" id="huey" name="Choice" value="Achats" checked>
+				<!achat>
+
+				<div class= radiom >
+					<input type="radio" id="achats" name="Choice" value="Achats" checked>
 					<label for="Achats">Achats</label>
 				</div>
 
 
+				<div class= checkboxm>
+					<div>
+						<input type="checkbox" id="enchouvertes" name="enchouvertes"
+							checked> <label for="enchouvertes">enchères
+							ouvertes</label>
+					</div>
 
-				<div>
-					<input type="checkbox" id="enchouvertes" name="enchouvertes"
-						checked> <label for="enchouvertes">enchères
-						ouvertes</label>
+					<div>
+						<input type="checkbox" id="enchencours" name="enchencours">
+						<label for="enchencours">mes enchères en cours</label>
+					</div>
+
+					<div>
+						<input type="checkbox" id="enchremportés" name="enchremportés">
+						<label for="enchremportés">mes enchères remportées</label>
+					</div>
+
 				</div>
 
-				<div>
-					<input type="checkbox" id="enchencours" name="enchencours">
-					<label for="enchencours">mes enchères en cours</label>
-				</div>
-
-				<div>
-					<input type="checkbox" id="enchremportés" name="enchremportés">
-					<label for="enchremportés">mes enchères remportées</label>
-				</div>
+				<!ventes>
 
 
-				<div>
+
+				<div class=radiom >
 					<input type="radio" id="Ventes" name="Choice" value="Ventes"
 						checked> <label for="Ventes">Ventes</label>
 				</div>
+				
+				<div class= checkboxm>
+					<div>
+						<input type="checkbox" id="ventesencours" name="ventesencours"
+							checked> <label for="ventesencours">mes ventes en
+							cours</label>
+					</div>
 
-				<div>
-					<input type="checkbox" id="ventesencours" name="ventesencours"
-						checked> <label for="ventesencours">mes ventes en
-						cours</label>
-				</div>
+					<div>
+						<input type="checkbox" id="ventesnondebutees"
+							name="ventesnondebutees"> <label for="ventesnondebutees">ventes
+							non débutées</label>
+					</div>
 
-				<div>
-					<input type="checkbox" id="ventesnondebutees"
-						name="ventesnondebutees"> <label for="ventesnondebutees">ventes
-						non débutées</label>
-				</div>
+					<div>
+						<input type="checkbox" id="ventesterminées" name="ventesterminées">
+						<label for="ventesterminées">ventes terminées</label>
+					</div>
 
-				<div>
-					<input type="checkbox" id="ventesterminées" name="ventesterminées">
-					<label for="ventesterminées">ventes terminées</label>
 				</div>
 
 
