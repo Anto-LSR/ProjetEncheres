@@ -61,13 +61,15 @@ public class NouvelleVenteServlet extends HttpServlet {
 		if (isConnected == false) {
 			response.sendRedirect(request.getContextPath() + "/accueil");
 			System.out.println("Non Connecté page 'Nouvelle Vente' Inaccesible ");
+		} else {
+
+			CategorieManager cm = CategorieManager.getInstance();
+			List<Categorie> categories = cm.selectAllCategorie();
+			request.setAttribute("categories", categories);
+
+			request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 		}
 
-		CategorieManager cm = CategorieManager.getInstance();
-		List<Categorie> categories = cm.selectAllCategorie();
-		request.setAttribute("categories", categories);
-
-		request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 	}
 
 	/**
