@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.projet.DBTools.ConnectionProvider;
@@ -19,7 +20,8 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_UPDATE_PASS = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?;";
 	private final static String SQL_UPDATE = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
-	private final static String SQL_SELECTALL = "SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
+	private final static String SQL_SELECTALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
+
 	@Override
 	public int insertUser(Utilisateur utilisateur) {
 		Connection cnx = null;
@@ -85,6 +87,8 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
 		return null;
 	}
@@ -94,6 +98,35 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		Connection cnx = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		List<Utilisateur> users = new ArrayList<>();
+
+		cnx = ConnectionProvider.getConnection();
+
+		try {
+			stmt = cnx.createStatement();
+			rs = stmt.executeQuery(SQL_SELECTALL);
+			while (rs.next()) {
+				Utilisateur user = new Utilisateur();
+				user.setNoUtilisateur(rs.getInt(1));
+				user.setPseudo(rs.getString(2));
+				user.setNom(rs.getString(3));
+				user.setPrenom(rs.getString(4));
+				user.setEmail(rs.getString(5));
+				user.setTelephone(rs.getString(6));
+				user.setRue(rs.getString(7));
+				user.setCodePostal(rs.getString(8));
+				user.setVille(rs.getString(9));
+				user.setCredit(rs.getInt(10));
+				users.add(user);
+
+			}
+			return users;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, stmt);
+		}
 		return null;
 	}
 

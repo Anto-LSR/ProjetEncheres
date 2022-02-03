@@ -22,6 +22,9 @@
 					autocomplete="off">
 					<input autocomplete="false" name="hidden" type="text"
 						style="display: none;">
+					<c:if test="${pseudoTaken != null }">
+						<p>${pseudoTaken}</p>
+					</c:if>
 					<div class="input__container">
 						<label for="pseudo">Pseudo:</label> <input type=text id="pseudo"
 							name="pseudo" value="${utilisateur.pseudo}">
@@ -34,6 +37,9 @@
 						<label for="prenom">Prénom:</label> <input type="text" id="prenom"
 							name="prenom" value="${utilisateur.prenom}">
 					</div>
+					<c:if test="${mailTaken != null }">
+						<p>${mailTaken}</p>
+					</c:if>
 					<div class="input__container">
 						<label for="mail">Email:</label> <input type="email" id="mail"
 							name="mail" value="${utilisateur.email}">
