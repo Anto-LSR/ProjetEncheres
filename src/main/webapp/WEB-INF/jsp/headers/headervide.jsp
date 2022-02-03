@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/style.css" >
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/css/style.css">
 
 <title></title>
 </head>

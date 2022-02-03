@@ -23,7 +23,7 @@
 					<input autocomplete="false" name="hidden" type="text"
 						style="display: none;">
 					<c:if test="${pseudoTaken != null }">
-						<p>${pseudoTaken}</p>
+						<p class="error">${pseudoTaken}</p>
 					</c:if>
 					<div class="input__container">
 						<label for="pseudo">Pseudo:</label> <input type=text id="pseudo"
@@ -38,7 +38,7 @@
 							name="prenom" value="${utilisateur.prenom}">
 					</div>
 					<c:if test="${mailTaken != null }">
-						<p>${mailTaken}</p>
+						<p class="error">${mailTaken}</p>
 					</c:if>
 					<div class="input__container">
 						<label for="mail">Email:</label> <input type="email" id="mail"

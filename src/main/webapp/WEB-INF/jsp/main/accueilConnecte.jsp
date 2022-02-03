@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@
 					<input type="radio" id="radioVentes" name="choice" value="Ventes"
 						checked> <label for="Ventes">Ventes</label>
 				</div>
-				
+
 				<div class="checkboxmenu">
 					<div>
 						<input type="checkbox" id="ventesencours" name="ventesencours"
@@ -64,7 +65,10 @@
 					<div class="filterDiv">
 						<label for="categories">Catèories : </label> <select
 							id="categories">
-							<option>Catègorie 1</option>
+							<c:forEach items="${categories}" var="cat">
+								<option name="categorie">${cat.libelle }</option>
+
+							</c:forEach>
 						</select>
 					</div>
 					<input type="text" placeholder="Le nom de l'article contient...">
