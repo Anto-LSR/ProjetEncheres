@@ -8,7 +8,7 @@ public interface UtilisateurDAO {
 	public int insertUser(Utilisateur utilisateur);
 	public Utilisateur selectUserById(Utilisateur utilisateur);
 	public List<Utilisateur>selectAllUsers();
-	public void updateUser(Utilisateur utilisateur); 
+	public Utilisateur updateUser(Utilisateur utilisateur); 
 	public void deleteUser(Utilisateur utilisateur);
 	public Utilisateur selectByLogin(Utilisateur utilisateur);
 }

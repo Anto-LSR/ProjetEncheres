@@ -77,6 +77,7 @@ public class IdentificationServlet extends HttpServlet {
 		utilisateur = um.selectByLogin(utilisateur);
 		if (utilisateur == null) { // Aucun utilisateur pour cette combinaison
 			System.out.println("connection impossible");
+			request.setAttribute("loginError", "Identifiant ou mot de passe incorrect");
 			request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
 		} else { // L'utilisateur existe : connexion
 			HttpSession session = request.getSession();
