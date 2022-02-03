@@ -25,6 +25,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_CATEGORIE = " SELECT * FROM ARTICLES_VENDUS WHERE no_categorie = ? ;";
 	private final static String SQL_SELECT_BY_DATE_FIN = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.date_fin_encheres > GETDATE() ORDER BY a.date_fin_encheres ASC  ";
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.no_utilisateur= ?;";
+	private final static String SQL_SELECT_BY_MES_VENTES_EN_COURS = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() AND no_utilisateur = ?;";
 
 	@Override
 	public int insertArticle(ArticleVendu articleVendu) {
@@ -233,17 +234,16 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		int i = 0;
 		ArticleVendu articleVendu = null;
 		List<ArticleVendu> liste_aticles_by_utilisateur = new ArrayList<>();
-		
 
 		try {
 			cnx = ConnectionProvider.getConnection();
 			stmt = cnx.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_BY_UTILISATEUR);
-			
+
 			while (rs.next()) {
 				if (rs.getInt("no_article") != i) {
 					i = rs.getInt("no_article");
-				
+
 					articleVendu = new ArticleVendu();
 					articleVendu.setNoArticle(rs.getInt("no_article"));
 					articleVendu.setDescription(rs.getString("description"));
@@ -257,29 +257,100 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 					Categorie categorie = new Categorie();
 					categorie.setNoCategorie(rs.getInt("no_categorie"));
 					articleVendu.setCategorie(categorie);
-					
+
 					liste_aticles_by_utilisateur.add(articleVendu);
 				}
 				return liste_aticles_by_utilisateur;
-				}
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionProvider.closeConnection(cnx, stmt);
-		}	
+		}
 		return null;
 	}
 
+	// Liste des Encheres Ouverte où la date de fin est superieur à la date du jour
 	@Override
 	public List<ArticleVendu> selectByDateFin() {
-		// TODO Auto-generated method stub
+		Connection cnx = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArticleVendu article;
+		List<ArticleVendu> liste_article_by_dateFin = new ArrayList<>();
+
+		cnx = ConnectionProvider.getConnection();
+		try {
+			stmt = cnx.createStatement();
+			rs = stmt.executeQuery(SQL_SELECT_BY_DATE_FIN);
+
+			while (rs.next()) {
+				article = new ArticleVendu();
+				article.setNoArticle(rs.getInt(1));
+				article.setNomArticle(rs.getString(2));
+				article.setDescription(rs.getString(3));
+				article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+				article.setPrixInitial(rs.getInt(6));
+				article.setPrixVente(rs.getInt(7));
+				Utilisateur utilisateur = new Utilisateur();
+				utilisateur.setNoUtilisateur(rs.getInt(8));
+				article.setUtilisateurAcheteur(utilisateur);
+				Categorie categorie = new Categorie();
+				categorie.setNoCategorie(rs.getInt(9));
+				article.setCategorie(categorie);
+
+				liste_article_by_dateFin.add(article);
+			}
+			return liste_article_by_dateFin;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, stmt);
+		}
 		return null;
 	}
 
 	@Override
-	public List<ArticleVendu> selectByDateDebut() {
-		// TODO Auto-generated method stub
+	public List<ArticleVendu> selectByMesVentesEnCours(Utilisateur utilisateur) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArticleVendu article = new ArticleVendu();
+		Categorie categorie = new Categorie();
+		List<ArticleVendu> liste_mes_ventes_en_cours = new ArrayList<>();
+		
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_MES_VENTES_EN_COURS);
+			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				article.setNoArticle(rs.getInt(1));
+				article.setNomArticle(rs.getString(2));
+				article.setDescription(rs.getString(3));
+				article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+				article.setPrixInitial(rs.getInt(6));
+				article.setPrixVente(rs.getInt(7));
+				utilisateur = new Utilisateur();
+				utilisateur.setNoUtilisateur(rs.getInt(8));
+				article.setUtilisateurVendeur(utilisateur);
+				categorie.setNoCategorie(rs.getInt(9));
+				article.setCategorie(categorie);
+				
+				liste_mes_ventes_en_cours.add(article);
+			}
+			return liste_mes_ventes_en_cours;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+		
+		
 		return null;
 	}
 

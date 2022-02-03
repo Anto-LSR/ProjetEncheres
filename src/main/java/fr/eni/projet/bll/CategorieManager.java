@@ -46,7 +46,6 @@ public class CategorieManager {
 	}
 
 	public List<Categorie> selectAllCategorie() {
-
 		List<Categorie> categorie = new ArrayList<>();
 		CategorieDAO cg = DAOFactory.createNewCategorieImpl();
 		categorie = cg.selectAllCategorie();
