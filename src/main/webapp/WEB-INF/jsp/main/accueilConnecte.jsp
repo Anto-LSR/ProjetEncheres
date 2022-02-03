@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,58 +7,72 @@
 <title></title>
 </head>
 <body>
-    <div class="container">
-        <main>
-            <div class="form__container">
-                <h3>Filtres :</h3>
-                <div class="radiomenu">
-                    <input type="radio" id="radioAchats" name="choice" value="Achats" checked>
-                    <label for="Achats">Achats</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="enchouvertes" name="enchouvertes"
-                        checked> <label for="enchouvertes">enchÃ¨res
-                        ouvertes</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="enchencours" name="enchencours">
-                    <label for="enchencours">mes enchÃ¨res en cours</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="enchremportees" name="enchremportees">
-                    <label for="enchremportees">mes enchÃ¨res remportÃ©es</label>
-                </div>
-                <div class="radiomenu">
-                    <input type="radio" id="radioVentes" name="choice" value="Ventes"
-                        checked> <label for="Ventes">Ventes</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="ventesencours" name="ventesencours"
-                        checked> <label for="ventesencours">mes ventes en
-                        cours</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="ventesnondebutees"
-                        name="ventesnondebutees"> <label for="ventesnondebutees">ventes
-                        non dÃ©butÃ©es</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="ventesTerminees" name="ventesTerminees">
-                    <label for="ventesTerminees">ventes terminï¿½es</label>
-                </div>
-                <form class="searchForm">
-                    <div class="filterDiv">
-                        <label for="categories">CatÃ©gories : </label> <select
-                            id="categories">
-                            <option>CatÃ©gorie 1</option>
-                        </select>
-                    </div>
-                    <input type="text" placeholder="Le nom de l'article contient...">
-                    <button type="submit" class="searchBtn">Rechercher</button>
-                </form>
-            </div>
-        </main>
-    </div>
-    <script src="${pageContext.request.contextPath }/js/script.js"></script>
+	<div class="container">
+		<main>
+			<div class="form__container">
+				<h3>Filtres :</h3>
+				<div class="radiomenu">
+					<input type="radio" id="radioAchats" name="choice" value="Achats"
+						checked> <label for="Achats">Achats</label>
+				</div>
+
+				<div class="checkboxmenu">
+					<div>
+						<input type="checkbox" id="enchouvertes" name="enchouvertes"
+							checked> <label for="enchouvertes">enchères
+							ouvertes</label>
+					</div>
+					<div>
+						<input type="checkbox" id="enchencours" name="enchencours">
+						<label for="enchencours">mes enchères en cours</label>
+					</div>
+					<div>
+						<input type="checkbox" id="enchremportees" name="enchremportees">
+						<label for="enchremportees">mes enchères remportèes</label>
+					</div>
+
+				</div>
+
+
+
+				<div class="radiomenu">
+					<input type="radio" id="radioVentes" name="choice" value="Ventes"
+						checked> <label for="Ventes">Ventes</label>
+				</div>
+				
+				<div class="checkboxmenu">
+					<div>
+						<input type="checkbox" id="ventesencours" name="ventesencours"
+							checked> <label for="ventesencours">mes ventes en
+							cours</label>
+					</div>
+					<div>
+						<input type="checkbox" id="ventesnondebutees"
+							name="ventesnondebutees"> <label for="ventesnondebutees">ventes
+							non dèbutèes</label>
+					</div>
+					<div>
+						<input type="checkbox" id="ventesTerminees" name="ventesTerminees">
+						<label for="ventesTerminees">ventes terminèes</label>
+					</div>
+
+				</div>
+
+
+
+				<form class="searchForm">
+					<div class="filterDiv">
+						<label for="categories">Catèories : </label> <select
+							id="categories">
+							<option>Catègorie 1</option>
+						</select>
+					</div>
+					<input type="text" placeholder="Le nom de l'article contient...">
+					<button type="submit" class="searchBtn">Rechercher</button>
+				</form>
+			</div>
+		</main>
+	</div>
+	<script src="${pageContext.request.contextPath }/js/script.js"></script>
 </body>
 </html>

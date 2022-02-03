@@ -146,10 +146,11 @@ main {
 	width: 60%
 }
 
-	
-
-
-.radiomenu{
+.radiomenu {
 	color: red;
+	text-align: right;
+}
+
+.checkboxmenu {
 	text-align: right;
 }
