@@ -33,6 +33,13 @@
 					<c:if test="${pseudoNull != null}">
 						<p class="error">${pseudoNull}</p>
 					</c:if>
+					<c:if test="${pseudoTaken != null }">
+						<p class="error">${pseudoTaken}</p>
+					</c:if>
+					<c:if test="${alphaError != null }">
+						<p class="error">${alphaError}</p>
+					</c:if>
+
 
 					<div class="input__container">
 						<label for="nom">Nom:</label> <input type="text" id="nom"
@@ -52,6 +59,9 @@
 						<label for="mail">Email:</label> <input type="email" id="mail"
 							name="mail">
 					</div>
+					<c:if test="${mailTaken != null }">
+						<p class="error">${mailTaken}</p>
+					</c:if>
 					<c:if test="${emailNull != null}">
 						<p class="error">${emailNull}</p>
 					</c:if>

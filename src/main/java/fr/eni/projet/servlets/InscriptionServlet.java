@@ -96,7 +96,27 @@ public class InscriptionServlet extends HttpServlet {
 		utilisateur.setMotDePasse(motdepasse);
 		utilisateur.setAdministrateur(false);
 
-		List<InputError> errors = um.verifUser(utilisateur);// <-----------ERRORS NON RELEVEE
+		boolean isTaken = false;
+		List<Utilisateur> users = um.selectAllUsers();
+		for (Utilisateur u : users) {
+
+			if (u.getPseudo().equals(utilisateur.getPseudo())) {
+				request.setAttribute("pseudoTaken", "Ce pseudo est déjà pris");
+				error = true;
+
+			}
+			if (u.getEmail().equals(utilisateur.getEmail())) {
+				error = true;
+				request.setAttribute("mailTaken", "Cet email est déjà pris");
+			}
+			if (error) {
+				isTaken = true;
+				break;
+			}
+
+		}
+
+		List<InputError> errors = um.verifUser(utilisateur);
 
 		if (errors.isEmpty() && !error) {
 			System.out.println("pas d'erreur");
@@ -109,33 +129,33 @@ public class InscriptionServlet extends HttpServlet {
 
 				if (err.getNom().trim().equals("alphaError")) {
 					request.setAttribute("alphaError", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
-				} else if (err.getNom().trim().equals("pseudoNull")) {
 
+				} else if (err.getNom().trim().equals("pseudoNull")) {
 					request.setAttribute("pseudoNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+
 				} else if (err.getNom().trim().equals("nomNull")) {
 					request.setAttribute("nomNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+
 				} else if (err.getNom().trim().equals("prenomNull")) {
 					request.setAttribute("prenomNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+
 				} else if (err.getNom().trim().equals("emailNull")) {
 					request.setAttribute("emailNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 				} else if (err.getNom().trim().equals("rueNull")) {
 					request.setAttribute("rueNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 				} else if (err.getNom().trim().equals("codePostalNull")) {
 					request.setAttribute("codePostalNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 				} else if (err.getNom().trim().equals("villeNull")) {
 					request.setAttribute("villeNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 				} else if (err.getNom().trim().equals("passNull")) {
 					request.setAttribute("passNull", err.getDescription());
-					request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 				}
+			}
+			if (isTaken) {
+				request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+
+			} else {
+				request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 			}
 		}
 	}
