@@ -49,7 +49,7 @@ public class UtilisateurManager {
 		return user;
 	}
 
-	public void deleteUSer(Utilisateur utilisateur) {
+	public void deleteUser(Utilisateur utilisateur) {
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
 		ud.deleteUser(utilisateur);
 	}

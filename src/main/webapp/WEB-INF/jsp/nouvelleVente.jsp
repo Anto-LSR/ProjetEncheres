@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +28,10 @@
 						<label for="categorie">Catégorie:</label> <select name="categorie"
 							id="pet-select">
 							<option value="">--Choisir une catégorie--</option>
+							<c:forEach items="${categories}" var="cat">
+								<option name="categorie">${cat.libelle }</option>
+
+							</c:forEach>
 
 						</select>
 					</div>
@@ -55,17 +60,20 @@
 						<label for="finEnchere">Fin de l'enchère:</label> <input
 							type="date" id="finEnchere" name="finEnchere">
 					</div>
-					<div>
-						<p>Retrait:</p>
+					<div class="retraitDiv">
+						<label for="adresseRetrait">Retrait : </label>
+						<p id="adresseRetrait">qzkljerhfnx liuzqyflqizuehfmyo ziehfm
+							zeoifuhn mzeoifujzeqmno</p>
 					</div>
 
 					<div class="buttons__container">
-						<button type="submit">Créer</button>
+						<button type="submit" class="venteButtons">Créer</button>
 
-						<button type="button">Annuler</button>
+						<a href="${pageContext.request.contextPath }/"><button
+								type="button" class="venteButtons">Annuler</button></a>
 					</div>
-				</div>
-			</form>
+
+				</form>
 		</main>
 	</div>
 </body>
