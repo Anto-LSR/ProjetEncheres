@@ -11,8 +11,7 @@
 </head>
 <body>
 	<header>
-		<a href="${pageContext.request.contextPath }/"><img
-			src="${pageContext.request.contextPath }/assets/img/LogoFinal.png"></a>
+		<a href="${pageContext.request.contextPath }/"><h1>Encheres.org</h1></a>
 	</header>
 </body>
 </html>

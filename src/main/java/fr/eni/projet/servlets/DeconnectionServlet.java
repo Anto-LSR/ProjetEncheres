@@ -40,12 +40,13 @@ public class DeconnectionServlet extends HttpServlet {
 		}
 		if (isConnected == false ) {
 			request.setAttribute("connected", false);
-			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);			response.sendRedirect(request.getContextPath()+"/accueil");
+			//request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);			
+			response.sendRedirect(request.getContextPath()+"/accueil");
 		} else {
 			session.invalidate();
 			request.setAttribute("connected", false);
-			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
-
+			//request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/accueil");
 		}
 	}
 

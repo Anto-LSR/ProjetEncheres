@@ -1,6 +1,8 @@
 package fr.eni.projet.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projet.bll.CategorieManager;
+import fr.eni.projet.bo.Categorie;
 import fr.eni.projet.bo.Utilisateur;
 
 /**
@@ -49,6 +53,9 @@ public class AccueilServlet extends HttpServlet {
 			isConnected = false;
 			request.setAttribute("connected", false);
 		}
+		CategorieManager cm = CategorieManager.getInstance();
+		List<Categorie>categories = cm.selectAllCategorie();
+		request.setAttribute("categories", categories);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 	}
