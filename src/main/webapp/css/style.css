@@ -140,6 +140,7 @@ main {
 .filterDiv {
 	display: flex;
 	justify-content: space-between;
+	margin-top: 10px;
 }
 
 #categories {
@@ -147,10 +148,15 @@ main {
 }
 
 .radiomenu {
-	color: red;
-	text-align: right;
+	
 }
 
 .checkboxmenu {
-	text-align: right;
+	margin: 0% 15%;
+	width: 70%
+	
+}
+
+.checkboxmenu input{
+	margin: 5px 0px;
 }
