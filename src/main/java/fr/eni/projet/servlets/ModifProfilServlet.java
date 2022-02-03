@@ -1,6 +1,8 @@
 package fr.eni.projet.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -63,6 +65,7 @@ public class ModifProfilServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		boolean error = false;
 		HttpSession session = request.getSession();
 		Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
 
@@ -79,10 +82,26 @@ public class ModifProfilServlet extends HttpServlet {
 		if (!request.getParameter("motdepasse").trim().isBlank() | request.getParameter("motdepasse") != null) {
 			utilisateur.setMotDePasse(request.getParameter("motdepasse"));
 		}
-
 		UtilisateurManager um = UtilisateurManager.getInstance();
-		utilisateur = um.updateUser(utilisateur);
-		session.setAttribute("utilisateur", utilisateur);
+		List<Utilisateur> users = um.selectAllUsers();
+		for (Utilisateur u : users) {
+			if (u.getNoUtilisateur() != utilisateur.getNoUtilisateur()) {
+				if (u.getPseudo().equals(utilisateur.getPseudo())) {
+					request.setAttribute("pseudoTaken", "Ce pseudo est déjà pris");
+					error = true;
+
+				}
+				if (u.getEmail().equals(utilisateur.getEmail())) {
+					error = true;
+					request.setAttribute("mailTaken", "Cet email est déjà pris");
+				}
+			}
+
+		}
+		if (!error) {
+			utilisateur = um.updateUser(utilisateur);
+			session.setAttribute("utilisateur", utilisateur);
+		}
 		request.getRequestDispatcher("/WEB-INF/jsp/modifprofil.jsp").forward(request, response);
 
 	}
