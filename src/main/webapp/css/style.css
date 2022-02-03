@@ -146,15 +146,10 @@ main {
 	width: 60%
 }
 
+	
 
-.checkboxm{
-	
-	text-align: center;
-	
-	
-}
 
-.radiom{
-	color: red
+.radiomenu{
+	color: red;
 	text-align: right;
-}]
+}
