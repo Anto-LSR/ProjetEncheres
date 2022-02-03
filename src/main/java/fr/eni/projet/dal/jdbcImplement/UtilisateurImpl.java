@@ -200,8 +200,8 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		ResultSet rs = null;
 		Utilisateur user = null;
 
-		cnx = ConnectionProvider.getConnection();
 		try {
+			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_LOGIN);
 			pstmt.setString(1, utilisateur.getPseudo());
 			pstmt.setString(2, HashPassword.hashpassword(utilisateur.getMotDePasse()));
