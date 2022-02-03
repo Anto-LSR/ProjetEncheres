@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.projet.bll.InputError;
 import fr.eni.projet.bll.UtilisateurManager;
@@ -27,8 +28,30 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+
+		boolean isConnected = true;
+
+		if (session != null) {
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			if (utilisateur == null) {
+				isConnected = false;
+				session.setAttribute("connected", false);
+				System.out.println("Non Connecté 'Page Inscription' non accessible");
+			} else {
+				isConnected = true;
+				session.setAttribute("connected", true);
+			}
+		} else {
+			isConnected = false;
+			request.setAttribute("connected", false);
+		}
+		if (isConnected == true) {
+			response.sendRedirect(request.getContextPath() + "/accueil");
+		} else {
+			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
+		}
+
 		;
 
 	}
@@ -39,7 +62,7 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		boolean error = false;
 
 		String pseudo = request.getParameter("pseudo");
@@ -52,14 +75,14 @@ public class InscriptionServlet extends HttpServlet {
 		String ville = request.getParameter("ville");
 		String motdepasse = HashPassword.hashpassword(request.getParameter("motdepasse"));
 		String verif = HashPassword.hashpassword(request.getParameter("confirmation"));
-		
+
 		if (!motdepasse.equals(verif)) {
 			error = true;
-			
+
 			request.setAttribute("passError", "Les mots de passes doivent être identiques");
 			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}
-		
+
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setPseudo(pseudo);
@@ -72,10 +95,9 @@ public class InscriptionServlet extends HttpServlet {
 		utilisateur.setVille(ville);
 		utilisateur.setMotDePasse(motdepasse);
 		utilisateur.setAdministrateur(false);
-		
 
 		List<InputError> errors = um.verifUser(utilisateur);// <-----------ERRORS NON RELEVEE
-		
+
 		if (errors.isEmpty() && !error) {
 			System.out.println("pas d'erreur");
 			um.insertUser(utilisateur);
