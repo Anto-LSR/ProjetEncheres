@@ -47,13 +47,15 @@ public class SupprimerCompteServlet extends HttpServlet {
 				session.setAttribute("connected", true);
 				UtilisateurManager um = UtilisateurManager.getInstance();
 				um.deleteUser(utilisateur);
+				session.invalidate();
+				response.sendRedirect(request.getContextPath() + "/");
 			}
 
 		} else {
 			isConnected = false;
 			request.setAttribute("connected", false);
 		}
-		
+
 	}
 
 	/**

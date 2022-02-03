@@ -72,8 +72,9 @@
 					</div>
 					<div class="profilButtons__container">
 						<button type="submit">Enregistrer</button>
-						<button type="button">Supprimer mon Compte</button>
-						<a href="${pageContext.request.contextPath }/"><button
+						<a href="${pageContext.request.contextPath }/supprimer"><button
+								type="button">Supprimer mon compte</button></a> <a
+							href="${pageContext.request.contextPath }/"><button
 								type="button">Retour</button></a>
 					</div>
 				</form>
