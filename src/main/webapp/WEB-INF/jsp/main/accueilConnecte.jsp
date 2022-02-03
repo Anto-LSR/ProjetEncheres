@@ -14,7 +14,7 @@
 				<h3>Filtres :</h3>
 
 				<div>
-					<input type="radio" id="huey" name="Choice" value="Achats" checked>
+					<input type="radio" id="radioAchats" name="choice" value="Achats" checked>
 					<label for="Achats">Achats</label>
 				</div>
 
@@ -22,23 +22,23 @@
 
 				<div>
 					<input type="checkbox" id="enchouvertes" name="enchouvertes"
-						checked> <label for="enchouvertes">enchères
+						checked> <label for="enchouvertes">enchÃ¨res
 						ouvertes</label>
 				</div>
 
 				<div>
 					<input type="checkbox" id="enchencours" name="enchencours">
-					<label for="enchencours">mes enchères en cours</label>
+					<label for="enchencours">mes enchÃ¨res en cours</label>
 				</div>
 
 				<div>
-					<input type="checkbox" id="enchremportés" name="enchremportés">
-					<label for="enchremportés">mes enchères remportées</label>
+					<input type="checkbox" id="enchremportees" name="enchremportees">
+					<label for="enchremportees">mes enchÃ¨res remportÃ©es</label>
 				</div>
 
 
 				<div>
-					<input type="radio" id="Ventes" name="Choice" value="Ventes"
+					<input type="radio" id="radioVentes" name="choice" value="Ventes"
 						checked> <label for="Ventes">Ventes</label>
 				</div>
 
@@ -51,20 +51,20 @@
 				<div>
 					<input type="checkbox" id="ventesnondebutees"
 						name="ventesnondebutees"> <label for="ventesnondebutees">ventes
-						non débutées</label>
+						non dÃ©butÃ©es</label>
 				</div>
 
 				<div>
-					<input type="checkbox" id="ventesterminées" name="ventesterminées">
-					<label for="ventesterminées">ventes terminées</label>
+					<input type="checkbox" id="ventesTerminees" name="ventesTerminees">
+					<label for="ventesTerminees">ventes terminï¿½es</label>
 				</div>
 
 
 				<form class="searchForm">
 					<div class="filterDiv">
-						<label for="categories">Catégories : </label> <select
+						<label for="categories">CatÃ©gories : </label> <select
 							id="categories">
-							<option>Catégorie 1</option>
+							<option>CatÃ©gorie 1</option>
 
 						</select>
 					</div>
@@ -77,5 +77,6 @@
 		</main>
 
 	</div>
+	<script src="${pageContext.request.contextPath }/js/script.js"></script>
 </body>
 </html>
