@@ -37,7 +37,6 @@ public class InscriptionServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("Non Connecté 'Page Inscription' accessible");
 			} else {
 				isConnected = true;
 				session.setAttribute("connected", true);
@@ -48,6 +47,7 @@ public class InscriptionServlet extends HttpServlet {
 		}
 		if (isConnected == true) {
 			response.sendRedirect(request.getContextPath() + "/accueil");
+			System.out.println("Non Connecté page 'Inscription' accessible");
 		} else {
 			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}

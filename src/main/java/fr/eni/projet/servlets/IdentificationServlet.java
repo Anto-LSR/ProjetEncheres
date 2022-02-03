@@ -41,7 +41,6 @@ public class IdentificationServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("Déjà connecté page 'identification' non accessible");
 			}else {
 				isConnected = true;
 				session.setAttribute("connected", true);
@@ -52,6 +51,7 @@ public class IdentificationServlet extends HttpServlet {
 		}
 		if (isConnected == true) {
 			response.sendRedirect(request.getContextPath()+"/accueil");
+			System.out.println("Déjà connecté page 'identification' non accessible");
 		} else {
 			request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
 		}

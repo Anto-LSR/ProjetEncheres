@@ -39,7 +39,6 @@ public class MonProfilServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("Non Connecté 'Mon Profil'");
 			} else {
 				isConnected = true;
 				session.setAttribute("connected", true);
@@ -50,6 +49,7 @@ public class MonProfilServlet extends HttpServlet {
 		}
 		if (isConnected == false) {
 			response.sendRedirect(request.getContextPath() + "/accueil");
+			System.out.println("Non Connecté page 'Mon Profil' non accessible");
 		} else {
 			request.getRequestDispatcher("/WEB-INF/jsp/monprofil.jsp").forward(request, response);
 		}

@@ -41,7 +41,6 @@ public class ModifProfilServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("Non Connecté 'Modif Profil'");
 			} else {
 				isConnected = true;
 				session.setAttribute("connected", true);
@@ -52,6 +51,7 @@ public class ModifProfilServlet extends HttpServlet {
 		}
 		if (isConnected == false) {
 			response.sendRedirect(request.getContextPath() + "/accueil");
+			System.out.println("Non Connecté page 'Modif Profil' non accessible");
 		} else {
 			request.getRequestDispatcher("/WEB-INF/jsp/modifprofil.jsp").forward(request, response);
 		}
