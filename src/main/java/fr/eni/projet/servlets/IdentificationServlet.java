@@ -32,8 +32,29 @@ public class IdentificationServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		
+		boolean isConnected = true;
+		
+		if (session != null) {
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			if (utilisateur == null) {
+				isConnected = false;
+				session.setAttribute("connected", false);
+				System.out.println("Déjà connecté page 'identification' non accessible");
+			}else {
+				isConnected = true;
+				session.setAttribute("connected", true);
+			}
+		} else {
+			isConnected = false;
+			request.setAttribute("connected", false);
+		}
+		if (isConnected == true) {
+			response.sendRedirect(request.getContextPath()+"/accueil");
+		} else {
+			request.getRequestDispatcher("/WEB-INF/jsp/identification.jsp").forward(request, response);
+		}
 	}
 
 	/**

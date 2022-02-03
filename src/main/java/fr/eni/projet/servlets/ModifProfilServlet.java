@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import fr.eni.projet.bo.Utilisateur;
 
 /**
  * Servlet implementation class ProfilServlet
@@ -26,8 +29,29 @@ public class ModifProfilServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/jsp/modifprofil.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		
+		boolean isConnected = true;
+		
+		if (session !=null) {
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			if (utilisateur == null) {
+				isConnected = false;
+				session.setAttribute("connected", false);
+				System.out.println("Non Connecté 'Modif Profil'");
+			} else {
+				isConnected = true;
+				session.setAttribute("connected", true);
+			}
+		} else {
+			isConnected = false;
+			request.setAttribute("connected", false);
+		}
+		if (isConnected == false) {
+			response.sendRedirect(request.getContextPath()+"/accueil");
+		}else {
+			request.getRequestDispatcher("/WEB-INF/jsp/modifprofil.jsp").forward(request, response);
+		}
 	}
 
 	/**
