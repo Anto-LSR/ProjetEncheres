@@ -12,9 +12,12 @@
 <body>
 	<header>
 
-		<a href="${pageContext.request.contextPath }/"><h1>Encheres.org</h1></a>
+		<a href="${pageContext.request.contextPath }/">
+			<h1>Encheres.org</h1>
+		</a>
 		<ul>
-			<li><a>Vendre un article</a></li>
+			<li><a href="${pageContext.request.contextPath }/nouvellevente">Vendre
+					un article</a></li>
 			<li><a href="${pageContext.request.contextPath }/monprofil">Mon
 					profil</a></li>
 			<li><a href="${pageContext.request.contextPath }/deconnection">Deconnexion</a></li>

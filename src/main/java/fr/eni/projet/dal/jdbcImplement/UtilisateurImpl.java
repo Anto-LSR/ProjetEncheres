@@ -21,6 +21,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_UPDATE = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
+	private final static String SQL_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
 
 	@Override
 	public int insertUser(Utilisateur utilisateur) {
@@ -189,7 +190,20 @@ public class UtilisateurImpl implements UtilisateurDAO {
 
 	@Override
 	public void deleteUser(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		
+		cnx = ConnectionProvider.getConnection();
+		
+		try {
+			pstmt = cnx.prepareStatement(SQL_DELETE);
+			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 	}
 
