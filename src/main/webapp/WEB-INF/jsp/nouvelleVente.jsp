@@ -74,6 +74,7 @@
 					</div>
 
 				</form>
+			</div>
 		</main>
 	</div>
 </body>
