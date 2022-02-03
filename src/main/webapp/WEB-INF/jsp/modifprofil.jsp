@@ -18,7 +18,7 @@
 			<div class="form__container">
 				<h3>Mon Profil</h3>
 				<form method="post"
-					action="<%=request.getContextPath()%>/inscription"
+					action="<%=request.getContextPath()%>/editerprofil"
 					autocomplete="off">
 					<input autocomplete="false" name="hidden" type="text"
 						style="display: none;">
@@ -40,8 +40,8 @@
 					</div>
 					<div class="input__container">
 						<label for="telephone">Telephone:</label> <input type="text"
-							id="telephone"  value="${utilisateur.getTelephone()}"
-							autocomplete="false">
+							id="telephone" value="${utilisateur.getTelephone()}"
+							autocomplete="false" name="telephone">
 					</div>
 					<div class="input__container">
 						<label for="rue">Rue:</label> <input type="text" id="rue"
@@ -49,7 +49,7 @@
 					</div>
 					<div class="input__container">
 						<label for="codepostal">Code postal:</label> <input type="text"
-							id="codepostal" 
+							id="codepostal" name="codepostal"
 							value="${utilisateur.codePostal}" autocomplete="false">
 					</div>
 					<div class="input__container">
@@ -67,7 +67,8 @@
 					<div class="profilButtons__container">
 						<button type="submit">Enregistrer</button>
 						<button type="submit">Supprimer mon Compte</button>
-						<a href="${pageContext.request.contextPath }/"><button type="button">Retour</button></a>
+						<a href="${pageContext.request.contextPath }/"><button
+								type="button">Retour</button></a>
 					</div>
 				</form>
 			</div>

@@ -42,9 +42,11 @@ public class UtilisateurManager {
 		return users;
 	}
 
-	public void updateUser(Utilisateur utilisateur) {
+	public Utilisateur updateUser(Utilisateur utilisateur) {
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
-		ud.updateUser(utilisateur);
+		Utilisateur user = new Utilisateur();
+		user = ud.updateUser(utilisateur);
+		return user;
 	}
 
 	public void deleteUSer(Utilisateur utilisateur) {
