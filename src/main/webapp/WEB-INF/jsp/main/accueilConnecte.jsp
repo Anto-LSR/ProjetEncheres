@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="ISO-8859-1">
 <title></title>
 </head>
@@ -75,6 +75,28 @@
 					<input type="text" placeholder="Le nom de l'article contient...">
 					<button type="submit" class="searchBtn">Rechercher</button>
 				</form>
+				<div class="article">
+
+					<img class="imageArticle"
+						src="${pageContext.request.contextPath }/assets/img/pcPortable.jpg">
+
+
+					<div class=articleInfo>
+
+						<ul>
+							<li class=titreArticle>Nom de l'article</li>
+
+							<li>Prix:</li>
+							<li>Classement:</li>
+							<li>Fin de l'enchère:</li>
+							<li>Retrait:</li>
+							<li>Vendeur:</li>
+						</ul>
+
+
+					</div>
+
+				</div>
 			</div>
 		</main>
 	</div>
