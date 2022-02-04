@@ -111,7 +111,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 				System.err.println("Erreur sur la categorie");
 			} else {
 				ArticleVenduManager av = ArticleVenduManager.getInstance();
-				av.insertArticle(newArticle);
+				int idArticle = av.insertArticle(newArticle);
 			}
 		}
 		doGet(request, response);
