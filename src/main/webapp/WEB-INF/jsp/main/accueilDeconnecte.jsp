@@ -14,7 +14,7 @@
 			<div class="form__container">
 
 				<h3>Filtres :</h3>
-				<form class="searchForm">
+				<form class="searchFormDC">
 					<div class="filterDiv">
 						<label for="categories">Catégories : </label> <select
 							id="categories">

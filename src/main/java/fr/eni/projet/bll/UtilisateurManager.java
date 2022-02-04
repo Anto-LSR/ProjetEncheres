@@ -108,6 +108,58 @@ public class UtilisateurManager {
 
 		return errors;
 	}
+	
+	public List<InputError> verifUserModif(Utilisateur utilisateur) { // <-----------VERIFIER CONDITIONS ERREURS
+		List<InputError> errors = new ArrayList<>();
+
+		if (!isAlphaNumeric(utilisateur.getPseudo().trim())) {
+
+			InputError err = new InputError("alphaError", "Le pseudo doit être composé de caractère alpha-numériques.");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		if (utilisateur.getPseudo().trim().isBlank() | utilisateur.getPseudo() == null) { // <------------CA DOIT
+																							// ETRE CA
+			InputError err = new InputError("pseudoNull", "Le champ Pseudo doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+
+		}
+		if (utilisateur.getNom().trim().isBlank() | utilisateur.getNom() == null) {
+			InputError err = new InputError("nomNull", "Le champ Nom doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		if (utilisateur.getPrenom().trim().isBlank() | utilisateur.getPrenom() == null) {
+			InputError err = new InputError("prenomNull", "Le champ Prénom doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		if (utilisateur.getEmail().trim().isBlank() | utilisateur.getEmail() == null) {
+			InputError err = new InputError("emailNull", "Le champ E-Mail doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		if (utilisateur.getRue().trim().isBlank() | utilisateur.getRue() == null) {
+			InputError err = new InputError("rueNull", "Le champ Rue doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+
+		}
+		if (utilisateur.getCodePostal().trim().isBlank() | utilisateur.getCodePostal() == null) {
+			InputError err = new InputError("codePostalNull", "Le champ Code Postal doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		if (utilisateur.getVille().trim().isBlank() | utilisateur.getVille() == null) {
+			InputError err = new InputError("villeNull", "Le champ Ville doit être rempli");
+			errors.add(err);
+			System.out.println(err.getDescription());
+		}
+		
+
+		return errors;
+	}
 
 	public Utilisateur selectByLogin(Utilisateur utilisateur) {
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();

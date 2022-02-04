@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projet.bll.InputError;
 import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.Utilisateur;
+import fr.eni.projet.helpers.HashPassword;
 
 /**
  * Servlet implementation class ProfilServlet
@@ -67,6 +69,8 @@ public class ModifProfilServlet extends HttpServlet {
 			throws ServletException, IOException {
 		boolean error = false;
 		HttpSession session = request.getSession();
+		String motdepasse = HashPassword.hashpassword(request.getParameter("motdepasse"));
+		String verif = HashPassword.hashpassword(request.getParameter("confirmation"));
 		Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
 
 		Utilisateur utilisateur = new Utilisateur();
@@ -83,6 +87,39 @@ public class ModifProfilServlet extends HttpServlet {
 			utilisateur.setMotDePasse(request.getParameter("motdepasse"));
 		}
 		UtilisateurManager um = UtilisateurManager.getInstance();
+		List<InputError> errors = um.verifUserModif(utilisateur);
+		
+		if(!errors.isEmpty()) {
+			error = true;
+			for (InputError err : errors) {
+
+				if (err.getNom().trim().equals("alphaError")) {
+					request.setAttribute("alphaError", err.getDescription());
+				} else if (err.getNom().trim().equals("pseudoNull")) {
+					request.setAttribute("pseudoNull", err.getDescription());
+				} else if (err.getNom().trim().equals("nomNull")) {
+					request.setAttribute("nomNull", err.getDescription());
+				} else if (err.getNom().trim().equals("prenomNull")) {
+					request.setAttribute("prenomNull", err.getDescription());
+				} else if (err.getNom().trim().equals("emailNull")) {
+					request.setAttribute("emailNull", err.getDescription());
+				} else if (err.getNom().trim().equals("rueNull")) {
+					request.setAttribute("rueNull", err.getDescription());
+				} else if (err.getNom().trim().equals("codePostalNull")) {
+					request.setAttribute("codePostalNull", err.getDescription());
+				} else if (err.getNom().trim().equals("villeNull")) {
+					request.setAttribute("villeNull", err.getDescription());
+				} else if (err.getNom().trim().equals("passNull")) {
+					request.setAttribute("passNull", err.getDescription());
+				}
+			}
+		}
+		if (!motdepasse.equals(verif)) {
+			error = true;
+
+			request.setAttribute("passError", "Les mots de passes doivent être identiques");
+			
+		}
 		List<Utilisateur> users = um.selectAllUsers();
 		for (Utilisateur u : users) {
 			if (u.getNoUtilisateur() != utilisateur.getNoUtilisateur()) {

@@ -110,7 +110,7 @@
 					</c:if>
 
 					<div class="buttons__container">
-						<button type="submit">Créer</button>
+						<button type="submit" id="confirmBtn">Créer</button>
 						<a href="${pageContext.request.contextPath }/accueil">
 							<button type="button">Annuler</button>
 						</a>
@@ -120,5 +120,6 @@
 
 		</main>
 	</div>
+	<script src="${pageContext.request.contextPath }/js/register.js"></script>
 </body>
 </html>

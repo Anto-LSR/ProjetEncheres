@@ -51,4 +51,4 @@ radioVente.addEventListener('click', () => {
     ventesTerminees.checked = false;
 })
 
-//******************************************************* */
+
