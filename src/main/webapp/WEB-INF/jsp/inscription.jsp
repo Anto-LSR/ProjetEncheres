@@ -21,7 +21,7 @@
 
 	<div class="container">
 		<main>
-			<div class="form__container">
+			<div class="form__container register">
 				<h3>Créer un compte</h3>
 				<form method="post"
 					action="<%=request.getContextPath()%>/inscription">

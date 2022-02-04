@@ -11,9 +11,9 @@
 <body>
 	<div class="container">
 		<main>
-			<div class="form__container">
+			<div class="form__container dcHome">
 
-				<h3>Filtres :</h3>
+				<!-- <h3>Filtres :</h3> -->
 				<form class="searchFormDC">
 					<div class="filterDiv">
 						<label for="categories">Catégories : </label> <select

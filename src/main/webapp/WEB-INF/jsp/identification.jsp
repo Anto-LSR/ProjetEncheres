@@ -15,7 +15,7 @@
 
 	<div class="container">
 		<main>
-			<div class="form__container">
+			<div class="form__container login">
 
 				<form method="post"
 					action="<%=request.getContextPath()%>/identification">

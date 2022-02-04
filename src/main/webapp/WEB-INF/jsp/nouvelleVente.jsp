@@ -37,12 +37,15 @@
 						<p class="error">${descNull }</p>
 					</c:if>
 					<div class="input__container">
-						<label for="description">Description:</label> <input type="text"
-							id="description" name="description">
+						<label for="description">Description:</label> <textarea 
+							id="description" name="description"></textarea>
 					</div>
 					<div class="input__container">
-						<label for="photo">Photo de l'article</label> <input type="file"
-							id="photo" name="photo">
+						 <label for="photo">Photo de l'article</label><!-- <input type="file"
+							id="photo" name="photo"> -->
+						
+							<button type="button" id="uploadBtn">UPLOADER</button>
+							
 					</div>
 					<c:if test="${prixNull != null }">
 						<p class="error">${prixNull }</p>
