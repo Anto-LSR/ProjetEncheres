@@ -15,7 +15,7 @@
 		<main>
 			<div class="venteContainer">
 				<h3>Nouvelle vente</h3>
-				<form class="venteForm__container">
+				<form class="venteForm__container" method="post" action="${pageContext.request.contextPath }/nouvellevente">
 					<div class="input__container">
 						<label for="article">Article:</label> <input type="text"
 							id="article" name="article">
@@ -43,7 +43,7 @@
 					</div>
 					<div class="input__container">
 						<label for="debEnchere">Début de l'enchère:</label> <input
-							type="date" id="debEnchere" name="debEnchere">
+							type="date" id="debEnchere" name="debEnchere" min="${EN ATTENTE }" max="2018-12-31">
 					</div>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input
