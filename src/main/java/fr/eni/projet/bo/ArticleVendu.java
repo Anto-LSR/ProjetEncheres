@@ -65,7 +65,7 @@ public class ArticleVendu {
 	}
 
 	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
-		this.dateDebutEncheres = LocalDate.now();
+		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
 	public LocalDate getDateFinEncheres() {

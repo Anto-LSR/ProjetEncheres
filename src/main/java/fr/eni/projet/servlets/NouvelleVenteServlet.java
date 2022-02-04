@@ -17,6 +17,7 @@ import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bll.CategorieManager;
+import fr.eni.projet.bll.InputError;
 import fr.eni.projet.bo.Categorie;
 
 /**
@@ -84,7 +85,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 		if (utilisateur == null) {
 			System.err.println("Erreur de session ");
 		} else {
-
+			boolean error = false;
 			String nomArticle = request.getParameter("article");
 			String description = request.getParameter("description");
 			String dateDebutEnchere = request.getParameter("debEnchere");
@@ -108,14 +109,40 @@ public class NouvelleVenteServlet extends HttpServlet {
 			CategorieManager cm = CategorieManager.getInstance();
 			cat = cm.selectByLibelle(cat);
 			newArticle.setCategorie(cat);
+			ArticleVenduManager av = ArticleVenduManager.getInstance();
+			List<InputError> errors = av.verifDate(newArticle);
+			System.out.println(dateDebut + " - - - " + dateFin);
+			if (!errors.isEmpty()) {
+				for (InputError err : errors) {
+					if (err.getNom().equals("debutAfterFin")) {
+						request.setAttribute("debutAfterFin", err.getDescription());
+						System.out.println("1");
+					}
+					if (err.getNom().equals("debutBeforeToday")) {
+						request.setAttribute("debutBeforeToday", err.getDescription());
+						System.err.println("2");
+					}
+					if (err.getNom().equals("debutAfterFin")) {
+						request.setAttribute("debutAfterFin", err.getDescription());
+						System.err.println("3");
+					}
+				}
+				error = true;
+			}
 			if (cat.getNoCategorie() < 1) {
 				System.err.println("Erreur sur la categorie");
-			} else {
-				ArticleVenduManager av = ArticleVenduManager.getInstance();
+				error = true;
+			} 
+			
+			if(!error) {
 				int idArticle = av.insertArticle(newArticle);
+				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+			}else {
+				request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
+
 			}
 		}
-		doGet(request, response);
+	
 	}
 
 }

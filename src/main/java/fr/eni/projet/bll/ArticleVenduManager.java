@@ -1,5 +1,6 @@
 package fr.eni.projet.bll;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,4 +80,22 @@ public class ArticleVenduManager {
 		return articles;
 		
 	}
+	
+	public List<InputError> verifDate (ArticleVendu article) {
+		List<InputError> errors = new ArrayList<>();
+		
+		if (article.getDateDebutEncheres().isAfter(article.getDateFinEncheres())){
+			InputError err = new InputError("debutAfterFin", "La date de début ne peut être inferieure à la date de fin");
+		}
+		if (article.getDateDebutEncheres().isBefore(LocalDate.now())) {
+			InputError err = new InputError("debutBeforeToday", "La date de début ne peut être antérieure à la date du jour");
+
+		}
+		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
+			InputError err = new InputError("debutAfterFin", "La date de fin ne peut être antérieure à la date du jour");
+
+		}
+	return errors;
+	}
+	
 }

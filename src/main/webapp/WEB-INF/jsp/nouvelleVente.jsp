@@ -41,14 +41,27 @@
 						<label for="prixInitial">Prix initial:</label> <input
 							type="number" id="prixInitial" name="prixInitial">
 					</div>
+					
 					<div class="input__container">
 						<label for="debEnchere">Début de l'enchère:</label> <input
 							type="date" id="debEnchere" name="debEnchere" min="${today}">
 					</div>
+					<c:if test="${debutAfterFin != null}">
+					<p class="error">${debutAfterFin}</p>
+					</c:if>
+					
+					<c:if test="${debutBeforeToday != null}">
+					<p class="error">${debutBeforeToday}</p>
+					</c:if>		
+					
+					<c:if test="${debutAfterFin != null}">
+					<p class="error">${debutAfterFin}</p>
+					</c:if>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input
 							type="date" id="finEnchere" name="finEnchere" min="${today}">
 					</div>
+					
 					<div class="retraitDiv">
 						<h3>Retrait :</h3>
 						<label for="rue">Rue : </label> <input type="text" name="rue"
