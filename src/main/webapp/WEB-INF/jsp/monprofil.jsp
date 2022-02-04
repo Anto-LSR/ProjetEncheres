@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,7 @@
 					<li><span class="fieldname">Nom :</span><p>${utilisateur.nom}</p></li>
 					<li><span class="fieldname">Prenom :</span><p>${utilisateur.prenom}</p></li>
 					<li><span class="fieldname">Email :</span><p>${utilisateur.email}</p></li>
-					<li><span class="fieldname">Téléphone :</span><p>${utilisateur.telephone}</p></li>
+					<li><span class="fieldname">TÃ©lÃ©phone :</span><p>${utilisateur.telephone}</p></li>
 					<li><span class="fieldname">Rue :</span><p>${utilisateur.rue}</p></li>
 					<li><span class="fieldname">Code postal :</span><p>${utilisateur.codePostal}</p></li>
 					<li><span class="fieldname">Ville :</span><p>${utilisateur.ville}</p></li>

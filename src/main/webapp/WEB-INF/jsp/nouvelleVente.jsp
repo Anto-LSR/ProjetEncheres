@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -21,9 +21,9 @@
 							id="article" name="article">
 					</div>
 					<div class="input__container">
-						<label for="categorie">Catégorie:</label> <select name="categorie"
+						<label for="categorie">CatÃ©gorie:</label> <select name="categorie"
 							id="pet-select">
-							<option value="">--Choisir une catégorie--</option>
+							<option value="">--Choisir une catÃ©gorie--</option>
 							<c:forEach items="${categories}" var="cat">
 								<option name="categorie">${cat.libelle }</option>
 							</c:forEach>
@@ -42,11 +42,11 @@
 							type="number" id="prixInitial" name="prixInitial">
 					</div>
 					<div class="input__container">
-						<label for="debEnchere">Début de l'enchère:</label> <input
+						<label for="debEnchere">DÃ©but de l'enchÃ¨re:</label> <input
 							type="date" id="debEnchere" name="debEnchere">
 					</div>
 					<div class="input__container">
-						<label for="finEnchere">Fin de l'enchère:</label> <input
+						<label for="finEnchere">Fin de l'enchÃ¨re:</label> <input
 							type="date" id="finEnchere" name="finEnchere">
 					</div>
 					<div class="retraitDiv">
@@ -59,7 +59,7 @@
 
 					</div>
 					<div class="buttons__container">
-						<button type="submit" class="venteButtons">Créer</button>
+						<button type="submit" class="venteButtons">CrÃ©er</button>
 						<a href="${pageContext.request.contextPath }/"><button
 								type="button" class="venteButtons">Annuler</button></a>
 					</div>

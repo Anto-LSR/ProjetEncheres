@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -16,9 +16,9 @@
 				<h3>Filtres :</h3>
 				<form class="searchForm">
 					<div class="filterDiv">
-						<label for="categories">Catégories : </label> <select
+						<label for="categories">CatÃ©gories : </label> <select
 							id="categories">
-							<option name="categorie">toutes les catégories</option>
+							<option name="categorie">toutes les catÃ©gories</option>
 							<c:forEach items="${categories}" var="cat">
 								<option name="categorie">${cat.libelle}</option>
 

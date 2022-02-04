@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@
 	<div class="container">
 		<main>
 			<div class="form__container">
-				<h3>Créer un compte</h3>
+				<h3>CrÃ©er un compte</h3>
 				<form method="post"
 					action="<%=request.getContextPath()%>/inscription">
 
@@ -50,7 +50,7 @@
 						<p class="error">${nomNull}</p>
 					</c:if>
 					<div class="input__container">
-						<label for="prenom">Prénom:</label> <input type="text" id="prenom"
+						<label for="prenom">PrÃ©nom:</label> <input type="text" id="prenom"
 							name="prenom">
 					</div>
 					<c:if test="${prenomNull != null}">
@@ -110,7 +110,7 @@
 					</c:if>
 
 					<div class="buttons__container">
-						<button type="submit">Créer</button>
+						<button type="submit">CrÃ©er</button>
 						<a href="${pageContext.request.contextPath }/accueil">
 							<button type="button">Annuler</button>
 						</a>

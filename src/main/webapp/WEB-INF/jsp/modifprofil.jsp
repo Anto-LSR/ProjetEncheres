@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -35,7 +35,7 @@
 							name="nom" value="${utilisateur.nom}">
 					</div>
 					<div class="input__container">
-						<label for="prenom">Prénom:</label> <input type="text" id="prenom"
+						<label for="prenom">PrÃ©nom:</label> <input type="text" id="prenom"
 							name="prenom" value="${utilisateur.prenom}">
 					</div>
 					<c:if test="${mailTaken != null }">

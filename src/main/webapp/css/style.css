@@ -300,6 +300,20 @@ main {
 	height: auto;
 }
 
+.article {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 50px;
+	padding: 15px;
+	border: 2px solid black;
+	background: #96cefd;
+	font-weight: 600;
+}
+
+.article span{
+	color: red;
+}
+
 @media screen and (min-width: 400px) {
 	header {
 		display: flex;

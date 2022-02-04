@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title></title>
 </head>
 <body>
@@ -21,16 +21,16 @@
 				<div class="checkboxmenu">
 					<div>
 						<input type="checkbox" id="enchouvertes" name="enchouvertes"
-							checked> <label for="enchouvertes">enchères
+							checked> <label for="enchouvertes">enchÃ¨res
 							ouvertes</label>
 					</div>
 					<div>
 						<input type="checkbox" id="enchencours" name="enchencours">
-						<label for="enchencours">mes enchères en cours</label>
+						<label for="enchencours">mes enchÃ¨res en cours</label>
 					</div>
 					<div>
 						<input type="checkbox" id="enchremportees" name="enchremportees">
-						<label for="enchremportees">mes enchères remportèes</label>
+						<label for="enchremportees">mes enchÃ¨res remportÃ¨es</label>
 					</div>
 
 				</div>
@@ -51,11 +51,11 @@
 					<div>
 						<input type="checkbox" id="ventesnondebutees"
 							name="ventesnondebutees"> <label for="ventesnondebutees">ventes
-							non dèbutèes</label>
+							non dÃ¨butÃ¨es</label>
 					</div>
 					<div>
 						<input type="checkbox" id="ventesTerminees" name="ventesTerminees">
-						<label for="ventesTerminees">ventes terminèes</label>
+						<label for="ventesTerminees">ventes terminÃ¨es</label>
 					</div>
 
 				</div>
@@ -64,7 +64,7 @@
 
 				<form class="searchForm">
 					<div class="filterDiv">
-						<label for="categories">Catèories : </label> <select
+						<label for="categories">CatÃ¨ories : </label> <select
 							id="categories">
 							<c:forEach items="${categories}" var="cat">
 								<option name="categorie">${cat.libelle }</option>
@@ -86,9 +86,9 @@
 						<ul>
 							<li class=titreArticle>Nom de l'article</li>
 
-							<li>Prix:</li>
+							<li>Prix:<span>45</span></li>
 							<li>Classement:</li>
-							<li>Fin de l'enchère:</li>
+							<li>Fin de l'enchÃ¨re:</li>
 							<li>Retrait:</li>
 							<li>Vendeur:</li>
 						</ul>
