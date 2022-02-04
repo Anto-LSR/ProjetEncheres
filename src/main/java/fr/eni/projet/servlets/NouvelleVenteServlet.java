@@ -111,7 +111,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 			
 			ArticleVenduManager av = ArticleVenduManager.getInstance();
 			List<InputError> errors = av.verifDate(newArticle);
-		
+			
 		
 			if (!errors.isEmpty()) {
 				for (InputError err : errors) {
@@ -123,6 +123,21 @@ public class NouvelleVenteServlet extends HttpServlet {
 					}
 					if (err.getNom().equals("finBeforeToday")) {
 						request.setAttribute("finBeforeToday", err.getDescription());
+					}
+					if(err.getNom().equals("nomNull")) {
+						request.setAttribute("nomNull", err.getDescription());
+					}
+					if(err.getNom().equals("descNull")) {
+						request.setAttribute("descNull", err.getDescription());
+					}
+					if (err.getNom().equals("prixNull")) {
+						request.setAttribute("prixNull", err.getDescription());
+					}
+					if(err.getNom().equals("dateDebutNull")) {
+						request.setAttribute("dateDebutNull", err.getDescription());
+					}
+					if (err.getNom().equals("dateFinNull")) {
+						request.setAttribute("dateFinNull", err.getDescription());
 					}
 				}
 				error = true;

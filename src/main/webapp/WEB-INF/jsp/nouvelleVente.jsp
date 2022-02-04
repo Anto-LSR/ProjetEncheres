@@ -16,6 +16,9 @@
 			<div class="venteContainer">
 				<h3>Nouvelle vente</h3>
 				<form class="venteForm__container" method="post" action="${pageContext.request.contextPath }/nouvellevente">
+					<c:if test="${nomNull != null }">
+					<p class="error">${nomNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="article">Article:</label> <input type="text"
 							id="article" name="article">
@@ -29,6 +32,9 @@
 							</c:forEach>
 						</select>
 					</div>
+					<c:if test="${descNull != null }">
+					<p class="error">${descNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="description">Description:</label> <input type="text"
 							id="description" name="description">
@@ -37,14 +43,19 @@
 						<label for="photo">Photo de l'article</label> <input type="file"
 							id="photo" name="photo">
 					</div>
+					<c:if test="${prixNull != null }">
+					<p class="error">${prixNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="prixInitial">Prix initial:</label> <input
 							type="number" id="prixInitial" name="prixInitial">
 					</div>
-					
+					<c:if test="${dateDebutNull != null }">
+					<p class="error">${dateDebutNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="debEnchere">Début de l'enchère:</label> <input
-							type="date" id="debEnchere" name="debEnchere" min="${today}">
+							type="date" id="debEnchere" name="debEnchere" min="${today}" value="${today}">
 					</div>
 					<c:if test="${debutAfterFin != null}">
 					<p class="error">${debutAfterFin}</p>
@@ -57,18 +68,22 @@
 					<c:if test="${finBeforeToday != null}">
 					<p class="error">${finBeforeToday}</p>
 					</c:if>
+					
+					<c:if test="${dateFinNull != null }">
+					<p class="error">${dateFinNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input
-							type="date" id="finEnchere" name="finEnchere" min="${today}">
+							type="date" id="finEnchere" name="finEnchere" min="${today}" value="${today}">
 					</div>
 					
 					<div class="retraitDiv">
 						<h3>Retrait :</h3>
 						<label for="rue">Rue : </label> <input type="text" name="rue"
-							id="rue"> <label for="codepostal">Code postal : </label>
-						<input type="text" name="codepostal" id="codepostal"> <label
+							id="rue" value="${utilisateur.rue }"> <label for="codepostal">Code postal : </label>
+						<input type="text" name="codepostal" id="codepostal" value="${utilisateur.codePostal }"> <label
 							for="ville">Ville </label> <input type="text" name="ville"
-							id="ville">
+							id="ville" value="${utilisateur.ville }">
 
 					</div>
 					<div class="buttons__container">

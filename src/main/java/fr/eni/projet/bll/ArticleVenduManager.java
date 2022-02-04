@@ -96,6 +96,30 @@ public class ArticleVenduManager {
 			InputError err = new InputError("finBeforeToday", "La date de fin ne peut être antérieure à la date du jour");
 			errors.add(err);
 		}
+		if(article.getNomArticle().trim().isBlank() | article.getNomArticle() == null) {
+			InputError err = new InputError("nomNull", "Le nom de l'article doit être renseigné");
+			errors.add(err);
+		}
+		
+		if (article.getDescription().trim().isBlank() | article.getDescription() == null) {
+			InputError err = new InputError("descNull", "La description de l'article doit être renseignée");
+			errors.add(err);
+		}
+		
+		if(article.getPrixInitial() == 0) {
+			InputError err = new InputError("prixNull", "Le prix de l'article doit être renseigné");
+			errors.add(err);
+		}
+		
+		if(article.getDateDebutEncheres() == null) {
+			InputError err = new InputError("dateDebutNull", "La date du début de l'enchère doit être renseignée");
+			errors.add(err);
+		}
+		
+		if(article.getDateFinEncheres() == null) {
+			InputError err = new InputError("dateFinNull", "La date de fin de l'enchère doit être renseignée");
+			errors.add(err);
+		}
 	return errors;
 	}
 	
