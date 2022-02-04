@@ -101,30 +101,28 @@ public class NouvelleVenteServlet extends HttpServlet {
 			newArticle.setDateDebutEncheres(dateDebut);
 			LocalDate dateFin = LocalDate.parse(dateFinEnchere);
 			newArticle.setDateFinEncheres(dateFin);
-			int prix = Integer.parseInt(prixInitial);
-			newArticle.setPrixInitial(prix);
+			newArticle.setPrixInitial(Integer.valueOf(prixInitial));
 			Categorie cat = new Categorie();
 			cat.setLibelle(categorie);
 			newArticle.setUtilisateurVendeur(utilisateur);
 			CategorieManager cm = CategorieManager.getInstance();
 			cat = cm.selectByLibelle(cat);
 			newArticle.setCategorie(cat);
+			
 			ArticleVenduManager av = ArticleVenduManager.getInstance();
 			List<InputError> errors = av.verifDate(newArticle);
-			System.out.println(dateDebut + " - - - " + dateFin);
+		
+		
 			if (!errors.isEmpty()) {
 				for (InputError err : errors) {
 					if (err.getNom().equals("debutAfterFin")) {
 						request.setAttribute("debutAfterFin", err.getDescription());
-						System.out.println("1");
 					}
 					if (err.getNom().equals("debutBeforeToday")) {
 						request.setAttribute("debutBeforeToday", err.getDescription());
-						System.err.println("2");
 					}
-					if (err.getNom().equals("debutAfterFin")) {
-						request.setAttribute("debutAfterFin", err.getDescription());
-						System.err.println("3");
+					if (err.getNom().equals("finBeforeToday")) {
+						request.setAttribute("finBeforeToday", err.getDescription());
 					}
 				}
 				error = true;

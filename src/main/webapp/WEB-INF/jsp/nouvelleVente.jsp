@@ -54,8 +54,8 @@
 					<p class="error">${debutBeforeToday}</p>
 					</c:if>		
 					
-					<c:if test="${debutAfterFin != null}">
-					<p class="error">${debutAfterFin}</p>
+					<c:if test="${finBeforeToday != null}">
+					<p class="error">${finBeforeToday}</p>
 					</c:if>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input

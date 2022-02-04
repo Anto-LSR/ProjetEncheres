@@ -86,14 +86,15 @@ public class ArticleVenduManager {
 		
 		if (article.getDateDebutEncheres().isAfter(article.getDateFinEncheres())){
 			InputError err = new InputError("debutAfterFin", "La date de début ne peut être inferieure à la date de fin");
+			errors.add(err);
 		}
 		if (article.getDateDebutEncheres().isBefore(LocalDate.now())) {
 			InputError err = new InputError("debutBeforeToday", "La date de début ne peut être antérieure à la date du jour");
-
+			errors.add(err);
 		}
 		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
-			InputError err = new InputError("debutAfterFin", "La date de fin ne peut être antérieure à la date du jour");
-
+			InputError err = new InputError("finBeforeToday", "La date de fin ne peut être antérieure à la date du jour");
+			errors.add(err);
 		}
 	return errors;
 	}
