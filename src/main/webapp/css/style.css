@@ -290,6 +290,16 @@ main {
 	width: 129px;
 }
 
+/*NOUVEL ARTICLE */
+.titreArticle {
+	text-decoration: underline;
+}
+
+.imageArticle {
+	width: 80px;
+	height: auto;
+}
+
 @media screen and (min-width: 400px) {
 	header {
 		display: flex;
