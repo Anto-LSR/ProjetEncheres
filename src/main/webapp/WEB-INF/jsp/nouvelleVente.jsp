@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nouvelle Vente</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/css/style.css">
@@ -50,9 +50,13 @@
 							type="date" id="finEnchere" name="finEnchere">
 					</div>
 					<div class="retraitDiv">
-						<label for="adresseRetrait">Retrait : </label>
-						<p id="adresseRetrait">qzkljerhfnx liuzqyflqizuehfmyo ziehfm
-							zeoifuhn mzeoifujzeqmno</p>
+						<h3>Retrait :</h3>
+						<label for="rue">Rue : </label> <input type="text" name="rue"
+							id="rue"> <label for="codepostal">Code postal : </label>
+						<input type="text" name="codepostal" id="codepostal"> <label
+							for="ville">Ville </label> <input type="text" name="ville"
+							id="ville">
+
 					</div>
 					<div class="buttons__container">
 						<button type="submit" class="venteButtons">Créer</button>
