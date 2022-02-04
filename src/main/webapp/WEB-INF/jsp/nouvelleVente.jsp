@@ -43,11 +43,11 @@
 					</div>
 					<div class="input__container">
 						<label for="debEnchere">Début de l'enchère:</label> <input
-							type="date" id="debEnchere" name="debEnchere" min="${EN ATTENTE }" max="2018-12-31">
+							type="date" id="debEnchere" name="debEnchere" min="${today}">
 					</div>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input
-							type="date" id="finEnchere" name="finEnchere">
+							type="date" id="finEnchere" name="finEnchere" min="${today}">
 					</div>
 					<div class="retraitDiv">
 						<h3>Retrait :</h3>

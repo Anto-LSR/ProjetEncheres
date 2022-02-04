@@ -62,10 +62,11 @@ public class NouvelleVenteServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/accueil");
 			System.out.println("Non Connecté page 'Nouvelle Vente' Inaccesible ");
 		} else {
-			
+			LocalDate today = LocalDate.now();
 			CategorieManager cm = CategorieManager.getInstance();
 			List<Categorie> categories = cm.selectAllCategorie();
 			request.setAttribute("categories", categories);
+			request.setAttribute("today", today);
 
 			request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 		}
