@@ -23,8 +23,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_LETTER = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? OR description LIKE ?;";
 	private final static String SQL_SELECT_BY_NAME = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article = ?;";
 	private final static String SQL_SELECT_BY_CATEGORIE = " SELECT * FROM ARTICLES_VENDUS WHERE no_categorie = ? ;";
-	private final static String SQL_SELECT_BY_DATE_FIN = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.date_fin_encheres > GETDATE() ORDER BY a.date_fin_encheres ASC  ";
-	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS as a WHERE a.no_utilisateur= ?;";
+	private final static String SQL_SELECT_BY_DATE_FIN = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() ORDER BY date_fin_encheres ASC  ";
+	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur= ?;";
 	private final static String SQL_SELECT_BY_MES_VENTES_EN_COURS = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() AND no_utilisateur = ?;";
 
 	@Override
@@ -68,7 +68,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		Statement stmt = null;
 		ResultSet rs = null;
 		int i = 0;
-		ArticleVendu articleVendu = new ArticleVendu();
+		ArticleVendu articleVendu;
 		List<ArticleVendu> liste_articles = new ArrayList<>();
 
 		try {
@@ -121,13 +121,13 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				articleVendu.setNoArticle(articleVendu.getNoArticle());
-				articleVendu.setNomArticle(articleVendu.getNomArticle());
-				articleVendu.setDescription(articleVendu.getDescription());
-				articleVendu.setDateDebutEncheres(articleVendu.getDateDebutEncheres());
-				articleVendu.setDateFinEncheres(articleVendu.getDateFinEncheres());
-				articleVendu.setPrixInitial(articleVendu.getPrixInitial());
-				articleVendu.setPrixVente(articleVendu.getPrixVente());
+				articleVendu.setNoArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				Utilisateur utilisateur = new Utilisateur();
 				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setUtilisateurVendeur(utilisateur);
@@ -187,7 +187,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> selectArticleByCategorie(ArticleVendu articleByCategorie) {
+	public List<ArticleVendu> selectArticleByCategorie(Categorie categorie) {
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -196,12 +196,13 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_SELECT_BY_CATEGORIE);
-			pstmt.setInt(1, articleByCategorie.getCategorie().getNoCategorie());
+			pstmt.setInt(1, categorie.getNoCategorie());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
 				articleVendu.setDescription(rs.getString("description"));
 				articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
@@ -210,7 +211,6 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				Utilisateur utilisateur = new Utilisateur();
 				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setUtilisateurVendeur(utilisateur);
-				Categorie categorie = new Categorie();
 				categorie.setNoCategorie(rs.getInt("no_categorie"));
 				articleVendu.setCategorie(categorie);
 
@@ -227,18 +227,19 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		return null;
 	}
 
-	public List<ArticleVendu> selectByUtilisateur() {
+	public List<ArticleVendu> selectByUtilisateur(Utilisateur utilisateur) {
 		Connection cnx = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int i = 0;
-		ArticleVendu articleVendu = null;
+		ArticleVendu articleVendu;
 		List<ArticleVendu> liste_aticles_by_utilisateur = new ArrayList<>();
 
 		try {
 			cnx = ConnectionProvider.getConnection();
-			stmt = cnx.createStatement();
-			rs = stmt.executeQuery(SQL_SELECT_BY_UTILISATEUR);
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_UTILISATEUR);
+			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				if (rs.getInt("no_article") != i) {
@@ -246,12 +247,12 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 
 					articleVendu = new ArticleVendu();
 					articleVendu.setNoArticle(rs.getInt("no_article"));
+					articleVendu.setNomArticle(rs.getString("nom_article"));
 					articleVendu.setDescription(rs.getString("description"));
 					articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
 					articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 					articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 					articleVendu.setPrixVente(rs.getInt("prix_vente"));
-					Utilisateur utilisateur = new Utilisateur();
 					utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 					articleVendu.setUtilisateurVendeur(utilisateur);
 					Categorie categorie = new Categorie();
@@ -266,7 +267,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			ConnectionProvider.closeConnection(cnx, stmt);
+			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
 		return null;
 	}
@@ -296,7 +297,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				article.setPrixVente(rs.getInt(7));
 				Utilisateur utilisateur = new Utilisateur();
 				utilisateur.setNoUtilisateur(rs.getInt(8));
-				article.setUtilisateurAcheteur(utilisateur);
+				article.setUtilisateurVendeur(utilisateur);
 				Categorie categorie = new Categorie();
 				categorie.setNoCategorie(rs.getInt(9));
 				article.setCategorie(categorie);

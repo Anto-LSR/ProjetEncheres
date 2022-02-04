@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Utilisateur;
-
+import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bll.CategorieManager;
 import fr.eni.projet.bo.Categorie;
 
@@ -78,22 +78,42 @@ public class NouvelleVenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String nomArticle = request.getParameter("nomArticle");
-		String description = request.getParameter("description");
-		String dateDebutEnchere = request.getParameter("debutEnchere");
-		String dateFinEnchere = request.getParameter("finEnchere");
-		String prixInitial = request.getParameter("prixInitial");
+		HttpSession session = request.getSession();
+		Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+		if (utilisateur == null) {
+			System.err.println("Erreur de session ");
+		} else {
 
-		ArticleVendu newArticle = new ArticleVendu();
-		newArticle.setNomArticle(nomArticle);
-		newArticle.setDescription(description);
-		LocalDate dateDebut = LocalDate.parse(dateDebutEnchere);
-		newArticle.setDateDebutEncheres(dateDebut);
-		LocalDate dateFin = LocalDate.parse(dateFinEnchere);
-		newArticle.setDateFinEncheres(dateFin);
-		int prix = Integer.parseInt(prixInitial);
-		newArticle.setPrixInitial(prix);
+			String nomArticle = request.getParameter("article");
+			String description = request.getParameter("description");
+			String dateDebutEnchere = request.getParameter("debEnchere");
+			String dateFinEnchere = request.getParameter("finEnchere");
+			String prixInitial = request.getParameter("prixInitial");
+			String prixVente = prixInitial;
+			String categorie = request.getParameter("categorie");
 
+			ArticleVendu newArticle = new ArticleVendu();
+			newArticle.setNomArticle(nomArticle);
+			newArticle.setDescription(description);
+			LocalDate dateDebut = LocalDate.parse(dateDebutEnchere);
+			newArticle.setDateDebutEncheres(dateDebut);
+			LocalDate dateFin = LocalDate.parse(dateFinEnchere);
+			newArticle.setDateFinEncheres(dateFin);
+			int prix = Integer.parseInt(prixInitial);
+			newArticle.setPrixInitial(prix);
+			Categorie cat = new Categorie();
+			cat.setLibelle(categorie);
+			newArticle.setUtilisateurVendeur(utilisateur);
+			CategorieManager cm = CategorieManager.getInstance();
+			cat = cm.selectByLibelle(cat);
+			newArticle.setCategorie(cat);
+			if (cat.getNoCategorie() < 1) {
+				System.err.println("Erreur sur la categorie");
+			} else {
+				ArticleVenduManager av = ArticleVenduManager.getInstance();
+				av.insertArticle(newArticle);
+			}
+		}
 		doGet(request, response);
 	}
 

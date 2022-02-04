@@ -18,6 +18,8 @@ public class CategorieImpl implements CategorieDAO {
 	private final static String SQL_UPDATE = "UPDATE  CATEGORIES SET libelle = '?' WHERE no_categorie = ?;";
 	private final static String SQL_DELETE = "DELETE FROM CATEGORIES WHERE no_categorie = ?;";
 	private final static String SQL_SELECTALL = "  SELECT * FROM CATEGORIES ;";
+	private final static String SQL_SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle = ? ;";
+
 
 	@Override
 	public int insertCategorie(Categorie categorie) {
@@ -102,7 +104,7 @@ public class CategorieImpl implements CategorieDAO {
 		Connection cnx = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		List<Categorie> categories = new ArrayList<>();
+		List<Categorie> liste_all_categories = new ArrayList<>();
 		Categorie newCategorie = null;
 
 		try {
@@ -115,11 +117,11 @@ public class CategorieImpl implements CategorieDAO {
 				newCategorie = new Categorie();
 				newCategorie.setNoCategorie(rs.getInt("no_categorie"));
 				newCategorie.setLibelle(rs.getString("libelle"));
-				categories.add(newCategorie);
+				liste_all_categories.add(newCategorie);
 
 			}
 
-			return categories;
+			return liste_all_categories;
 
 		} catch (SQLException e) {
 
@@ -130,5 +132,30 @@ public class CategorieImpl implements CategorieDAO {
 
 		return null;
 	}
+public Categorie selectByLibelle(Categorie categorie){
+	Connection cnx = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	Categorie cat = new Categorie();
 
+	try {
+		cnx = ConnectionProvider.getConnection();
+		pstmt = cnx.prepareStatement(SQL_SELECT_BY_LIBELLE);
+		pstmt.setString(1, categorie.getLibelle());
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			cat.setNoCategorie(rs.getInt("no_categorie"));
+			cat.setLibelle(rs.getString("libelle"));
+		}
+		return cat;
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		ConnectionProvider.closeConnection(cnx, pstmt);
+	}
+	
+	
+	return null;
+}
 }

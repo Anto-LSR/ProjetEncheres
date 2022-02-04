@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.projet.bo.ArticleVendu;
-
+import fr.eni.projet.bo.Categorie;
+import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.dal.ArticleVenduDAO;
 import fr.eni.projet.dal.DAOFactory;
 
@@ -48,20 +49,34 @@ public class ArticleVenduManager {
 	}
 
 	public ArticleVendu selectByName(ArticleVendu articleByName) {
-
 		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
 		ArticleVendu articlevendu = av.selectByName(articleByName);
 		return articlevendu;
 
 	}
 
-	public List<ArticleVendu> selectArticleByCategorie(ArticleVendu articleByCategorie) {
+	public List<ArticleVendu> selectArticleByCategorie(Categorie categorie) {
 
 		List<ArticleVendu> articles = new ArrayList<>();
 		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
-		articles = av.selectArticleByCategorie(articleByCategorie);
+		articles = av.selectArticleByCategorie(categorie);
 		return articles;
 
 	}
-
+	
+	public List<ArticleVendu> selectByDateFin(){
+		List<ArticleVendu> articles = new ArrayList<>();
+		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
+		articles = av.selectByDateFin();
+		return articles;
+	}
+	
+	
+	public List<ArticleVendu> selectByUtilisateur(Utilisateur utilisateur){
+		List<ArticleVendu> articles = new ArrayList<>();
+		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
+		articles = av.selectByUtilisateur(utilisateur);
+		return articles;
+		
+	}
 }

@@ -46,10 +46,15 @@ public class CategorieManager {
 	}
 
 	public List<Categorie> selectAllCategorie() {
-		List<Categorie> categorie = new ArrayList<>();
+		List<Categorie> categories = new ArrayList<>();
 		CategorieDAO cg = DAOFactory.createNewCategorieImpl();
-		categorie = cg.selectAllCategorie();
-		return categorie;
+		categories = cg.selectAllCategorie();
+		return categories;
 
+	}
+	public Categorie selectByLibelle(Categorie categorie){
+		CategorieDAO cg = DAOFactory.createNewCategorieImpl();
+		categorie = cg.selectByLibelle(categorie);
+		return categorie;
 	}
 }
