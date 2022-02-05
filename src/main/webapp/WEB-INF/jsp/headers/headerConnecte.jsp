@@ -14,7 +14,8 @@
 	<header>
 
 		<a href="${pageContext.request.contextPath }/">
-			<h1>Encheres.org</h1>
+			<!-- <h1>Encheres.org</h1> -->
+			<img id="logo" src="${pageContext.request.contextPath }/assets/img/logotest.png">
 		</a>
 			<div class="wallet">
 				<img src="${pageContext.request.contextPath }/assets/img/coin.png">${utilisateur.credit }

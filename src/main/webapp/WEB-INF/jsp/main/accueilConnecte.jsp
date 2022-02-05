@@ -119,7 +119,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 <ul>
                   <li class="titreArticle">Nom de l'article</li>
 
-                  <li>Prix:<span>45</span></li>
+                  <li id="priceLi">Prix:<span id="priceSpan">45</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
                   <li>Classement:</li>
                   <li>Fin de l'enchère:</li>
                   <li>Retrait:</li>
