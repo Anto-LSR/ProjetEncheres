@@ -34,11 +34,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     name="enchouvertes"
                     checked
                   />
-                  <label for="enchouvertes">enchères ouvertes</label>
+                  <label for="enchouvertes">Enchères ouvertes</label>
                 </div>
                 <div>
                   <input type="checkbox" id="enchencours" name="enchencours" />
-                  <label for="enchencours">mes enchères en cours</label>
+                  <label for="enchencours">Mes enchères en cours</label>
                 </div>
                 <div>
                   <input
@@ -46,7 +46,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     id="enchremportees"
                     name="enchremportees"
                   />
-                  <label for="enchremportees">mes enchères remportèes</label>
+                  <label for="enchremportees">Mes enchères remportées</label>
                 </div>
               </div>
 
@@ -69,7 +69,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     name="ventesencours"
                     checked
                   />
-                  <label for="ventesencours">mes ventes en cours</label>
+                  <label for="ventesencours">Mes ventes en cours</label>
                 </div>
                 <div>
                   <input
@@ -77,7 +77,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     id="ventesnondebutees"
                     name="ventesnondebutees"
                   />
-                  <label for="ventesnondebutees">ventes non dèbutèes</label>
+                  <label for="ventesnondebutees">Ventes non débutées</label>
                 </div>
                 <div>
                   <input
@@ -85,14 +85,14 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     id="ventesTerminees"
                     name="ventesTerminees"
                   />
-                  <label for="ventesTerminees">ventes terminèes</label>
+                  <label for="ventesTerminees">Ventes terminées</label>
                 </div>
               </div>
             </div>
 
             <form class="searchForm">
               <div class="filterDiv">
-                <label for="categories">Catèories : </label>
+                <label for="categories">Catégories : </label>
                 <select id="categories">
                   <c:forEach items="${categories}" var="cat">
                     <option name="categorie">${cat.libelle }</option>
