@@ -195,7 +195,7 @@ main {
 
 .loginError {
 	text-align: center;
-	color: red;
+	color: #dc6969;
 }
 
 .loginoption__container {
