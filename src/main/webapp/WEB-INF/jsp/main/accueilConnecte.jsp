@@ -12,7 +12,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     <div class="container">
       <main>
         <div class="form__container">
-          <div class="search__div">
+        
+        
+        
+        
+          <form class="search__div">
             <div class="filter__div">
               <h3>Filtres :</h3>
               <div class="radiomenu">
@@ -90,7 +94,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
               </div>
             </div>
 
-            <form class="searchForm">
+            <div class="searchForm">
               <div class="filterDiv">
                 <label for="categories">Catégories : </label>
                 <select id="categories">
@@ -104,8 +108,14 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 placeholder="Le nom de l'article contient..."
               />
               <button type="submit" class="searchBtn">Rechercher</button>
-            </form>
-          </div>
+            </div>
+          </form>
+          
+          
+          
+          
+          
+        </div>
           <div class="articles__container">
             <div class="article">
               <div class="img__container">
@@ -128,7 +138,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
               </div>
             </div>
           </div>
-        </div>
       </main>
     </div>
     <script src="${pageContext.request.contextPath }/js/script.js"></script>

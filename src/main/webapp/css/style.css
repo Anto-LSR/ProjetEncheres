@@ -169,6 +169,7 @@ main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .input__container {
@@ -347,6 +348,16 @@ main {
 	filter: invert(1);
 }
 
+.articles__container {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	justify-items: center;
+	background: #121c1f52;
+	border-radius: 16px;
+	padding: 5px;
+	margin-top: 35px;
+}
+
 .article {
 	display: flex;
 	margin: 10px;
@@ -435,8 +446,8 @@ textarea {
 	}
 	.search__div {
 		display: flex;
+		flex-direction: inherit;
 		justify-content: space-between;
-		align-items: center;
 	}
 	.filter__div {
 		width: 50%;
@@ -451,14 +462,14 @@ textarea {
 		padding: 10px;
 		height: 197px;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 	}
 	.searchFormDC {
 		width: 50%;
 	}
-	
-	.dcHome{
-	width: 50%;
+	.dcHome {
+		width: 50%;
 	}
 	.connection__container {
 		display: flex;
