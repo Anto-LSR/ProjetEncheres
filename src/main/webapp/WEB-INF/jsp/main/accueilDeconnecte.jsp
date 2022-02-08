@@ -26,7 +26,7 @@
 
 						</select>
 					</div>
-					<input type="text" placeholder="Le nom de l'article contient...">
+					<input type="text" placeholder="Le nom de l'article contient..." name="recherche">
 					<button type="submit" class="searchBtn">Rechercher</button>
 				</form>
 
