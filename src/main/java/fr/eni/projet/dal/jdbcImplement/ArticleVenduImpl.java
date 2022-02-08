@@ -372,53 +372,53 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
 				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
 		boolean byFin = false;
-		
-		
+
 		if (choice != null) {
-			
+
 			if (choice.equals("Achats")) {
-				
+
 				// *******************CASES COCHEES *****************************
 				if (encheresOuvertes != null && encheresEnCours != null && encheresRemportees != null) {
 					sb.append("");
-					
+
 				} else if ((encheresOuvertes != null && encheresEnCours != null)) {
 					sb.append("AND av.date_fin_encheres > GETDATE() ");
-					
+
 				} else if (encheresOuvertes != null && encheresRemportees != null) {
 					sb.append("");
-					
+
 				} else if (encheresEnCours != null && encheresRemportees != null) {
 					sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
-					
+
 				} else if (encheresOuvertes != null) {
 					sb.append("AND av.date_fin_encheres > GETDATE() ");
-					
+
 				} else if (encheresEnCours != null) {
-					sb.append(("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " " + "AND date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE()"));
-					
+					sb.append(("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " "
+							+ "AND date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE()"));
+
 				} else if (encheresRemportees != null) {
 					sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur()
-					+ " AND av.date_fin_encheres < GETDATE() ");
-					
+							+ " AND av.date_fin_encheres < GETDATE() ");
+
 				}
 				// ********************CATEGORIE************************
 				if (!categorie.equals("Toutes")) {
 					sb.append("AND c.libelle = '" + categorie + "' ");
 				}
-				
+
 				if (!recherche.isBlank()) {
 					sb.append("AND nom_article LIKE '%" + recherche + "%' ");
 				}
-				
+
 				sb.append("ORDER  BY av.no_article;");
-				
+
 				// **************************************************
 				System.out.println(sb);
-				
+
 			} else if (choice.equals("Ventes")) {
 				sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
-				
+
 				if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
 					byFin = true;
 				} else if (ventesEnCours != null && ventesNonDebutees != null) {
@@ -441,7 +441,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				if (!categorie.equals("Toutes")) {
 					sb.append("AND c.libelle = '" + categorie + "' ");
 				}
-				
+
 				if (!recherche.isBlank()) {
 					sb.append("AND nom_article LIKE '%" + recherche + "%' ");
 				}
@@ -464,7 +464,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		System.out.println(sb);
 		String SQL_RECHERCHE = sb.toString();
 		// *********************EXECUTION DE LA REQUETE SQL**************
-		
+
 		Connection cnx;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -479,17 +479,10 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt("no_article"));
 				article.setCategorie((new CategorieImpl()).selectById(rs.getInt("no_categorie")));
-				
-				LocalDate date = (new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-				String text = date.format(formatter);
-				article.setDateFinEncheres( LocalDate.parse(text, formatter));
-				
-				//*
-				//article.setDateFinEncheres(
-				//		(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
-				//**
-				
+
+				article.setDateFinEncheres(
+						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
+
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
 				article.setPrixInitial(rs.getInt("enchere_max"));
