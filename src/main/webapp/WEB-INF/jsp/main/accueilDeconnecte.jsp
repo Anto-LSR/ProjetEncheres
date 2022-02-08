@@ -48,7 +48,7 @@
                 <ul>
                   <li class="titreArticle">${art.nomArticle}</li>
 
-                  <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
+                  <li id="priceLi">Prix:<span id="priceSpan">${art.prixVente}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
                   <li>Classement:</li>
                   <li>Fin de l'enchère: ${art.formattedDateFinEnchere()}</li>
                   <li>Retrait:</li>

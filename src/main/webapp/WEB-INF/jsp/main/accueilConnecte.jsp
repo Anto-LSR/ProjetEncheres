@@ -99,7 +99,7 @@
 							<ul>
 								<a href="${pageContext.request.contextPath }/article?noArticle=${art.noArticle}"> <li class="titreArticle">${art.nomArticle}</li></a>
 
-								<li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img
+								<li id="priceLi">Prix:<span id="priceSpan">${art.prixVente}</span><img
 									src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
 								<li>Classement:</li>
 								<li>Début : ${art.formattedDateDebutEnchere()}</li>

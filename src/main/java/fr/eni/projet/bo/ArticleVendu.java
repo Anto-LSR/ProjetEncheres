@@ -1,14 +1,9 @@
 package fr.eni.projet.bo;
 
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.DateFormatter;
-
-import fr.eni.projet.dal.jdbcImplement.ArticleVenduImpl;
 import fr.eni.projet.helpers.Tools;
 
 public class ArticleVendu {
@@ -27,13 +22,13 @@ public class ArticleVendu {
 
 	// constructeurs
 	public ArticleVendu() {
-		this.encheres = new ArrayList();
+		this.encheres = new ArrayList<>();
 		setDateDebutEncheres(dateDebutEncheres);
 	}
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			Utilisateur utilisateurVendeur, Categorie categorie) {
-		this.encheres = new ArrayList();
+		this.encheres = new ArrayList<>();
 		setNomArticle(nomArticle);
 		setDescription(description);
 		setDateDebutEncheres(dateDebutEncheres);

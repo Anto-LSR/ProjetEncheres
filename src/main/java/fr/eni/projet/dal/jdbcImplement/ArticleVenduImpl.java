@@ -363,8 +363,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
 			String encheresRemportees, Utilisateur utilisateur) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
-				+ "date_fin_encheres, c.*, " + "e.date_enchere, montant_enchere as enchere_max  "
+		sb.append("SELECT av.prix_initial, av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
+				+ "date_fin_encheres, c.*, " + "e.date_enchere, COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),av.prix_initial) as enchere_max  "
 				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
 				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
 		boolean byFin = false;
@@ -436,8 +436,6 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 					byFin = true;
 				}
 
-				sb.append("AND e.montant_enchere = " + "COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 "
-						+ "WHERE e2.no_article = av.no_article),0) ");
 
 				// *****************CATEGORIE
 				if (!categorie.equals("Toutes")) {
@@ -488,7 +486,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
-				article.setPrixInitial(rs.getInt("enchere_max"));
+				article.setPrixInitial(rs.getInt("prix_initial"));
+				article.setPrixVente(rs.getInt("enchere_max"));
 				Utilisateur vendeur = new Utilisateur();
 				vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				article.setUtilisateurVendeur(new UtilisateurImpl().selectUserById(vendeur));
@@ -551,7 +550,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
-				article.setPrixInitial(rs.getInt("enchere_max"));
+				article.setPrixVente(rs.getInt("enchere_max"));
 				Utilisateur vendeur = new Utilisateur();
 				vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				article.setUtilisateurVendeur(new UtilisateurImpl().selectUserById(vendeur));
