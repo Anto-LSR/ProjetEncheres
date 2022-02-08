@@ -16,6 +16,12 @@
 	transition: all 300ms ease;
 }
 
+.error {
+	text-align: center;
+	color: #dc6969;
+	font-size: 11px;
+}
+
 h3 {
 	color: white;
 }
@@ -520,4 +526,32 @@ textarea {
 		outline: 7px solid white;
 		background: white;
 	}
+}
+
+/* PAGE D'ERRUR*/
+.main-error-page{
+	    flex-direction: column;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+svg{
+	width: 60vh;
+	box-shadow: 10px 10px 5px black;
+    border-radius: 16px;
+    margin-bottom: 96px;
+}
+.error-title{
+	text-align: center;
+}
+
+.error-subtitle{
+	text-align: center;
+	margin-top: 20px;
+}
+
+.main-error-page button{
+	padding: 6px;
+    margin-top: 30px;
 }

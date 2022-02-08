@@ -108,6 +108,7 @@ public class ArticleVenduManager {
 		
 		if(article.getPrixInitial() == 0) {
 			InputError err = new InputError("prixNull", "Le prix de l'article doit être renseigné");
+			System.out.println("coucoulolcmaron");
 			errors.add(err);
 		}
 		

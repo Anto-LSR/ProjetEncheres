@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	errorPage="error.jsp"
+	isErrorPage = "false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -24,6 +26,9 @@
 						<label for="article">Article:</label> <input type="text"
 							id="article" name="article">
 					</div>
+					<c:if test="${cateNull != null }">
+					<p class="error">${cateNull }</p>
+					</c:if>
 					<div class="input__container">
 						<label for="categorie">Catégorie:</label> <select name="categorie"
 							id="pet-select">

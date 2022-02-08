@@ -99,91 +99,124 @@ public class NouvelleVenteServlet extends HttpServlet {
 			String prixInitial = request.getParameter("prixInitial");
 			String prixVente = prixInitial;
 			String categorie = request.getParameter("categorie");
+		
+			
+			
+			if (prixInitial.isBlank()) {
+				error = true;
+			}
+			if (error) {
 
-			ArticleVendu newArticle = new ArticleVendu();
-			newArticle.setNomArticle(nomArticle);
-			newArticle.setDescription(description);
-			LocalDate dateDebut = LocalDate.parse(dateDebutEnchere);
-			newArticle.setDateDebutEncheres(dateDebut);
-			LocalDate dateFin = LocalDate.parse(dateFinEnchere);
-			newArticle.setDateFinEncheres(dateFin);
-			newArticle.setPrixInitial(Integer.valueOf(prixInitial));
-			newArticle.setPrixVente(Integer.valueOf(prixInitial));
-			Categorie cat = new Categorie();
-			cat.setLibelle(categorie);
-			newArticle.setUtilisateurVendeur(utilisateur);
-			CategorieManager cm = CategorieManager.getInstance();
-			cat = cm.selectByLibelle(cat);
-			newArticle.setCategorie(cat);
-
-			String rue = request.getParameter("rue");
-			String codePostal = request.getParameter("codepostal");
-			String ville = request.getParameter("ville");
-
-			Retrait retrait = new Retrait();
-
-			retrait.setCodePostal(codePostal);
-			retrait.setRue(rue);
-			retrait.setVille(ville);
-			RetraitManager rm = RetraitManager.getInstance();
-
-			Enchere enchere = new Enchere();
-			enchere.setDateEnchere(dateDebut);
-			enchere.setMontantEnchere(Integer.valueOf(prixInitial));
-			enchere.setUtilisateur(utilisateur);
-			EnchereManager em = EnchereManager.getInstance();
-
-			ArticleVenduManager av = ArticleVenduManager.getInstance();
-			List<InputError> errors = av.verifDate(newArticle);
-
-			if (!errors.isEmpty()) {
-				for (InputError err : errors) {
-					if (err.getNom().equals("debutAfterFin")) {
-						request.setAttribute("debutAfterFin", err.getDescription());
-					}
-					if (err.getNom().equals("debutBeforeToday")) {
-						request.setAttribute("debutBeforeToday", err.getDescription());
-					}
-					if (err.getNom().equals("finBeforeToday")) {
-						request.setAttribute("finBeforeToday", err.getDescription());
-					}
-					if (err.getNom().equals("nomNull")) {
-						request.setAttribute("nomNull", err.getDescription());
-					}
-					if (err.getNom().equals("descNull")) {
-						request.setAttribute("descNull", err.getDescription());
-					}
-					if (err.getNom().equals("prixNull")) {
-						request.setAttribute("prixNull", err.getDescription());
-					}
-					if (err.getNom().equals("dateDebutNull")) {
-						request.setAttribute("dateDebutNull", err.getDescription());
-					}
-					if (err.getNom().equals("dateFinNull")) {
-						request.setAttribute("dateFinNull", err.getDescription());
-					}
+				if (categorie.isBlank()) {
+					request.setAttribute("cateNull", "La catégorie doit être renseignée");
+					System.out.println("CATEGORIE VIDE");
 				}
-				error = true;
-			}
-			if (cat.getNoCategorie() < 1) {
-				System.err.println("Erreur sur la categorie");
-				error = true;
-			}
-
-			if (!error) {
-				int idArticle = av.insertArticle(newArticle);
-				newArticle.setNoArticle(idArticle);
-				retrait.setArticleVendu(newArticle);
-				rm.insertRetrait(retrait);
-
-				enchere.setArticlevendu(newArticle);
-				em.insertEnchere(enchere);
-
-				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
-			} else {
+				LocalDate today = LocalDate.now();
+				LocalDate tomorrow = LocalDate.now().plusDays(1);
+				CategorieManager cm = CategorieManager.getInstance();
+				List<Categorie> categories = cm.selectAllCategorie();
+				request.setAttribute("categories", categories);
+				request.setAttribute("today", today);
+				request.setAttribute("tomorrow", tomorrow);
+				request.setAttribute("prixNull", "Le prix doit être renseigné");
 				request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
+			} else {
+				if (categorie.isBlank()) {
+					request.setAttribute("cateNull", "La catégorie doit être renseignée");
+					System.out.println("CATEGORIE VIDE");
+				}
+				ArticleVendu newArticle = new ArticleVendu();
+				newArticle.setNomArticle(nomArticle);
+				newArticle.setDescription(description);
+				LocalDate dateDebut = LocalDate.parse(dateDebutEnchere);
+				newArticle.setDateDebutEncheres(dateDebut);
+				LocalDate dateFin = LocalDate.parse(dateFinEnchere);
+				newArticle.setDateFinEncheres(dateFin);
+				newArticle.setPrixInitial(Integer.valueOf(prixInitial));
+				newArticle.setPrixVente(Integer.valueOf(prixInitial));
+				Categorie cat = new Categorie();
+				cat.setLibelle(categorie);
+				newArticle.setUtilisateurVendeur(utilisateur);
+				CategorieManager cm = CategorieManager.getInstance();
+				cat = cm.selectByLibelle(cat);
+				newArticle.setCategorie(cat);
 
+				String rue = request.getParameter("rue");
+				String codePostal = request.getParameter("codepostal");
+				String ville = request.getParameter("ville");
+
+				Retrait retrait = new Retrait();
+
+				retrait.setCodePostal(codePostal);
+				retrait.setRue(rue);
+				retrait.setVille(ville);
+				RetraitManager rm = RetraitManager.getInstance();
+
+				Enchere enchere = new Enchere();
+				enchere.setDateEnchere(dateDebut);
+				enchere.setMontantEnchere(Integer.valueOf(prixInitial));
+				enchere.setUtilisateur(utilisateur);
+				EnchereManager em = EnchereManager.getInstance();
+
+				ArticleVenduManager av = ArticleVenduManager.getInstance();
+				List<InputError> errors = av.verifDate(newArticle);
+
+				if (!errors.isEmpty()) {
+					for (InputError err : errors) {
+						if (err.getNom().equals("debutAfterFin")) {
+							request.setAttribute("debutAfterFin", err.getDescription());
+						}
+						if (err.getNom().equals("debutBeforeToday")) {
+							request.setAttribute("debutBeforeToday", err.getDescription());
+						}
+						if (err.getNom().equals("finBeforeToday")) {
+							request.setAttribute("finBeforeToday", err.getDescription());
+						}
+						if (err.getNom().equals("nomNull")) {
+							request.setAttribute("nomNull", err.getDescription());
+						}
+						if (err.getNom().equals("descNull")) {
+							request.setAttribute("descNull", err.getDescription());
+						}
+						if (err.getNom().equals("prixNull")) {
+							request.setAttribute("prixNull", err.getDescription());
+						}
+						if (err.getNom().equals("dateDebutNull")) {
+							request.setAttribute("dateDebutNull", err.getDescription());
+						}
+						if (err.getNom().equals("dateFinNull")) {
+							request.setAttribute("dateFinNull", err.getDescription());
+						}
+					}
+					error = true;
+				}
+				if (cat.getNoCategorie() < 1) {
+					System.err.println("Erreur sur la categorie");
+					error = true;
+				}
+
+				if (!error) {
+					int idArticle = av.insertArticle(newArticle);
+					newArticle.setNoArticle(idArticle);
+					retrait.setArticleVendu(newArticle);
+					rm.insertRetrait(retrait);
+
+					enchere.setArticlevendu(newArticle);
+					em.insertEnchere(enchere);
+
+					request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+				} else {
+					LocalDate today = LocalDate.now();
+					LocalDate tomorrow = LocalDate.now().plusDays(1);
+					List<Categorie> categories = cm.selectAllCategorie();
+					request.setAttribute("categories", categories);
+					request.setAttribute("today", today);
+					request.setAttribute("tomorrow", tomorrow);
+					request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
+
+				}
 			}
+
 		}
 
 	}
