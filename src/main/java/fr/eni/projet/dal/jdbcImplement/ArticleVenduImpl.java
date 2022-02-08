@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -477,8 +479,17 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt("no_article"));
 				article.setCategorie((new CategorieImpl()).selectById(rs.getInt("no_categorie")));
-				article.setDateFinEncheres(
-						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
+				
+				LocalDate date = (new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+				String text = date.format(formatter);
+				article.setDateFinEncheres( LocalDate.parse(text, formatter));
+				
+				//*
+				//article.setDateFinEncheres(
+				//		(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
+				//**
+				
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
 				article.setPrixInitial(rs.getInt("enchere_max"));

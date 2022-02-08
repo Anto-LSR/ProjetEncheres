@@ -19,6 +19,13 @@ enchRemportees.setAttribute("disabled", true);
 enchRemportees.checked = false;
 
 
+ventesEnCours.checked = false;
+
+ventesNonDebutees.checked = false;
+
+ventesTerminees.checked = false;
+
+
 radioAchat.addEventListener('click', () => {
     ventesEnCours.setAttribute("disabled", true)
     ventesEnCours.checked = false;
