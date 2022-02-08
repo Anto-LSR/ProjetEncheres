@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projet.bll.ArticleVenduManager;
+import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Utilisateur;
 
 /**
@@ -51,8 +53,10 @@ public class ArticleServlet extends HttpServlet {
 		//********************************************************
 		int noArticle = Integer.valueOf(request.getParameter("noArticle"));
 		
-		
-		
+		ArticleVenduManager am = ArticleVenduManager.getInstance();
+		ArticleVendu article = am.selectByDetails(noArticle);
+		request.setAttribute("article", article);
+		System.out.println(article.toString());
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);		
 	}
 

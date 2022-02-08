@@ -142,5 +142,11 @@ public class ArticleVenduManager {
 		return articles;
 	
 	}
+	public ArticleVendu selectByDetails(int id) {
+		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
+		ArticleVendu article = av.selectByDetails(id);
+		return article;
+		
+	}
 	
 }

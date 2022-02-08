@@ -14,6 +14,8 @@ import java.util.List;
 import fr.eni.projet.DBTools.ConnectionProvider;
 import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Categorie;
+import fr.eni.projet.bo.Enchere;
+import fr.eni.projet.bo.Retrait;
 import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.dal.ArticleVenduDAO;
 import fr.eni.projet.dal.CategorieDAO;
@@ -30,6 +32,17 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur= ?;";
 	private final static String SQL_SELECT_BY_MES_VENTES_EN_COURS = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() AND no_utilisateur = ?;";
 	private final static String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
+	private final static String SQL_SELECT_DETAILS = "SELECT av.no_article, av.nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, "
+			+ "prix_vente, av.no_utilisateur as vendeur, no_categorie, e.no_utilisateur as acheteur, "
+			+ "montant_enchere, rue, code_postal, ville, "
+			+ "COALESCE("
+			+ "(SELECT MAX(montant_enchere) "
+			+ "FROM ENCHERES e2 "
+			+ "WHERE e2.no_article = av.no_article),av.prix_initial) as enchere_max "
+			+ "FROM ARTICLES_VENDUS as av "
+			+ "INNER JOIN ENCHERES as e ON e.no_article = av.no_article "
+			+ "INNER JOIN RETRAITS as r ON r.no_article = av.no_article "
+			+ "WHERE av.no_article = ?;";
 
 	@Override
 	public int insertArticle(ArticleVendu articleVendu) {
@@ -606,4 +619,68 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		return null;
 	}
 
+	public ArticleVendu selectByDetails(int id) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null; 
+		ResultSet rs; 
+		ArticleVendu article = null;
+		Utilisateur vendeur;
+		Utilisateur acheteur;
+		Retrait retrait;
+		Enchere enchere;
+		Utilisateur tool;
+		
+	
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_DETAILS);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+		
+			if (rs.next()) {
+				article = new ArticleVendu();
+				article.setNoArticle(id);
+				article.setNomArticle(rs.getString("nom_article"));
+				article.setDescription(rs.getString("description"));
+				article.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
+				article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+				article.setPrixInitial(rs.getInt("prix_initial"));
+				article.setPrixVente(rs.getInt("enchere_max"));
+				tool = new Utilisateur();
+				tool.setNoUtilisateur(rs.getInt("vendeur"));
+				vendeur = new Utilisateur();
+				vendeur = tool;
+				article.setUtilisateurVendeur((new UtilisateurImpl()).selectUserById(tool));
+				tool.setNoUtilisateur(rs.getInt("acheteur"));
+				acheteur = new Utilisateur();
+				acheteur = tool;
+				article.setUtilisateurAcheteur((new UtilisateurImpl()).selectUserById(tool));
+				article.setCategorie((new CategorieImpl()).selectById(rs.getInt("no_categorie")));
+				
+//				enchere = new Enchere();
+//				enchere.setUtilisateur(acheteur);
+//				enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+//				enchere.setArticlevendu(article);
+				
+				retrait = new Retrait();
+				retrait.setArticleVendu(article);
+				retrait.setCodePostal(rs.getString("code_postal"));
+				retrait.setRue(rs.getString("rue"));
+				retrait.setVille(rs.getString("ville"));
+				
+				article.setRetrait(retrait);
+				
+			}
+			return article;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+		
+		
+		return null;
+	}
+	
 }
