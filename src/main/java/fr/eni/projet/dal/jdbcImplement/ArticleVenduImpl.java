@@ -367,83 +367,96 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
 				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
 		boolean byFin = false;
-		if (choice.equals("Achats")) {
-
-			// *******************CASES COCHEES *****************************
-			if (encheresOuvertes != null && encheresEnCours != null && encheresRemportees != null) {
-				sb.append("");
-
-			} else if ((encheresOuvertes != null && encheresEnCours != null)) {
-				sb.append("AND av.date_fin_encheres > GETDATE() ");
-
-			} else if (encheresOuvertes != null && encheresRemportees != null) {
-				sb.append("");
-
-			} else if (encheresEnCours != null && encheresRemportees != null) {
-				sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
-
-			} else if (encheresOuvertes != null) {
-				sb.append("AND av.date_fin_encheres > GETDATE() ");
-
-			} else if (encheresEnCours != null) {
-				sb.append(("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " " + "AND date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE()"));
-
-			} else if (encheresRemportees != null) {
-				sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur()
-						+ " AND av.date_fin_encheres < GETDATE() ");
-
+		
+		
+		if (choice != null) {
+			
+			if (choice.equals("Achats")) {
+				
+				// *******************CASES COCHEES *****************************
+				if (encheresOuvertes != null && encheresEnCours != null && encheresRemportees != null) {
+					sb.append("");
+					
+				} else if ((encheresOuvertes != null && encheresEnCours != null)) {
+					sb.append("AND av.date_fin_encheres > GETDATE() ");
+					
+				} else if (encheresOuvertes != null && encheresRemportees != null) {
+					sb.append("");
+					
+				} else if (encheresEnCours != null && encheresRemportees != null) {
+					sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
+					
+				} else if (encheresOuvertes != null) {
+					sb.append("AND av.date_fin_encheres > GETDATE() ");
+					
+				} else if (encheresEnCours != null) {
+					sb.append(("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " " + "AND date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE()"));
+					
+				} else if (encheresRemportees != null) {
+					sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur()
+					+ " AND av.date_fin_encheres < GETDATE() ");
+					
+				}
+				// ********************CATEGORIE************************
+				if (!categorie.equals("Toutes")) {
+					sb.append("AND c.libelle = '" + categorie + "' ");
+				}
+				
+				if (!recherche.isBlank()) {
+					sb.append("AND nom_article LIKE '%" + recherche + "%' ");
+				}
+				
+				sb.append("ORDER  BY av.no_article;");
+				
+				// **************************************************
+				System.out.println(sb);
+				
+			} else if (choice.equals("Ventes")) {
+				sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
+				
+				if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
+					byFin = true;
+				} else if (ventesEnCours != null && ventesNonDebutees != null) {
+					sb.append("AND av.date_fin_encheres > GETDATE() ");
+				} else if (ventesNonDebutees != null && ventesTerminees != null) {
+					sb.append("AND av.date_debut_encheres > GETDATE() OR av.date_fin_encheres < GETDATE() ");
+					byFin = true;
+				} else if (ventesEnCours != null && ventesTerminees != null) {
+					sb.append("AND av.date_debut_encheres < GETDATE() ");
+				} else if (ventesEnCours != null) {
+					sb.append("AND av.date_fin_encheres> GETDATE() AND av.date_debut_encheres <= GETDATE() ");
+					byFin = true;
+				} else if (ventesNonDebutees != null) {
+					sb.append("AND av.date_debut_encheres > GETDATE() ");
+				} else if (ventesTerminees != null) {
+					sb.append("AND av.date_fin_encheres < GETDATE() ");
+					byFin = true;
+				}
+				// *****************CATEGORIE
+				if (!categorie.equals("Toutes")) {
+					sb.append("AND c.libelle = '" + categorie + "' ");
+				}
+				
+				if (!recherche.isBlank()) {
+					sb.append("AND nom_article LIKE '%" + recherche + "%' ");
+				}
+				// ***************
+				if (byFin) {
+					sb.append("ORDER BY av.date_fin_encheres;");
+				} else {
+					sb.append("ORDER BY av.date_debut_encheres;");
+				}
+				System.out.println(sb);
 			}
-			// ********************CATEGORIE************************
+		} else {
+			sb.append("AND av.date_fin_encheres > GETDATE() ");
+			System.out.println("test" + categorie);
 			if (!categorie.equals("Toutes")) {
 				sb.append("AND c.libelle = '" + categorie + "' ");
 			}
-
-			if (!recherche.isBlank()) {
-				sb.append("AND nom_article LIKE '%" + recherche + "%' ");
-			}
-
-			sb.append("ORDER  BY av.no_article;");
-
-			// **************************************************
-			System.out.println(sb);
-
-		} else if (choice.equals("Ventes")) {
-			sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
-
-			if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
-				byFin = true;
-			} else if (ventesEnCours != null && ventesNonDebutees != null) {
-				sb.append("AND av.date_fin_encheres > GETDATE() ");
-			} else if (ventesNonDebutees != null && ventesTerminees != null) {
-				sb.append("AND av.date_debut_encheres > GETDATE() OR av.date_fin_encheres < GETDATE() ");
-				byFin = true;
-			} else if (ventesEnCours != null && ventesTerminees != null) {
-				sb.append("AND av.date_debut_encheres < GETDATE() ");
-			} else if (ventesEnCours != null) {
-				sb.append("AND av.date_fin_encheres> GETDATE() AND av.date_debut_encheres <= GETDATE() ");
-				byFin = true;
-			} else if (ventesNonDebutees != null) {
-				sb.append("AND av.date_debut_encheres > GETDATE() ");
-			} else if (ventesTerminees != null) {
-				sb.append("AND av.date_fin_encheres < GETDATE() ");
-				byFin = true;
-			}
-			// *****************CATEGORIE
-			if (!categorie.equals("Toutes")) {
-				sb.append("AND c.libelle = '" + categorie + "' ");
-			}
-
-			if (!recherche.isBlank()) {
-				sb.append("AND nom_article LIKE '%" + recherche + "%' ");
-			}
-			// ***************
-			if (byFin) {
-				sb.append("ORDER BY av.date_fin_encheres;");
-			} else {
-				sb.append("ORDER BY av.date_debut_encheres;");
-			}
-			System.out.println(sb);
+			sb.append("ORDER BY av.date_fin_encheres;");
 		}
+		System.out.println(sb);
 		String SQL_RECHERCHE = sb.toString();
 		// *********************EXECUTION DE LA REQUETE SQL**************
 		

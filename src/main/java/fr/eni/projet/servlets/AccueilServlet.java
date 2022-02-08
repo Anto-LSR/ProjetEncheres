@@ -102,8 +102,11 @@ public class AccueilServlet extends HttpServlet {
 		String encheresRemportees = request.getParameter("enchremportees");
 		ArticleVenduManager avm = ArticleVenduManager.getInstance();
 		
-		List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
 		
+		List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
+		CategorieManager cm = CategorieManager.getInstance();
+		List<Categorie> categories = cm.selectAllCategorie();
+		request.setAttribute("categories", categories);
 		request.setAttribute("liste", articlesRecherche);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);

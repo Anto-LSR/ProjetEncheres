@@ -14,11 +14,11 @@
 			<div class="form__container dcHome">
 
 				<!-- <h3>Filtres :</h3> -->
-				<form class="searchFormDC">
+				<form class="searchFormDC" method="post" action="<%=request.getContextPath()%>/accueil">
 					<div class="filterDiv">
 						<label for="categories">Catégories : </label> <select
-							id="categories">
-							<option name="categorie">toutes les catégories</option>
+							id="categories" name="categories">
+							<option name="categories">Toutes</option>
 							<c:forEach items="${categories}" var="cat">
 								<option name="categorie">${cat.libelle}</option>
 
@@ -31,6 +31,32 @@
 				</form>
 
 
+			</div>
+			<div class="articles__container">
+			 <c:forEach items="${liste}" var="art">
+            
+            
+            <div class="article">
+              <div class="img__container">
+                <img
+                  class="imageArticle"
+                  src="${pageContext.request.contextPath }/assets/img/box.png"
+                />
+              </div>
+
+              <div class="articleInfo">
+                <ul>
+                  <li class="titreArticle">${art.nomArticle}</li>
+
+                  <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
+                  <li>Classement:</li>
+                  <li>Fin de l'enchère: ${art.dateFinEncheres}</li>
+                  <li>Retrait:</li>
+                  <li>Vendeur: ${art.utilisateurVendeur.nom }</li>
+                </ul>
+              </div>
+            </div>
+            </c:forEach>
 			</div>
 		</main>
 
