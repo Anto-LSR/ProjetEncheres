@@ -361,7 +361,10 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
 			String encheresRemportees, Utilisateur utilisateur) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT *, COALESCE"
+		sb.append("SELECT av.no_utilisateur, av.no_article, av.nom_article, av.description, "
+				+ "convert(varchar, date_debut_encheres, 103) as date_debut_encheres, "
+				+ "convert(varchar, date_fin_encheres, 103) as date_fin_encheres, c.*, "
+				+ "convert(varchar, date_enchere, 103) as date_enchere, COALESCE"
 				+ "((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),0) "
 				+ "as enchere_max "
 				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
