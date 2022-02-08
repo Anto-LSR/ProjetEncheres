@@ -99,7 +99,15 @@ public class AccueilServlet extends HttpServlet {
 				List<Categorie> categories = cm.selectAllCategorie();
 				request.setAttribute("categories", categories);
 				request.setAttribute("liste", articlesRecherche);
+				//****VERIFICATION CASES COCHEES********
+				request.setAttribute("ventesEnCours", ventesEnCours);
+				request.setAttribute("ventesNonDebutees", ventesNonDebutees);
+				request.setAttribute("ventesTerminees", ventesTerminees);
+				request.setAttribute("encheresOuvertes", encheresOuvertes);
+				request.setAttribute("encheresEnCours", encheresEnCours);
+				request.setAttribute("encheresRemportees", encheresRemportees);
 				
+				//**************************************
 				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 			}
 

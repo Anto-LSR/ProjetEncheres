@@ -13,7 +13,12 @@
 		<main>
 			<div class="form__container">
 
-
+				<c:if test="${ventesEnCours != null }">
+				<script>
+					let vec = document.getElementById('ventesencours');
+					vec.checked = true;
+				</script>
+				</c:if>
 
 
 				<form class="search__div" method="post"
