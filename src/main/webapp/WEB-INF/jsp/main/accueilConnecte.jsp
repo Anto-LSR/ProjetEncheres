@@ -13,12 +13,7 @@
 		<main>
 			<div class="form__container">
 
-				<c:if test="${ventesEnCours != null }">
-				<script>
-					let vec = document.getElementById('ventesencours');
-					vec.checked = true;
-				</script>
-				</c:if>
+
 
 
 				<form class="search__div" method="post"
@@ -33,8 +28,7 @@
 						<div class="checkboxmenu">
 							<div>
 								<input type="checkbox" id="enchouvertes" name="enchouvertes"
-									checked /> <label for="enchouvertes">Enchères
-									ouvertes</label>
+									checked /> <label for="enchouvertes">Enchères ouvertes</label>
 							</div>
 							<div>
 								<input type="checkbox" id="enchencours" name="enchencours" /> <label
@@ -54,18 +48,18 @@
 						<div class="checkboxmenu">
 							<div>
 								<input type="checkbox" id="ventesencours" name="ventesencours"
-									checked /> <label for="ventesencours">Mes
-									ventes en cours</label>
+									checked /> <label for="ventesencours">Mes ventes en
+									cours</label>
 							</div>
 							<div>
 								<input type="checkbox" id="ventesnondebutees"
-									name="ventesnondebutees" /> <label
-									for="ventesnondebutees">Ventes non débutées</label>
+									name="ventesnondebutees" /> <label for="ventesnondebutees">Ventes
+									non débutées</label>
 							</div>
 							<div>
 								<input type="checkbox" id="ventesTerminees"
-									name="ventesTerminees" /> <label
-									for="ventesTerminees">Ventes terminées</label>
+									name="ventesTerminees" /> <label for="ventesTerminees">Ventes
+									terminées</label>
 							</div>
 						</div>
 					</div>
@@ -120,5 +114,54 @@
 		</main>
 	</div>
 	<script src="${pageContext.request.contextPath }/js/script.js"></script>
+	<c:if test="${ventesEnCours != null }">
+		<script>
+			ventesEnCours.checked = true;
+		</script>
+	</c:if>
+
+	<c:if test="${ventesNonDebutees != null }">
+		<script>
+			ventesNonDebutees.checked = true;
+		</script>
+	</c:if>
+
+	<c:if test="${ventesTerminees != null }">
+		<script>
+			ventesTerminees.checked = true;
+		</script>
+	</c:if>
+
+	<c:if test="${encheresOuvertes != null }">
+		<script>
+			enchOuverte.checked = true;
+		</script>
+	</c:if>
+
+	<c:if test="${encheresEnCours != null }">
+		<script>
+		enchEnCours.checked = true;
+		</script>
+	</c:if>
+
+	<c:if test="${encheresRemportees != null }">
+		<script>
+			enchRemportees.checked = true;
+		</script>
+	</c:if>
+	
+	
+	<script>
+	let radioA = document.getElementById('radioAchats');
+	let radioV = document.getElementById('radioVentes');
+	if('${choice}' == 'Ventes'){
+		radioV.checked = true
+	} else if ('${choice}' == 'Achats'){
+		radioA.checked = true
+	}
+	</script>
+	
+	
+	
 </body>
 </html>

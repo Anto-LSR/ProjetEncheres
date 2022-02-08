@@ -11,6 +11,7 @@ let ventesEnCours = document.getElementById('ventesencours');
 let ventesNonDebutees = document.getElementById('ventesnondebutees')
 let ventesTerminees = document.getElementById('ventesTerminees')
 
+
 enchEnCours.setAttribute("disabled", true)
 enchEnCours.checked = false;
 enchOuverte.setAttribute("disabled", true)

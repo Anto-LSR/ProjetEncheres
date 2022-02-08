@@ -100,6 +100,7 @@ public class AccueilServlet extends HttpServlet {
 				request.setAttribute("categories", categories);
 				request.setAttribute("liste", articlesRecherche);
 				//****VERIFICATION CASES COCHEES********
+				request.setAttribute("choice", choice);
 				request.setAttribute("ventesEnCours", ventesEnCours);
 				request.setAttribute("ventesNonDebutees", ventesNonDebutees);
 				request.setAttribute("ventesTerminees", ventesTerminees);
