@@ -64,10 +64,12 @@ public class NouvelleVenteServlet extends HttpServlet {
 			System.out.println("Non Connecté page 'Nouvelle Vente' Inaccesible ");
 		} else {
 			LocalDate today = LocalDate.now();
+			LocalDate tomorrow = LocalDate.now().plusDays(1);
 			CategorieManager cm = CategorieManager.getInstance();
 			List<Categorie> categories = cm.selectAllCategorie();
 			request.setAttribute("categories", categories);
 			request.setAttribute("today", today);
+			request.setAttribute("tomorrow", tomorrow);
 
 			request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 		}

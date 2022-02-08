@@ -79,8 +79,8 @@
 					</c:if>
 					<div class="input__container">
 						<label for="finEnchere">Fin de l'enchère:</label> <input
-							type="date" id="finEnchere" name="finEnchere" min="${today}"
-							value="${today}">
+							type="date" id="finEnchere" name="finEnchere" min="${tomorrow}"
+							value="${tomorrow}">
 					</div>
 
 						<h3>Retrait :</h3>

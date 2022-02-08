@@ -49,6 +49,7 @@ public class ArticleServlet extends HttpServlet {
 		}
 		
 		//********************************************************
+		int noArticle = Integer.valueOf(request.getParameter("noArticle"));
 		
 		
 		
