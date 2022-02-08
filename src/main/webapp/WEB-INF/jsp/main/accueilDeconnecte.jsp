@@ -50,7 +50,7 @@
 
                   <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
                   <li>Classement:</li>
-                  <li>Fin de l'enchère: ${art.dateFinEncheres}</li>
+                  <li>Fin de l'enchère: ${art.formattedDateFinEnchere()}</li>
                   <li>Retrait:</li>
                   <li>Vendeur: ${art.utilisateurVendeur.nom }</li>
                 </ul>
