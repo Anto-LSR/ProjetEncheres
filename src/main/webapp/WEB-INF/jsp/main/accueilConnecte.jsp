@@ -156,8 +156,10 @@
 	let radioV = document.getElementById('radioVentes');
 	if('${choice}' == 'Ventes'){
 		radioV.checked = true
+
 	} else if ('${choice}' == 'Achats'){
 		radioA.checked = true
+
 	}
 	</script>
 	

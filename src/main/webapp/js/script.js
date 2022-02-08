@@ -21,9 +21,7 @@ enchRemportees.checked = false;
 
 
 ventesEnCours.checked = false;
-
 ventesNonDebutees.checked = false;
-
 ventesTerminees.checked = false;
 
 
