@@ -77,6 +77,15 @@ public class AccueilServlet extends HttpServlet {
 				isConnected = false;
 				session.setAttribute("connected", false);
 				System.out.println("deconnecté");
+				String categorie = request.getParameter("categories");
+				String recherche = request.getParameter("recherche");
+				ArticleVenduManager avm = ArticleVenduManager.getInstance();
+				List<ArticleVendu> articlesRecherche = avm.selectByFiltresDeconnecte(categorie, recherche);
+				System.out.println(articlesRecherche);
+				CategorieManager cm = CategorieManager.getInstance();
+				List<Categorie> categories = cm.selectAllCategorie();
+				request.setAttribute("categories", categories);
+				request.setAttribute("liste", articlesRecherche);
 				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 			} else {
 				isConnected = true;
@@ -92,14 +101,15 @@ public class AccueilServlet extends HttpServlet {
 				String encheresEnCours = request.getParameter("enchencours");
 				String encheresRemportees = request.getParameter("enchremportees");
 				ArticleVenduManager avm = ArticleVenduManager.getInstance();
-				
-				
-				List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
+
+				List<ArticleVendu> articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours,
+						ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees,
+						utilisateur);
 				CategorieManager cm = CategorieManager.getInstance();
 				List<Categorie> categories = cm.selectAllCategorie();
 				request.setAttribute("categories", categories);
 				request.setAttribute("liste", articlesRecherche);
-				//****VERIFICATION CASES COCHEES********
+				// ****VERIFICATION CASES COCHEES********
 				request.setAttribute("choice", choice);
 				request.setAttribute("ventesEnCours", ventesEnCours);
 				request.setAttribute("ventesNonDebutees", ventesNonDebutees);
@@ -107,8 +117,8 @@ public class AccueilServlet extends HttpServlet {
 				request.setAttribute("encheresOuvertes", encheresOuvertes);
 				request.setAttribute("encheresEnCours", encheresEnCours);
 				request.setAttribute("encheresRemportees", encheresRemportees);
-				
-				//**************************************
+
+				// **************************************
 				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 			}
 
@@ -117,10 +127,6 @@ public class AccueilServlet extends HttpServlet {
 			request.setAttribute("connected", false);
 			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 		}
-
-
-		
-		
 
 	}
 

@@ -28,4 +28,6 @@ public interface ArticleVenduDAO {
 	public List<ArticleVendu> selectByFiltres(String categorie, String recherche, String choice, String ventesEnCours,
 			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
 			String encheresRemportees, Utilisateur utilisateur);
+	public List<ArticleVendu> selectByFiltresDeconnecte(String categorie, String recherche);
 }
+

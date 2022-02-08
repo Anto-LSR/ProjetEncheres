@@ -134,4 +134,13 @@ public class ArticleVenduManager {
 	
 	}
 	
+	public List<ArticleVendu> selectByFiltresDeconnecte(String categorie, String recherche){
+		List<ArticleVendu> articles = new ArrayList<>();
+		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
+		articles = av.selectByFiltresDeconnecte(categorie, recherche);
+		
+		return articles;
+	
+	}
+	
 }

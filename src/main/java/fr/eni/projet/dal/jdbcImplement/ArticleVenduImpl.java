@@ -363,12 +363,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
 			String encheresRemportees, Utilisateur utilisateur) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT av.no_utilisateur, av.no_article, av.nom_article, av.description, "
-				+ "convert(varchar, date_debut_encheres, 103) as date_debut_encheres, "
-				+ "convert(varchar, date_fin_encheres, 103) as date_fin_encheres, c.*, "
-				+ "convert(varchar, date_enchere, 103) as date_enchere, COALESCE"
-				+ "((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),0) "
-				+ "as enchere_max "
+		sb.append("SELECT av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
+				+ "date_fin_encheres, c.*, " + "e.date_enchere, montant_enchere as enchere_max  "
 				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
 				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
 		boolean byFin = false;
@@ -399,9 +395,11 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 
 				} else if (encheresRemportees != null) {
 					sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur()
-							+ " AND av.date_fin_encheres < GETDATE() ");
-
+							+ "AND av.date_fin_encheres < GETDATE() ");
 				}
+				sb.append("AND e.montant_enchere = " + "COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 "
+						+ "WHERE e2.no_article = av.no_article),0) ");
+
 				// ********************CATEGORIE************************
 				if (!categorie.equals("Toutes")) {
 					sb.append("AND c.libelle = '" + categorie + "' ");
@@ -417,7 +415,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				System.out.println(sb);
 
 			} else if (choice.equals("Ventes")) {
-				
+
 				sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
 				if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
 					byFin = true;
@@ -437,6 +435,10 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 					sb.append("AND av.date_fin_encheres < GETDATE() ");
 					byFin = true;
 				}
+
+				sb.append("AND e.montant_enchere = " + "COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 "
+						+ "WHERE e2.no_article = av.no_article),0) ");
+
 				// *****************CATEGORIE
 				if (!categorie.equals("Toutes")) {
 					sb.append("AND c.libelle = '" + categorie + "' ");
@@ -482,7 +484,71 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 
 				article.setDateFinEncheres(
 						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
-				article.setDateDebutEncheres((new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
+				article.setDateDebutEncheres(
+						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
+				article.setDescription(rs.getString("description"));
+				article.setNomArticle(rs.getString("nom_article"));
+				article.setPrixInitial(rs.getInt("enchere_max"));
+				Utilisateur vendeur = new Utilisateur();
+				vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				article.setUtilisateurVendeur(new UtilisateurImpl().selectUserById(vendeur));
+				articlesRecherche.add(article);
+
+			}
+			return articlesRecherche;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+
+		return articlesRecherche;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectByFiltresDeconnecte(String categorie, String recherche) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
+				+ "date_fin_encheres, c.*, " + "e.date_enchere, montant_enchere as enchere_max  "
+				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
+				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 "
+				+ "AND av.date_fin_encheres > GETDATE() ");
+	
+			if (!categorie.equals("Toutes")) {
+				sb.append("AND c.libelle = '" + categorie + "' ");
+			}
+			System.out.println("coucou1");
+			System.out.println(recherche);
+			if (!recherche.isBlank() || recherche == null) {
+				sb.append("AND nom_article LIKE '%" + recherche + "%' ");
+				
+			}
+			sb.append("ORDER BY av.date_fin_encheres;");
+		
+		System.out.println(sb);
+		String SQL_RECHERCHE = sb.toString();
+		// *********************EXECUTION DE LA REQUETE SQL**************
+
+		Connection cnx;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		List<ArticleVendu> articlesRecherche = new ArrayList<>();
+		cnx = ConnectionProvider.getConnection();
+
+		try {
+			pstmt = cnx.prepareStatement(SQL_RECHERCHE);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ArticleVendu article = new ArticleVendu();
+				article.setNoArticle(rs.getInt("no_article"));
+				article.setCategorie((new CategorieImpl()).selectById(rs.getInt("no_categorie")));
+
+				article.setDateFinEncheres(
+						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
+				article.setDateDebutEncheres(
+						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
 				article.setPrixInitial(rs.getInt("enchere_max"));
