@@ -58,9 +58,6 @@ public class AccueilServlet extends HttpServlet {
 		CategorieManager cm = CategorieManager.getInstance();
 		List<Categorie> categories = cm.selectAllCategorie();
 		request.setAttribute("categories", categories);
-
-		//
-
 		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 	}
 
@@ -80,36 +77,38 @@ public class AccueilServlet extends HttpServlet {
 				isConnected = false;
 				session.setAttribute("connected", false);
 				System.out.println("deconnecté");
+				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 			} else {
 				isConnected = true;
 				session.setAttribute("connected", true);
+				// ********************************************************
+				String categorie = request.getParameter("categories");
+				String recherche = request.getParameter("recherche");
+				String choice = request.getParameter("choice");
+				String ventesEnCours = request.getParameter("ventesencours");
+				String ventesNonDebutees = request.getParameter("ventesnondebutees");
+				String ventesTerminees = request.getParameter("ventesTerminees");
+				String encheresOuvertes = request.getParameter("enchouvertes");
+				String encheresEnCours = request.getParameter("enchencours");
+				String encheresRemportees = request.getParameter("enchremportees");
+				ArticleVenduManager avm = ArticleVenduManager.getInstance();
+				
+				
+				List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
+				CategorieManager cm = CategorieManager.getInstance();
+				List<Categorie> categories = cm.selectAllCategorie();
+				request.setAttribute("categories", categories);
+				request.setAttribute("liste", articlesRecherche);
+				
+				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 			}
 
 		} else {
 			isConnected = false;
 			request.setAttribute("connected", false);
+			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 		}
 
-		// ********************************************************
-		String categorie = request.getParameter("categories");
-		String recherche = request.getParameter("recherche");
-		String choice = request.getParameter("choice");
-		String ventesEnCours = request.getParameter("ventesencours");
-		String ventesNonDebutees = request.getParameter("ventesnondebutees");
-		String ventesTerminees = request.getParameter("ventesTerminees");
-		String encheresOuvertes = request.getParameter("enchouvertes");
-		String encheresEnCours = request.getParameter("enchencours");
-		String encheresRemportees = request.getParameter("enchremportees");
-		ArticleVenduManager avm = ArticleVenduManager.getInstance();
-		
-		
-		List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
-		CategorieManager cm = CategorieManager.getInstance();
-		List<Categorie> categories = cm.selectAllCategorie();
-		request.setAttribute("categories", categories);
-		request.setAttribute("liste", articlesRecherche);
-		
-		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 
 		
 		
