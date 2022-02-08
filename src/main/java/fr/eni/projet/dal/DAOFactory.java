@@ -2,6 +2,7 @@ package fr.eni.projet.dal;
 
 import fr.eni.projet.dal.jdbcImplement.ArticleVenduImpl;
 import fr.eni.projet.dal.jdbcImplement.CategorieImpl;
+import fr.eni.projet.dal.jdbcImplement.EnchereImpl;
 import fr.eni.projet.dal.jdbcImplement.RetraitImpl;
 import fr.eni.projet.dal.jdbcImplement.UtilisateurImpl;
 
@@ -21,6 +22,10 @@ public class DAOFactory {
 	public static RetraitDAO createNewRetraitImpl() {
 
 		return new RetraitImpl();
+	}
+	
+	public static EnchereDAO createNewEnchereImpl() {
+		return new EnchereImpl();
 	}
 
 }

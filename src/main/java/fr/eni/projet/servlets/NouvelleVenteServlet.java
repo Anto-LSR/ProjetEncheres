@@ -17,8 +17,12 @@ import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bll.CategorieManager;
+import fr.eni.projet.bll.EnchereManager;
 import fr.eni.projet.bll.InputError;
+import fr.eni.projet.bll.RetraitManager;
 import fr.eni.projet.bo.Categorie;
+import fr.eni.projet.bo.Enchere;
+import fr.eni.projet.bo.Retrait;
 
 /**
  * Servlet implementation class NouvelleVenteServlet
@@ -104,17 +108,34 @@ public class NouvelleVenteServlet extends HttpServlet {
 			LocalDate dateFin = LocalDate.parse(dateFinEnchere);
 			newArticle.setDateFinEncheres(dateFin);
 			newArticle.setPrixInitial(Integer.valueOf(prixInitial));
+			newArticle.setPrixVente(Integer.valueOf(prixInitial));
 			Categorie cat = new Categorie();
 			cat.setLibelle(categorie);
 			newArticle.setUtilisateurVendeur(utilisateur);
 			CategorieManager cm = CategorieManager.getInstance();
 			cat = cm.selectByLibelle(cat);
 			newArticle.setCategorie(cat);
-			
+
+			String rue = request.getParameter("rue");
+			String codePostal = request.getParameter("codepostal");
+			String ville = request.getParameter("ville");
+
+			Retrait retrait = new Retrait();
+
+			retrait.setCodePostal(codePostal);
+			retrait.setRue(rue);
+			retrait.setVille(ville);
+			RetraitManager rm = RetraitManager.getInstance();
+
+			Enchere enchere = new Enchere();
+			enchere.setDateEnchere(dateDebut);
+			enchere.setMontantEnchere(Integer.valueOf(prixInitial));
+			enchere.setUtilisateur(utilisateur);
+			EnchereManager em = EnchereManager.getInstance();
+
 			ArticleVenduManager av = ArticleVenduManager.getInstance();
 			List<InputError> errors = av.verifDate(newArticle);
-			
-		
+
 			if (!errors.isEmpty()) {
 				for (InputError err : errors) {
 					if (err.getNom().equals("debutAfterFin")) {
@@ -126,16 +147,16 @@ public class NouvelleVenteServlet extends HttpServlet {
 					if (err.getNom().equals("finBeforeToday")) {
 						request.setAttribute("finBeforeToday", err.getDescription());
 					}
-					if(err.getNom().equals("nomNull")) {
+					if (err.getNom().equals("nomNull")) {
 						request.setAttribute("nomNull", err.getDescription());
 					}
-					if(err.getNom().equals("descNull")) {
+					if (err.getNom().equals("descNull")) {
 						request.setAttribute("descNull", err.getDescription());
 					}
 					if (err.getNom().equals("prixNull")) {
 						request.setAttribute("prixNull", err.getDescription());
 					}
-					if(err.getNom().equals("dateDebutNull")) {
+					if (err.getNom().equals("dateDebutNull")) {
 						request.setAttribute("dateDebutNull", err.getDescription());
 					}
 					if (err.getNom().equals("dateFinNull")) {
@@ -147,17 +168,24 @@ public class NouvelleVenteServlet extends HttpServlet {
 			if (cat.getNoCategorie() < 1) {
 				System.err.println("Erreur sur la categorie");
 				error = true;
-			} 
-			
-			if(!error) {
+			}
+
+			if (!error) {
 				int idArticle = av.insertArticle(newArticle);
+				newArticle.setNoArticle(idArticle);
+				retrait.setArticleVendu(newArticle);
+				rm.insertRetrait(retrait);
+
+				enchere.setArticlevendu(newArticle);
+				em.insertEnchere(enchere);
+
 				request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
-			}else {
+			} else {
 				request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 
 			}
 		}
-	
+
 	}
 
 }
