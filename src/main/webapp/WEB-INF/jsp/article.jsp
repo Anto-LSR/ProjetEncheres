@@ -11,29 +11,24 @@
 	<%@include file="headers/headervide.jsp"%>
 	<div class="container">
 		<main>
-			<div class="visuel_article_container">
-				<h1>${article.nomArticle}</h1>
+		<div class="search__div">
 
-				<ul>
-					<li><span class="fielname">Meilleure offre :</span></li>
-					<li><span class="fielname">Mise à prix :</span>
-						<p>${article.prixInitial}</p></li>
-					<li><span class="fielname">Fin de l'enchère :</span>
-						<p>${article.dateFinEncheres}</p></li>
-					<li><span class="fielname">Retrait :</span>
-						<p>${article.retrait}</p></li>
-					<li><span class="fielname">Vendeur :</span>
-					<p>${article.utilisateurVendeur}</li>
-				</ul>
+				<div class="visuel_article_container">
+					<h1>NOM ARTICLE</h1>
 
-				<div>
-					<div class="updateBtn__container">
-						<a href="${pageContext.request.contextPath }/"><button
-								class="updateBtn">Annuler la vente</button></a>
-					</div>
-					<div class="updateBtn__container">
-						<a href="${pageContext.request.contextPath }/"><button
-								class="updateBtn">Back</button></a>
+					<ul>
+						<li><span class="fielname">Meilleure offre :</span></li>
+						<li><span class="fielname">Mise à prix :</span></li>
+						<li><span class="fielname">Fin de l'enchère :</span></li>
+						<li><span class="fielname">Retrait :</span></li>
+						<li><span class="fielname">Vendeur :</span></li>
+					</ul>
+
+					<div>
+						<div class="updateBtn__container">
+							<a href="${pageContext.request.contextPath }/"><button
+									class="updateBtn">Annuler la vente</button></a>
+						</div>
 					</div>
 				</div>
 			</div>
