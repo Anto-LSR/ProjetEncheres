@@ -131,6 +131,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
               <div class="articleInfo">
                 <ul>
+               
                   <li class="titreArticle">${art.nomArticle}</li>
 
                   <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>

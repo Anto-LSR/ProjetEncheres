@@ -417,8 +417,8 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				System.out.println(sb);
 
 			} else if (choice.equals("Ventes")) {
+				
 				sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
-
 				if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
 					byFin = true;
 				} else if (ventesEnCours != null && ventesNonDebutees != null) {
