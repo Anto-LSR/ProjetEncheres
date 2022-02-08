@@ -135,7 +135,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
                   <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
                   <li>Classement:</li>
-                  <li>Fin de l'enchère: ${art.formattedDateFinEnchere()}</li>
+                  <li>Début : ${art.formattedDateDebutEnchere()}</li>
+                  <li>Fin : ${art.formattedDateFinEnchere()}</li>
                   <li>Retrait:</li>
                   <li>Vendeur: ${art.utilisateurVendeur.nom }</li>
                 </ul>

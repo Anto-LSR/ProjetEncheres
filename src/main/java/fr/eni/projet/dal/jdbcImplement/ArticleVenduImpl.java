@@ -482,7 +482,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 
 				article.setDateFinEncheres(
 						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
-
+				article.setDateDebutEncheres((new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateDebutEncheres());
 				article.setDescription(rs.getString("description"));
 				article.setNomArticle(rs.getString("nom_article"));
 				article.setPrixInitial(rs.getInt("enchere_max"));
