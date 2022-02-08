@@ -31,7 +31,7 @@
 					</c:if>
 					<div class="input__container">
 						<label for="categorie">Catégorie:</label> <select name="categorie"
-							id="pet-select">
+							id="categorie">
 							<option value="">--Choisir une catégorie--</option>
 							<c:forEach items="${categories}" var="cat">
 								<option name="categorie">${cat.libelle }</option>
@@ -107,14 +107,15 @@
 
 					</div>
 					<div class="buttons__container">
-						<button type="submit" class="venteButtons">Créer</button>
+						<button type="submit" class="venteButtons "id="confirmBtn">Créer</button>
 						<a href="${pageContext.request.contextPath }/"><button
-								type="button" class="venteButtons">Annuler</button></a>
+								type="button" class="venteButtons" >Annuler</button></a>
 					</div>
 				</form>
 			</div>
 		</main>
 	</div>
+	<script src="${pageContext.request.contextPath }/js/nouvelleVente.js"></script>
 </body>
 </html>
 
