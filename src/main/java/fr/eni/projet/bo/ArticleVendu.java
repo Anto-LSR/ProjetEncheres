@@ -1,11 +1,8 @@
 package fr.eni.projet.bo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.eni.projet.dal.jdbcImplement.ArticleVenduImpl;
 
 public class ArticleVendu {
 	private int noArticle;
@@ -76,11 +73,7 @@ public class ArticleVendu {
 	}
 
 	public void setDateFinEncheres(LocalDate dateFinEncheres) {
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-		String text = dateFinEncheres.format(formatter);
-		LocalDate parsedDate = LocalDate.parse(text, formatter);
-		this.dateFinEncheres = parsedDate;
+		this.dateFinEncheres = dateFinEncheres;
 	}
 
 	public int getPrixInitial() {
