@@ -123,4 +123,15 @@ public class ArticleVenduManager {
 	return errors;
 	}
 	
+	public List<ArticleVendu> selectByFiltres(String categorie, String recherche, String choice, String ventesEnCours,
+			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
+			String encheresRemportees, Utilisateur utilisateur){
+		List<ArticleVendu> articles = new ArrayList<>();
+		ArticleVenduDAO av = DAOFactory.createNewArticleVenduImpl();
+		articles = av.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
+		
+		return articles;
+	
+	}
+	
 }

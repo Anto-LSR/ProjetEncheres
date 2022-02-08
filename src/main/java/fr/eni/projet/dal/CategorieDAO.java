@@ -15,4 +15,6 @@ public interface CategorieDAO {
 	public List<Categorie> selectAllCategorie();
 
 	public Categorie selectByLibelle(Categorie categorie);
+	
+	public Categorie selectById(int id);
 }

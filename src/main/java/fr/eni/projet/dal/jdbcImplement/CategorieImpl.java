@@ -19,7 +19,7 @@ public class CategorieImpl implements CategorieDAO {
 	private final static String SQL_DELETE = "DELETE FROM CATEGORIES WHERE no_categorie = ?;";
 	private final static String SQL_SELECTALL = "  SELECT * FROM CATEGORIES ;";
 	private final static String SQL_SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle = ? ;";
-
+	private final static String SQL_SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ? ;";
 
 	@Override
 	public int insertCategorie(Categorie categorie) {
@@ -132,30 +132,56 @@ public class CategorieImpl implements CategorieDAO {
 
 		return null;
 	}
-public Categorie selectByLibelle(Categorie categorie){
-	Connection cnx = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	Categorie cat = new Categorie();
 
-	try {
-		cnx = ConnectionProvider.getConnection();
-		pstmt = cnx.prepareStatement(SQL_SELECT_BY_LIBELLE);
-		pstmt.setString(1, categorie.getLibelle());
-		rs = pstmt.executeQuery();
-		
-		if(rs.next()) {
-			cat.setNoCategorie(rs.getInt("no_categorie"));
-			cat.setLibelle(rs.getString("libelle"));
+	public Categorie selectByLibelle(Categorie categorie) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Categorie cat = new Categorie();
+
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_LIBELLE);
+			pstmt.setString(1, categorie.getLibelle());
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				cat.setNoCategorie(rs.getInt("no_categorie"));
+				cat.setLibelle(rs.getString("libelle"));
+			}
+			return cat;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
-		return cat;
-	} catch (SQLException e) {
-		e.printStackTrace();
-	} finally {
-		ConnectionProvider.closeConnection(cnx, pstmt);
+
+		return null;
 	}
 	
-	
-	return null;
-}
+	public Categorie selectById(int id) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Categorie cat = new Categorie();
+
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_ID);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				cat.setNoCategorie(rs.getInt("no_categorie"));
+				cat.setLibelle(rs.getString("libelle"));
+			}
+			return cat;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+
+		return null;
+	}
 }

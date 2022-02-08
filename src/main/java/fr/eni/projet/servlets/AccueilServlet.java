@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bll.CategorieManager;
+import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Categorie;
 import fr.eni.projet.bo.Utilisateur;
 
@@ -35,9 +37,9 @@ public class AccueilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+
 		boolean isConnected = true;
-		
+
 		if (session != null) {
 			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 			if (utilisateur == null) {
@@ -54,8 +56,10 @@ public class AccueilServlet extends HttpServlet {
 			request.setAttribute("connected", false);
 		}
 		CategorieManager cm = CategorieManager.getInstance();
-		List<Categorie>categories = cm.selectAllCategorie();
+		List<Categorie> categories = cm.selectAllCategorie();
 		request.setAttribute("categories", categories);
+
+		//
 
 		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 	}
@@ -66,8 +70,47 @@ public class AccueilServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		Utilisateur utilisateur = null;
+		boolean isConnected = true;
+
+		if (session != null) {
+			utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			if (utilisateur == null) {
+				isConnected = false;
+				session.setAttribute("connected", false);
+				System.out.println("deconnecté");
+			} else {
+				isConnected = true;
+				session.setAttribute("connected", true);
+			}
+
+		} else {
+			isConnected = false;
+			request.setAttribute("connected", false);
+		}
+
+		// ********************************************************
+		String categorie = request.getParameter("categories");
+		String recherche = request.getParameter("recherche");
+		String choice = request.getParameter("choice");
+		String ventesEnCours = request.getParameter("ventesencours");
+		String ventesNonDebutees = request.getParameter("ventesnondebutees");
+		String ventesTerminees = request.getParameter("ventesTerminees");
+		String encheresOuvertes = request.getParameter("enchouvertes");
+		String encheresEnCours = request.getParameter("enchencours");
+		String encheresRemportees = request.getParameter("enchremportees");
+		ArticleVenduManager avm = ArticleVenduManager.getInstance();
+		
+		List<ArticleVendu>articlesRecherche = avm.selectByFiltres(categorie, recherche, choice, ventesEnCours, ventesNonDebutees, ventesTerminees, encheresOuvertes, encheresEnCours, encheresRemportees, utilisateur);
+		
+		request.setAttribute("liste", articlesRecherche);
+		
+		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+
+		
+		
+
 	}
 
 }

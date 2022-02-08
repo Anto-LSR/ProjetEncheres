@@ -14,6 +14,7 @@ import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Categorie;
 import fr.eni.projet.bo.Utilisateur;
 import fr.eni.projet.dal.ArticleVenduDAO;
+import fr.eni.projet.dal.CategorieDAO;
 
 public class ArticleVenduImpl implements ArticleVenduDAO {
 
@@ -26,6 +27,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_DATE_FIN = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() ORDER BY date_fin_encheres ASC  ";
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur= ?;";
 	private final static String SQL_SELECT_BY_MES_VENTES_EN_COURS = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() AND no_utilisateur = ?;";
+	private final static String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
 
 	@Override
 	public int insertArticle(ArticleVendu articleVendu) {
@@ -321,13 +323,13 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		ArticleVendu article = new ArticleVendu();
 		Categorie categorie = new Categorie();
 		List<ArticleVendu> liste_mes_ventes_en_cours = new ArrayList<>();
-		
+
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_SELECT_BY_MES_VENTES_EN_COURS);
 			pstmt.setInt(1, utilisateur.getNoUtilisateur());
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
@@ -341,7 +343,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				article.setUtilisateurVendeur(utilisateur);
 				categorie.setNoCategorie(rs.getInt(9));
 				article.setCategorie(categorie);
-				
+
 				liste_mes_ventes_en_cours.add(article);
 			}
 			return liste_mes_ventes_en_cours;
@@ -350,8 +352,172 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 		} finally {
 			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
+
+		return null;
+	}
+
+	@Override
+	public List<ArticleVendu> selectByFiltres(String categorie, String recherche, String choice, String ventesEnCours,
+			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
+			String encheresRemportees, Utilisateur utilisateur) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT *, COALESCE"
+				+ "((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),0) "
+				+ "as enchere_max "
+				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
+				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
+		boolean byFin = false;
+		if (choice.equals("Achats")) {
+
+			// *******************CASES COCHEES *****************************
+			if (encheresOuvertes != null && encheresEnCours != null && encheresRemportees != null) {
+				sb.append("");
+
+			} else if ((encheresOuvertes != null && encheresEnCours != null)) {
+				sb.append("AND av.date_fin_encheres > GETDATE() ");
+
+			} else if (encheresOuvertes != null && encheresRemportees != null) {
+				sb.append("");
+
+			} else if (encheresEnCours != null && encheresRemportees != null) {
+				sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
+
+			} else if (encheresOuvertes != null) {
+				sb.append("AND av.date_fin_encheres > GETDATE() ");
+
+			} else if (encheresEnCours != null) {
+				sb.append(("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur() + " " + "AND date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE()"));
+
+			} else if (encheresRemportees != null) {
+				sb.append("AND e.no_utilisateur = " + utilisateur.getNoUtilisateur()
+						+ " AND av.date_fin_encheres < GETDATE() ");
+
+			}
+			// ********************CATEGORIE************************
+			if (!categorie.equals("Toutes")) {
+				sb.append("AND c.libelle = '" + categorie + "' ");
+			}
+
+			if (!recherche.isBlank()) {
+				sb.append("AND nom_article LIKE '%" + recherche + "%' ");
+			}
+
+			sb.append("ORDER  BY av.no_article;");
+
+			// **************************************************
+			System.out.println(sb);
+
+		} else if (choice.equals("Ventes")) {
+			sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
+
+			if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
+				byFin = true;
+			} else if (ventesEnCours != null && ventesNonDebutees != null) {
+				sb.append("AND av.date_fin_encheres > GETDATE() ");
+			} else if (ventesNonDebutees != null && ventesTerminees != null) {
+				sb.append("AND av.date_debut_encheres > GETDATE() OR av.date_fin_encheres < GETDATE() ");
+				byFin = true;
+			} else if (ventesEnCours != null && ventesTerminees != null) {
+				sb.append("AND av.date_debut_encheres < GETDATE() ");
+			} else if (ventesEnCours != null) {
+				sb.append("AND av.date_fin_encheres> GETDATE() AND av.date_debut_encheres <= GETDATE() ");
+				byFin = true;
+			} else if (ventesNonDebutees != null) {
+				sb.append("AND av.date_debut_encheres > GETDATE() ");
+			} else if (ventesTerminees != null) {
+				sb.append("AND av.date_fin_encheres < GETDATE() ");
+				byFin = true;
+			}
+			// *****************CATEGORIE
+			if (!categorie.equals("Toutes")) {
+				sb.append("AND c.libelle = '" + categorie + "' ");
+			}
+
+			if (!recherche.isBlank()) {
+				sb.append("AND nom_article LIKE '%" + recherche + "%' ");
+			}
+			// ***************
+			if (byFin) {
+				sb.append("ORDER BY av.date_fin_encheres;");
+			} else {
+				sb.append("ORDER BY av.date_debut_encheres;");
+			}
+			System.out.println(sb);
+		}
+		String SQL_RECHERCHE = sb.toString();
+		// *********************EXECUTION DE LA REQUETE SQL**************
 		
-		
+		Connection cnx;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		List<ArticleVendu> articlesRecherche = new ArrayList<>();
+		cnx = ConnectionProvider.getConnection();
+
+		try {
+			pstmt = cnx.prepareStatement(SQL_RECHERCHE);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ArticleVendu article = new ArticleVendu();
+				article.setNoArticle(rs.getInt("no_article"));
+				article.setCategorie((new CategorieImpl()).selectById(rs.getInt("no_categorie")));
+				article.setDateFinEncheres(
+						(new ArticleVenduImpl()).selectById(article.getNoArticle()).getDateFinEncheres());
+				article.setDescription(rs.getString("description"));
+				article.setNomArticle(rs.getString("nom_article"));
+				article.setPrixInitial(rs.getInt("enchere_max"));
+				Utilisateur vendeur = new Utilisateur();
+				vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				article.setUtilisateurVendeur(new UtilisateurImpl().selectUserById(vendeur));
+				articlesRecherche.add(article);
+
+			}
+			return articlesRecherche;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+
+		return articlesRecherche;
+	}
+
+	@Override
+	public ArticleVendu selectById(int id) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArticleVendu articleVendu = new ArticleVendu();
+
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_ID);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				articleVendu.setNoArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				Utilisateur utilisateur = new Utilisateur();
+				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				articleVendu.setUtilisateurVendeur(utilisateur);
+				Categorie categorie = new Categorie();
+				categorie.setNoCategorie(rs.getInt("no_categorie"));
+				articleVendu.setCategorie(categorie);
+
+				return articleVendu;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
 		return null;
 	}
 

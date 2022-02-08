@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         
         
         
-          <form class="search__div">
+          <form class="search__div" method="post" action="<%=request.getContextPath()%>/accueil">
             <div class="filter__div">
               <h3>Filtres :</h3>
               <div class="radiomenu">
@@ -97,7 +97,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             <div class="searchForm">
               <div class="filterDiv">
                 <label for="categories">Catégories : </label>
-                <select id="categories">
+                <select id="categories" name="categories">
+                <option name="categorie">Toutes</option>
                   <c:forEach items="${categories}" var="cat">
                     <option name="categorie">${cat.libelle }</option>
                   </c:forEach>
@@ -106,7 +107,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
               <input
                 type="text"
                 placeholder="Le nom de l'article contient..."
-              />
+              name="recherche"/>
               <button type="submit" class="searchBtn">Rechercher</button>
             </div>
           </form>
@@ -117,6 +118,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
           
         </div>
           <div class="articles__container">
+            <c:forEach items="${liste}" var="art">
+            
+            
             <div class="article">
               <div class="img__container">
                 <img
@@ -127,16 +131,17 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
               <div class="articleInfo">
                 <ul>
-                  <li class="titreArticle">Nom de l'article</li>
+                  <li class="titreArticle">${art.nomArticle}</li>
 
-                  <li id="priceLi">Prix:<span id="priceSpan">45</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
+                  <li id="priceLi">Prix:<span id="priceSpan">${art.prixInitial}</span><img src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
                   <li>Classement:</li>
-                  <li>Fin de l'enchère:</li>
+                  <li>Fin de l'enchère: ${art.dateFinEncheres}</li>
                   <li>Retrait:</li>
-                  <li>Vendeur:</li>
+                  <li>Vendeur: ${art.utilisateurVendeur.nom }</li>
                 </ul>
               </div>
             </div>
+            </c:forEach>
           </div>
       </main>
     </div>
