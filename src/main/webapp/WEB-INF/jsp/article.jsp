@@ -16,11 +16,10 @@
 		<div class="search__div">
 
 				<div class="visuel_article_container">
-<<<<<<< HEAD
+
 					<h1>${article.nomArticle}</h1>
-=======
-					<h1>${article.nomArticle }</h1>
->>>>>>> branch 'main' of https://github.com/Anto-LSR/ProjetEncheres
+
+
 
 					<ul>
 						<li><span class="fielname">Meilleure offre : </span></li>
