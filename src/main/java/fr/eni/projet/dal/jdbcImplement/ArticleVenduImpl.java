@@ -376,16 +376,16 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 			String ventesNonDebutees, String ventesTerminees, String encheresOuvertes, String encheresEnCours,
 			String encheresRemportees, Utilisateur utilisateur) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT av.prix_initial, av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
-				+ "date_fin_encheres, c.*, " + "e.date_enchere, COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),av.prix_initial) as enchere_max  "
-				+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
-				+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
+	
 		boolean byFin = false;
 
 		if (choice != null) {
 
 			if (choice.equals("Achats")) {
-
+				sb.append("SELECT av.prix_initial, av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
+						+ "date_fin_encheres, c.*, " + "e.date_enchere, COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),av.prix_initial) as enchere_max  "
+						+ "FROM ARTICLES_VENDUS as av LEFT JOIN ENCHERES as e ON av.no_article = e.no_article "
+						+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 ");
 				// *******************CASES COCHEES *****************************
 				if (encheresOuvertes != null && encheresEnCours != null && encheresRemportees != null) {
 					sb.append("");
@@ -428,14 +428,18 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 				System.out.println(sb);
 
 			} else if (choice.equals("Ventes")) {
-
-				sb.append("AND av.no_utilisateur = " + utilisateur.getNoUtilisateur() + " ");
+				sb.append("SELECT av.prix_initial, av.no_utilisateur, av.no_article, av.nom_article, av.description, " + "date_debut_encheres, "
+						+ "date_fin_encheres, c.*, " + " COALESCE((SELECT MAX(montant_enchere) FROM ENCHERES e2 WHERE e2.no_article = av.no_article),av.prix_initial) as enchere_max  "
+						+ "FROM ARTICLES_VENDUS as av "
+						+ "INNER JOIN CATEGORIES as c ON av.no_categorie = c.no_categorie WHERE 1=1 "
+						+ "AND av.no_utilisateur = " + utilisateur.getNoUtilisateur());
+			
 				if (ventesEnCours != null && ventesNonDebutees != null && ventesTerminees != null) {
 					byFin = true;
 				} else if (ventesEnCours != null && ventesNonDebutees != null) {
 					sb.append("AND av.date_fin_encheres > GETDATE() ");
 				} else if (ventesNonDebutees != null && ventesTerminees != null) {
-					sb.append("AND av.date_debut_encheres > GETDATE() OR av.date_fin_encheres < GETDATE() ");
+					sb.append("AND (av.date_debut_encheres > GETDATE() OR av.date_fin_encheres < GETDATE()) ");
 					byFin = true;
 				} else if (ventesEnCours != null && ventesTerminees != null) {
 					sb.append("AND av.date_debut_encheres < GETDATE() ");
