@@ -69,6 +69,8 @@ public class ArticleServlet extends HttpServlet {
 		LocalDate today = LocalDate.now();
 		LocalDate dateFin = article.getDateFinEncheres();
 		String Fin = Tools.convertFormatDate(dateFin);
+		String NomWinner = utilisateur.getNom();
+		request.setAttribute("NomWinner", NomWinner);
 		request.setAttribute("Fin", Fin);
 		request.setAttribute("today", today);
 		System.out.println(utilisateur.getCredit());
