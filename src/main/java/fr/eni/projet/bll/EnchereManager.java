@@ -1,5 +1,6 @@
 package fr.eni.projet.bll;
 
+import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Enchere;
 import fr.eni.projet.dal.DAOFactory;
 import fr.eni.projet.dal.EnchereDAO;
@@ -21,6 +22,13 @@ public class EnchereManager {
 	public void insertEnchere(Enchere enchere) {
 		EnchereDAO ed = DAOFactory.createNewEnchereImpl();
 		ed.insertEnchere(enchere);
+	}
+	
+	public Enchere selectByNumArticle( Enchere enchere) {
+		EnchereDAO ed = DAOFactory.createNewEnchereImpl();
+		enchere = ed.selectbyNumArticle(enchere);
+		
+		return enchere;
 	}
 	
 }

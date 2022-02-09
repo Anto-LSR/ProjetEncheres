@@ -29,7 +29,6 @@
 
 
 					<ul>
-
 						<li class="fielname">Description : <span>
 								${article.description}</span></li>
 						<li class="fielname">Categorie : <span>
@@ -70,6 +69,7 @@
 						<c:if test="${ article.utilisateurVendeur.noUtilisateur == utilisateur.noUtilisateur && article.dateDebutEncheres > today}">
 						<button type="submit">Annuler la vente</button>
 						</c:if>
+
 					</ul>
 
 					<div>

@@ -108,7 +108,8 @@
 								<li>Début : ${art.formattedDateDebutEnchere()}</li>
 								<li>Fin : ${art.formattedDateFinEnchere()}</li>
 								<li>Retrait:</li>
-								<li><a
+								<li>
+								<a
 									href="${pageContext.request.contextPath}/membres?no_utilisateur=${art.utilisateurVendeur.noUtilisateur}">Vendeur:
 										${art.utilisateurVendeur.nom }</a></li>
 							</ul>

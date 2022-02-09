@@ -21,7 +21,7 @@ public class EnchereImpl implements EnchereDAO {
 	private static final String SQL_INSERT = "INSERT INTO Encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?,?,?,?);";
 	private static final String SQL_SELECT_ALL_ENCHERES = "SELECT * FROM Encheres;";
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM Encheres WHERE no_utilisateur= ?;";
-	
+	private final static String SQL_SELECT_BY_ARTICLE = "SELECT top 1  * FROM ENCHERES  WHERE no_article = ?  order by montant_enchere  desc;";
 	@Override
 	public void insertEnchere(Enchere enchere) {
 		Connection cnx = null;
@@ -37,7 +37,7 @@ public class EnchereImpl implements EnchereDAO {
 
 			int nbLigne = pstmt.executeUpdate();
 			if (nbLigne != 1) {
-				System.err.println("ERREUR SUR L'INSERTION D'UN RETRAIT");
+				System.err.println("ERREUR SUR L'INSERTION D'UNE ENCHERE");
 			}
 
 		} catch (SQLException e) {
@@ -90,9 +90,35 @@ public class EnchereImpl implements EnchereDAO {
 
 	
 	@Override
-	public Enchere selectbyNumArticle(Enchere enchere) {
-		// TODO Auto-generated method stub
-		return null;
+	public Enchere selectbyNumArticle(Enchere enchereParam) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Enchere enchere = new Enchere();
+		
+		cnx = ConnectionProvider.getConnection();
+		
+		try {
+			pstmt = cnx.prepareStatement(SQL_SELECT_BY_ARTICLE);
+			pstmt.setInt(1, enchereParam.getArticlevendu().getNoArticle());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				Utilisateur acheteur = new Utilisateur();
+				acheteur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				enchere.setUtilisateur(acheteur);
+				ArticleVendu article = new ArticleVendu();
+				article.setNoArticle(rs.getInt("no_article"));
+				enchere.setArticlevendu(article);
+				enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+				
+			}
+			return enchere;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return enchere;
 	}
 
 	@Override
