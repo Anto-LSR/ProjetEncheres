@@ -16,7 +16,7 @@
 		<div class="search__div">
 
 				<div class="visuel_article_container">
-					<h1>${article.NomArticle }</h1>
+					<h1>${article.nomArticle }</h1>
 
 					<ul>
 						<li><span class="fielname">Meilleure offre : </span></li>
