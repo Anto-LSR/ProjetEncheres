@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +16,10 @@
 		<div class="search__div">
 
 				<div class="visuel_article_container">
-					<h1>NOM ARTICLE</h1>
+					<h1>${article.NomArticle }</h1>
 
 					<ul>
-						<li><span class="fielname">Meilleure offre :</span></li>
+						<li><span class="fielname">Meilleure offre : </span></li>
 						<li><span class="fielname">Mise à prix :</span></li>
 						<li><span class="fielname">Fin de l'enchère :</span></li>
 						<li><span class="fielname">Retrait :</span></li>

@@ -4,19 +4,15 @@
 let article = document.getElementById("article");
 let description = document.getElementById("description")
 let prixInitial = document.getElementById("prixInitial")
-
 let rueField = document.getElementById("rue");
 let codePostalField = document.getElementById("codepostal");
 let villeField = document.getElementById("ville");
-
 let fin = document.getElementById("finEnchere")
 let debut = document.getElementById("debEnchere")
-
 let confirmBtn = document.getElementById("confirmBtn");
-
 let page = document.querySelector(".container");
-
 let categorie = document.getElementById("categorie")
+
 
 page.addEventListener("click", () => {
 	verifInput();
@@ -25,7 +21,9 @@ page.addEventListener("click", () => {
 page.addEventListener("keydown", () => {
 	verifInput();
 });
+
 let error = false;
+
 function verifInput() {
 	error = false;
 	verifPrixInitial()
