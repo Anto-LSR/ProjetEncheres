@@ -18,7 +18,7 @@
 			<img id="logo" src="${pageContext.request.contextPath }/assets/img/logotest.png">
 		</a>
 			<div class="wallet">
-				<img src="${pageContext.request.contextPath }/assets/img/coin.png">${utilisateur.credit }
+				<img src="${pageContext.request.contextPath }/assets/img/coin.png">${utilisateur.credit}
 			</div>
 		<ul>
 			<li><a href="${pageContext.request.contextPath }/nouvellevente">Vendre

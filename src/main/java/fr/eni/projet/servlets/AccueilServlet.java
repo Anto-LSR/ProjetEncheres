@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bll.CategorieManager;
+import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Categorie;
 import fr.eni.projet.bo.Utilisateur;
@@ -45,8 +46,10 @@ public class AccueilServlet extends HttpServlet {
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
-				System.out.println("deconnecté");
+				
 			} else {
+				UtilisateurManager um = UtilisateurManager.getInstance();
+				utilisateur = um.selectUserById(utilisateur);
 				isConnected = true;
 				session.setAttribute("connected", true);
 			}

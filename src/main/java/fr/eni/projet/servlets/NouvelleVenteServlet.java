@@ -20,6 +20,7 @@ import fr.eni.projet.bll.CategorieManager;
 import fr.eni.projet.bll.EnchereManager;
 import fr.eni.projet.bll.InputError;
 import fr.eni.projet.bll.RetraitManager;
+import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.Categorie;
 import fr.eni.projet.bo.Enchere;
 import fr.eni.projet.bo.Retrait;
@@ -56,10 +57,13 @@ public class NouvelleVenteServlet extends HttpServlet {
 				isConnected = false;
 				session.setAttribute("connected", false);
 			} else {
+				UtilisateurManager um = UtilisateurManager.getInstance();
+				utilisateur = um.selectUserById(utilisateur);
 				isConnected = true;
 				session.setAttribute("connected", true);
 			}
 		} else {
+			
 			isConnected = false;
 			request.setAttribute("connected", false);
 		}

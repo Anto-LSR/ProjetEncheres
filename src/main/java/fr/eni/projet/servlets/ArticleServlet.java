@@ -42,6 +42,7 @@ public class ArticleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Utilisateur utilisateur = null;
+		
 
 		boolean isConnected = true;
 
@@ -51,7 +52,9 @@ public class ArticleServlet extends HttpServlet {
 				isConnected = false;
 				session.setAttribute("connected", false);
 				System.out.println("déconnecté");
-			} else {
+			} else {				
+				UtilisateurManager um = UtilisateurManager.getInstance();
+				utilisateur = um.selectUserById(utilisateur);
 				isConnected = true;
 				session.setAttribute("connected", true);
 			}
