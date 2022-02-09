@@ -42,6 +42,8 @@ public class MembreServlet extends HttpServlet {
 				System.out.println("déconnecté");
 				
 			}else {
+				UtilisateurManager um = UtilisateurManager.getInstance();
+				utilisateur = um.selectUserById(utilisateur);
 				isConneced = true;
 				session.setAttribute("connected", true);
 			}

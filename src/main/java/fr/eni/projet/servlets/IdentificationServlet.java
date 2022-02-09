@@ -42,6 +42,8 @@ public class IdentificationServlet extends HttpServlet {
 				isConnected = false;
 				session.setAttribute("connected", false);
 			}else {
+				UtilisateurManager um = UtilisateurManager.getInstance();
+				utilisateur = um.selectUserById(utilisateur);
 				isConnected = true;
 				session.setAttribute("connected", true);
 			}
