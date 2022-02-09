@@ -34,7 +34,7 @@
 						<li class="fielname">Vendeur : <span> ${article.utilisateurVendeur.nom}</span></li>
 						
 						<c:if test = "${utilisateur.credit > article.prixVente}">
-						<form class="encherir" action ="${pageContext.request.contextPath }/article"  method="post">
+						<form class="encherir" action ="${pageContext.request.contextPath }/article?noArticle=${article.noArticle}"  method="post">
 						<li class="fielname">Ma proposition : <span><input type="number" id="proposition" name="proposition"
        						min="${article.prixVente}" max="${utilisateur.credit}" value="${article.prixVente}" > </span></li>
       					</form>
