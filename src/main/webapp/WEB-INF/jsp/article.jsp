@@ -53,7 +53,7 @@
 
 						<c:if test="${utilisateur.credit > article.prixVente && connected == true && article.utilisateurVendeur.noUtilisateur != utilisateur.noUtilisateur}">
 							<form class="encherir"
-								action="${pageContext.request.contextPath }/article"
+								action="${pageContext.request.contextPath }/article?noArticle=${article.noArticle}"
 								method="post">
 								<li class="fielname">Ma proposition : <input type="number"
 									id="proposition" name="proposition" min="${article.prixVente}"

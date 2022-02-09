@@ -22,6 +22,9 @@ public class EnchereImpl implements EnchereDAO {
 	private static final String SQL_SELECT_ALL_ENCHERES = "SELECT * FROM Encheres;";
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM Encheres WHERE no_utilisateur= ?;";
 	private final static String SQL_SELECT_BY_ARTICLE = "SELECT top 1  * FROM ENCHERES  WHERE no_article = ?  order by montant_enchere  desc;";
+	private final static String SQL_SELECT_MAX_ENCHERE_BY_USER = "SELECT TOP 1 * FROM ENCHERES WHERE no_article = ? AND no_utilisateur = ? ORDER BY montant_enchere desc;";
+
+	
 	@Override
 	public void insertEnchere(Enchere enchere) {
 		Connection cnx = null;
@@ -158,6 +161,39 @@ public class EnchereImpl implements EnchereDAO {
 		} finally {
 			ConnectionProvider.closeConnection(cnx, pstmt);
 		}	
+		return null;
+	}
+
+	@Override
+	public Enchere selectMaxByUser(Enchere enchere) {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Enchere ench = null;
+		
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_SELECT_MAX_ENCHERE_BY_USER);
+			pstmt.setInt(1, enchere.getArticlevendu().getNoArticle());
+			pstmt.setInt(2, enchere.getUtilisateur().getNoUtilisateur());
+			rs = pstmt.executeQuery();	
+			
+			if (rs.next()) {
+				ench = new Enchere();
+				ench.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+				ench.setArticlevendu((new ArticleVenduImpl()).selectById(enchere.getArticlevendu().getNoArticle()));
+				Utilisateur tool = new Utilisateur();
+				tool.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				ench.setUtilisateur(tool);
+				ench.setMontantEnchere(rs.getInt("montant_enchere"));
+			}
+			return ench;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+		
 		return null;
 	}
 

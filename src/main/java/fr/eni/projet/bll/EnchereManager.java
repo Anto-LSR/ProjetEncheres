@@ -31,4 +31,10 @@ public class EnchereManager {
 		return enchere;
 	}
 	
+	public Enchere selectMaxByUser(Enchere enchere) {
+		EnchereDAO ed = DAOFactory.createNewEnchereImpl();
+		enchere = ed.selectMaxByUser(enchere);
+		return enchere;
+	}
+	
 }

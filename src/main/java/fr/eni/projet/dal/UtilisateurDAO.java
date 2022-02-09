@@ -11,4 +11,5 @@ public interface UtilisateurDAO {
 	public Utilisateur updateUser(Utilisateur utilisateur); 
 	public void deleteUser(Utilisateur utilisateur);
 	public Utilisateur selectByLogin(Utilisateur utilisateur);
+	public void updateCredit (int newSolde, int userId);
 }

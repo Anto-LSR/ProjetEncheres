@@ -52,6 +52,11 @@ public class UtilisateurManager {
 		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
 		ud.deleteUser(utilisateur);
 	}
+	
+	public void updateCredit (int newSolde, int userId) {
+		UtilisateurDAO ud = DAOFactory.createNewUtilisateurImpl();
+		ud.updateCredit(newSolde, userId);
+	}
 
 	public List<InputError> verifUser(Utilisateur utilisateur) { // <-----------VERIFIER CONDITIONS ERREURS
 		List<InputError> errors = new ArrayList<>();

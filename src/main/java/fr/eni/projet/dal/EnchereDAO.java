@@ -14,5 +14,7 @@ public interface EnchereDAO {
 	public Enchere selectbyNumArticle(Enchere enchere);
 
 	public List<Enchere> selectByUtilisateur(Utilisateur utilisateur);
+	
+	public Enchere selectMaxByUser(Enchere enchere);
 
 }

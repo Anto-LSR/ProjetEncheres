@@ -22,7 +22,9 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
 	private final static String SQL_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
-
+	private final static String SQL_UPDATE_CREDITS = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?;";
+	
+	
 	@Override
 	public int insertUser(Utilisateur utilisateur) {
 		Connection cnx = null;
@@ -83,6 +85,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 				utilisateur.setRue(rs.getString("rue"));
 				utilisateur.setCodePostal(rs.getString("code_postal"));
 				utilisateur.setVille(rs.getString("ville"));
+				utilisateur.setCredit(rs.getInt("credit"));
 				return utilisateur;
 			}
 		} catch (SQLException e) {
@@ -245,4 +248,29 @@ public class UtilisateurImpl implements UtilisateurDAO {
 		return user;
 	}
 
+
+	
+	public void updateCredit (int newSolde, int userId) {
+		Connection cnx = null; 
+		PreparedStatement pstmt = null;
+
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SQL_UPDATE_CREDITS);
+			pstmt.setInt(1, newSolde);
+			pstmt.setInt(2, userId);
+			
+			
+			int nbLigne = pstmt.executeUpdate();
+			
+			if (nbLigne != 1) {
+				throw new SQLException();
+			}
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
+		}
+	}
 }
