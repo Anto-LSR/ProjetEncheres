@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.projet.bll.UtilisateurManager;
 import fr.eni.projet.bo.Utilisateur;
@@ -29,16 +30,41 @@ public class MembreServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Utilisateur utilisateur = null;
+		boolean isConneced = true;
+		
+		if (session != null) {
+			utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			if (utilisateur == null) {
+				isConneced = false;
+				session.setAttribute("connected", false);
+				System.out.println("déconnecté");
+				
+			}else {
+				isConneced = true;
+				session.setAttribute("connected", true);
+			}
+		}else {
+			isConneced = true;
+			request.setAttribute("connected", false);
+		}
+		if (isConneced == false) {
+			response.sendRedirect(request.getContextPath() + "/accueil");
+			System.out.println("Non Connecté page 'Membre' non accessible");
+		} else {
+		//************************************************************
+		
 		int userId = Integer.valueOf(request.getParameter("no_utilisateur"));
 		UtilisateurManager um = UtilisateurManager.getInstance();
-		Utilisateur utilisateur = new Utilisateur();
+		utilisateur = new Utilisateur();
 		utilisateur.setNoUtilisateur(userId);
 		utilisateur = um.selectUserById(utilisateur);
 		request.setAttribute("utilisateur", utilisateur);
 		System.out.println("coucou");
 		request.getRequestDispatcher("/WEB-INF/jsp/membre.jsp").forward(request, response);
 		
-		
+		}
 	}
 
 	/**

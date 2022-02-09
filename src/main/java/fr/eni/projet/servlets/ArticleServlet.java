@@ -1,6 +1,8 @@
 package fr.eni.projet.servlets;
 
 import java.io.IOException;
+import java.time.LocalDate;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import fr.eni.projet.bll.ArticleVenduManager;
 import fr.eni.projet.bo.ArticleVendu;
 import fr.eni.projet.bo.Utilisateur;
+import fr.eni.projet.helpers.Tools;
 
 /**
  * Servlet implementation class ArticleServlets
@@ -57,6 +60,11 @@ public class ArticleServlet extends HttpServlet {
 		ArticleVenduManager am = ArticleVenduManager.getInstance();
 		ArticleVendu article = am.selectByDetails(noArticle);
 		request.setAttribute("article", article);
+		LocalDate today = LocalDate.now();
+		LocalDate dateFin = article.getDateFinEncheres();
+		String Fin = Tools.convertFormatDate(dateFin);
+		request.setAttribute("Fin", Fin);
+		request.setAttribute("today", today);
 		
 		System.out.println(utilisateur.getCredit());
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);		

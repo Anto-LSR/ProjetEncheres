@@ -55,7 +55,10 @@ public class SupprimerCompteServlet extends HttpServlet {
 			isConnected = false;
 			request.setAttribute("connected", false);
 		}
-
+		if (isConnected == false) {
+			response.sendRedirect(request.getContextPath() + "/accueil");
+			System.out.println("Non Connecté page 'Supprimer Compte' non accessible");
+		}
 	}
 
 	/**
