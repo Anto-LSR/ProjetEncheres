@@ -56,6 +56,7 @@ public class ArticleServlet extends HttpServlet {
 		ArticleVenduManager am = ArticleVenduManager.getInstance();
 		ArticleVendu article = am.selectByDetails(noArticle);
 		request.setAttribute("article", article);
+		System.out.println(noArticle);
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);		
 	}
 
