@@ -32,11 +32,12 @@ public class ArticleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Utilisateur utilisateur = null;
 		
 		boolean isConnected = true; 
 		
 		if (session != null) {
-			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			 utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 			if (utilisateur == null) {
 				isConnected = false;
 				session.setAttribute("connected", false);
@@ -56,7 +57,8 @@ public class ArticleServlet extends HttpServlet {
 		ArticleVenduManager am = ArticleVenduManager.getInstance();
 		ArticleVendu article = am.selectByDetails(noArticle);
 		request.setAttribute("article", article);
-		System.out.println(noArticle);
+		
+		System.out.println(utilisateur.getCredit());
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);		
 	}
 
