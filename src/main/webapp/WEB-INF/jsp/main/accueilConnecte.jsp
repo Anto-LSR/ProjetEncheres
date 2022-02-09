@@ -97,7 +97,10 @@
 
 						<div class="articleInfo">
 							<ul>
-								<a href="${pageContext.request.contextPath }/article?noArticle=${art.noArticle}"> <li class="titreArticle">${art.nomArticle}</li></a>
+								<a
+									href="${pageContext.request.contextPath }/article?noArticle=${art.noArticle}">
+									<li class="titreArticle">${art.nomArticle}</li>
+								</a>
 
 								<li id="priceLi">Prix:<span id="priceSpan">${art.prixVente}</span><img
 									src="${pageContext.request.contextPath }/assets/img/coin.png"></li>
@@ -105,7 +108,9 @@
 								<li>Début : ${art.formattedDateDebutEnchere()}</li>
 								<li>Fin : ${art.formattedDateFinEnchere()}</li>
 								<li>Retrait:</li>
-								<li>Vendeur: ${art.utilisateurVendeur.nom }</li>
+								<li><a
+									href="${pageContext.request.contextPath}/membres?no_utilisateur=${art.utilisateurVendeur.noUtilisateur}">Vendeur:
+										${art.utilisateurVendeur.nom }</a></li>
 							</ul>
 						</div>
 					</div>
@@ -140,7 +145,7 @@
 
 	<c:if test="${encheresEnCours != null }">
 		<script>
-		enchEnCours.checked = true;
+			enchEnCours.checked = true;
 		</script>
 	</c:if>
 
@@ -149,21 +154,21 @@
 			enchRemportees.checked = true;
 		</script>
 	</c:if>
-	
-	
+
+
 	<script>
-	let radioA = document.getElementById('radioAchats');
-	let radioV = document.getElementById('radioVentes');
-	if('${choice}' == 'Ventes'){
-		radioV.checked = true
+		let radioA = document.getElementById('radioAchats');
+		let radioV = document.getElementById('radioVentes');
+		if ('${choice}' == 'Ventes') {
+			radioV.checked = true
 
-	} else if ('${choice}' == 'Achats'){
-		radioA.checked = true
+		} else if ('${choice}' == 'Achats') {
+			radioA.checked = true
 
-	}
+		}
 	</script>
-	
-	
-	
+
+
+
 </body>
 </html>
