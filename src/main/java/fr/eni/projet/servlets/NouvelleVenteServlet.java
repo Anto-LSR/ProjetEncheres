@@ -115,6 +115,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 					request.setAttribute("cateNull", "La catégorie doit être renseignée");
 					System.out.println("CATEGORIE VIDE");
 				}
+				
 				LocalDate today = LocalDate.now();
 				LocalDate tomorrow = LocalDate.now().plusDays(1);
 				CategorieManager cm = CategorieManager.getInstance();
@@ -129,6 +130,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 					request.setAttribute("cateNull", "La catégorie doit être renseignée");
 					System.out.println("CATEGORIE VIDE");
 				}
+			
 				ArticleVendu newArticle = new ArticleVendu();
 				newArticle.setNomArticle(nomArticle);
 				newArticle.setDescription(description);
