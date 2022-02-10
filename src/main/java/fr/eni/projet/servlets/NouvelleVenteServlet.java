@@ -63,7 +63,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 				session.setAttribute("connected", true);
 			}
 		} else {
-			
+
 			isConnected = false;
 			request.setAttribute("connected", false);
 		}
@@ -103,10 +103,14 @@ public class NouvelleVenteServlet extends HttpServlet {
 			String prixInitial = request.getParameter("prixInitial");
 			String prixVente = prixInitial;
 			String categorie = request.getParameter("categorie");
-		
-			
-			
+
+			System.out.println(prixInitial);
+
 			if (prixInitial.isBlank()) {
+				error = true;
+			}
+
+			if (Integer.valueOf(prixInitial) < 0) {
 				error = true;
 			}
 			if (error) {
@@ -115,7 +119,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 					request.setAttribute("cateNull", "La catégorie doit être renseignée");
 					System.out.println("CATEGORIE VIDE");
 				}
-				
+
 				LocalDate today = LocalDate.now();
 				LocalDate tomorrow = LocalDate.now().plusDays(1);
 				CategorieManager cm = CategorieManager.getInstance();
@@ -123,14 +127,10 @@ public class NouvelleVenteServlet extends HttpServlet {
 				request.setAttribute("categories", categories);
 				request.setAttribute("today", today);
 				request.setAttribute("tomorrow", tomorrow);
-				request.setAttribute("prixNull", "Le prix doit être renseigné");
+				request.setAttribute("prixNull", "Le prix doit être renseigné et supérieur à 0");
 				request.getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 			} else {
-				if (categorie.isBlank()) {
-					request.setAttribute("cateNull", "La catégorie doit être renseignée");
-					System.out.println("CATEGORIE VIDE");
-				}
-			
+
 				ArticleVendu newArticle = new ArticleVendu();
 				newArticle.setNomArticle(nomArticle);
 				newArticle.setDescription(description);
