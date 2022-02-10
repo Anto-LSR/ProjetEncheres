@@ -37,31 +37,31 @@ public class AccueilServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
+			HttpSession session = request.getSession();
 
-		boolean isConnected = true;
+			boolean isConnected = true;
 
-		if (session != null) {
-			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-			if (utilisateur == null) {
-				isConnected = false;
-				session.setAttribute("connected", false);
-				
+			if (session != null) {
+				Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+				if (utilisateur == null) {
+					isConnected = false;
+					session.setAttribute("connected", false);
+
+				} else {
+					UtilisateurManager um = UtilisateurManager.getInstance();
+					utilisateur = um.selectUserById(utilisateur);
+					isConnected = true;
+					session.setAttribute("connected", true);
+				}
+
 			} else {
-				UtilisateurManager um = UtilisateurManager.getInstance();
-				utilisateur = um.selectUserById(utilisateur);
-				isConnected = true;
-				session.setAttribute("connected", true);
+				isConnected = false;
+				request.setAttribute("connected", false);
 			}
-
-		} else {
-			isConnected = false;
-			request.setAttribute("connected", false);
-		}
-		CategorieManager cm = CategorieManager.getInstance();
-		List<Categorie> categories = cm.selectAllCategorie();
-		request.setAttribute("categories", categories);
-		request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+			CategorieManager cm = CategorieManager.getInstance();
+			List<Categorie> categories = cm.selectAllCategorie();
+			request.setAttribute("categories", categories);
+			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
 	}
 
 	/**

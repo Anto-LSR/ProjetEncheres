@@ -58,8 +58,8 @@
 								action="${pageContext.request.contextPath }/article?noArticle=${article.noArticle}"
 								method="post">
 								<li class="fielname">Ma proposition : <input type="number"
-									id="proposition" name="proposition" min="${article.prixVente}"
-									max="${utilisateur.credit}" value="${article.prixVente}"></li>
+									id="proposition" name="proposition" min="${min}"
+									max="${utilisateur.credit}" value="${min}"></li>
 								<button type="submit">Enchérir</button>
 
 							</form>

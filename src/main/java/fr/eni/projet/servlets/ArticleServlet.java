@@ -40,75 +40,85 @@ public class ArticleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Utilisateur utilisateur = null;
-		
 
-		boolean isConnected = true;
+		try {
 
-		if (session != null) {
-			utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-			if (utilisateur == null) {
-				isConnected = false;
-				session.setAttribute("connected", false);
-				System.out.println("déconnecté");
-			} else {				
-				UtilisateurManager um = UtilisateurManager.getInstance();
-				utilisateur = um.selectUserById(utilisateur);
+			HttpSession session = request.getSession();
+			Utilisateur utilisateur = null;
+
+			boolean isConnected = true;
+
+			if (session != null) {
+				utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+				if (utilisateur == null) {
+					isConnected = false;
+					session.setAttribute("connected", false);
+					System.out.println("déconnecté");
+				} else {
+					UtilisateurManager um = UtilisateurManager.getInstance();
+					utilisateur = um.selectUserById(utilisateur);
+					isConnected = true;
+					session.setAttribute("connected", true);
+				}
+			} else {
 				isConnected = true;
-				session.setAttribute("connected", true);
+				request.setAttribute("connected", false);
 			}
-		} else {
-			isConnected = true;
-			request.setAttribute("connected", false);
+
+			// ********************************************************
+			int noArticle = Integer.valueOf(request.getParameter("noArticle"));
+
+			ArticleVenduManager am = ArticleVenduManager.getInstance();
+			ArticleVendu article = am.selectByDetails(noArticle);
+			request.setAttribute("article", article);
+			int min = article.getPrixVente() + 1;
+			request.setAttribute("min", min);
+			LocalDate today = LocalDate.now();
+			LocalDate dateFin = article.getDateFinEncheres();
+			String Fin = Tools.convertFormatDate(dateFin);
+
+			Enchere enchere = new Enchere();
+			enchere.setArticlevendu(article);
+			EnchereManager em = EnchereManager.getInstance();
+			enchere = em.selectByNumArticle(enchere);
+			int noUtilisateur = enchere.getUtilisateur().getNoUtilisateur();
+			UtilisateurManager um = UtilisateurManager.getInstance();
+			Utilisateur winner = new Utilisateur();
+			winner.setNoUtilisateur(noUtilisateur);
+			winner = um.selectUserById(winner);
+			String NomWinner = winner.getNom();
+
+			if (dateFin.isBefore(today)) {
+				request.setAttribute("NomWinner", NomWinner);
+
+			}
+			Enchere lastUserEnchere = new Enchere();
+			lastUserEnchere.setArticlevendu(article);
+			lastUserEnchere.setUtilisateur(utilisateur);
+
+			lastUserEnchere = em.selectMaxByUser(lastUserEnchere);
+
+			if (lastUserEnchere == null) {
+				lastUserEnchere = new Enchere();
+				lastUserEnchere.setMontantEnchere(0);
+
+			}
+			if ((lastUserEnchere.getMontantEnchere() + utilisateur.getCredit()) < article.getPrixVente()) {
+				request.setAttribute("fundError", "Vous ne disposez pas d'assez de crédits");
+				System.out.println("pas assez de crédit");
+			}
+			if (article.getDateDebutEncheres().isAfter(LocalDate.now())) {
+				request.setAttribute("notBegin", "l'enchère n'a pas encore débuté");
+			}
+
+			System.out.println(utilisateur.getCredit());
+			request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
+
+		} catch (Exception e) {
+			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+
 		}
 
-		// ********************************************************
-		int noArticle = Integer.valueOf(request.getParameter("noArticle"));
-
-		ArticleVenduManager am = ArticleVenduManager.getInstance();
-		ArticleVendu article = am.selectByDetails(noArticle);
-		request.setAttribute("article", article);
-		LocalDate today = LocalDate.now();
-		LocalDate dateFin = article.getDateFinEncheres();
-		String Fin = Tools.convertFormatDate(dateFin);
-		
-		Enchere enchere = new Enchere();
-		enchere.setArticlevendu(article);
-		EnchereManager em = EnchereManager.getInstance();
-		enchere = em.selectByNumArticle(enchere);
-		int noUtilisateur =enchere.getUtilisateur().getNoUtilisateur();
-		UtilisateurManager um = UtilisateurManager.getInstance();
-		Utilisateur winner = new Utilisateur();
-		winner.setNoUtilisateur(noUtilisateur);
-		winner = um.selectUserById(winner);
-		String NomWinner = winner.getNom();
-		
-		if (dateFin.isBefore(today)) {
-			request.setAttribute("NomWinner", NomWinner);
-			
-		}
-		Enchere lastUserEnchere = new Enchere();
-		lastUserEnchere.setArticlevendu(article);
-		lastUserEnchere.setUtilisateur(utilisateur);
-		
-		lastUserEnchere = em.selectMaxByUser(lastUserEnchere);
-		
-		if (lastUserEnchere ==  null) {
-			lastUserEnchere = new Enchere();
-			lastUserEnchere.setMontantEnchere(0);
-	
-		}
-		if ((lastUserEnchere.getMontantEnchere() + utilisateur.getCredit()) < article.getPrixVente()) {
-			request.setAttribute("fundError", "Vous ne disposez pas d'assez de crédits");
-			System.out.println("pas assez de crédit");
-		}
-		if(article.getDateDebutEncheres().isAfter(LocalDate.now())) {
-			request.setAttribute("notBegin", "l'enchère n'a pas encore débuté");
-		}
-		
-		System.out.println(utilisateur.getCredit());
-		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
 	}
 
 	/**
@@ -137,8 +147,6 @@ public class ArticleServlet extends HttpServlet {
 		nouvelleEnchere.setMontantEnchere(proposition);
 		nouvelleEnchere.setUtilisateur(utilisateur);
 		nouvelleEnchere.setDateEnchere(LocalDate.now());
-		
-	
 
 		// RECUPERATION DE L'ENCHERE PRECEDENTE
 		EnchereManager em = EnchereManager.getInstance();
@@ -146,64 +154,66 @@ public class ArticleServlet extends HttpServlet {
 
 		if (lastEnchere.getMontantEnchere() > nouvelleEnchere.getMontantEnchere()) {
 			request.setAttribute("underError", "Impossible de sous enchérir");
-		}
-		if (lastEnchere.getUtilisateur().getNoUtilisateur() == nouvelleEnchere.getUtilisateur().getNoUtilisateur()) {
-			request.setAttribute("sameUserError",
-					"Aucune autre enchère n'a été faite depuis la votre, impossible d'enchérir");
-			// TODO GERER ERREUR SAME USER
-		}
-		
-		
-		//*********************************************************************************
-		Enchere lastUserEnchere = new Enchere();
-		lastUserEnchere.setArticlevendu(articleConsulte);
-		lastUserEnchere.setUtilisateur(utilisateur);
-		
-		lastUserEnchere = em.selectMaxByUser(lastUserEnchere);
-		
-		if (lastUserEnchere ==  null) {
-			lastUserEnchere = new Enchere();
-			lastUserEnchere.setMontantEnchere(0);
-	
-		}
-		if ((lastUserEnchere.getMontantEnchere() + utilisateur.getCredit()) < nouvelleEnchere.getMontantEnchere()) {
-			request.setAttribute("fundError", "Vous ne disposez pas d'assez de crédits");
-			System.out.println("pas assez de crédit");
+			request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp").forward(request, response);
+
 		} else {
-			em.insertEnchere(nouvelleEnchere); // INSERTION NOUVELLE ENCHERE
-			//DEBIT DU NOUVEL ENCHERISSEUR (utilisateur)
-			System.out.println("Ancien credits de l'utilisateur: " + utilisateur.getCredit());
-			System.out.println("Last Montant Enchere : " + lastUserEnchere.getMontantEnchere());
-			System.out.println("Montant de l'enchère : " + nouvelleEnchere.getMontantEnchere());
-
-			int nouveauCreditEncherisseur = (utilisateur.getCredit() +  lastUserEnchere.getMontantEnchere())- nouvelleEnchere.getMontantEnchere();
-			System.out.println("Nouveau crédit de l'utilisateur" + nouveauCreditEncherisseur);
-			
-			um.updateCredit(nouveauCreditEncherisseur, utilisateur.getNoUtilisateur());
-			
-			//VERIFICATION DU PRECEDENT ENCHERISSEUR
-			if (lastEnchere.getUtilisateur().getNoUtilisateur() == articleConsulte.getUtilisateurVendeur()
+			if (lastEnchere.getUtilisateur().getNoUtilisateur() == nouvelleEnchere.getUtilisateur()
 					.getNoUtilisateur()) {
-				System.out.println("Pas de remboursement possible au vendeur original");
-			} else {
-				
-				//RENSEIGNEMENT SUR LE PRECEDENT ENCHERISSEUR
-				Utilisateur ancienEncherisseur = um.selectUserById(lastEnchere.getUtilisateur());
-				System.out.println("Ancien credit de l'ancien encherisseur : " + ancienEncherisseur.getCredit());
-				System.out.println("Montant de l'ancienne enchère : " + lastEnchere.getMontantEnchere());			
-				int nouveauCreditAncienEncherisseur = ancienEncherisseur.getCredit() + lastEnchere.getMontantEnchere();
-				System.out.println("Nouveau crédit de l'ancien enchérisseur : " + nouveauCreditAncienEncherisseur);
-				request.setAttribute("success", "Votre enchère a bien étée prise en compte");
+				request.setAttribute("sameUserError",
+						"Aucune autre enchère n'a été faite depuis la votre, impossible d'enchérir");
+				// TODO GERER ERREUR SAME USER
 			}
-			
-			
-			
-			ArticleVenduManager am = ArticleVenduManager.getInstance();
-			ArticleVendu article = am.selectByDetails(noArticle);
-			request.setAttribute("article", article);
-			request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
 
+			// *********************************************************************************
+			Enchere lastUserEnchere = new Enchere();
+			lastUserEnchere.setArticlevendu(articleConsulte);
+			lastUserEnchere.setUtilisateur(utilisateur);
+
+			lastUserEnchere = em.selectMaxByUser(lastUserEnchere);
+
+			if (lastUserEnchere == null) {
+				lastUserEnchere = new Enchere();
+				lastUserEnchere.setMontantEnchere(0);
+
+			}
+			if ((lastUserEnchere.getMontantEnchere() + utilisateur.getCredit()) < nouvelleEnchere.getMontantEnchere()) {
+				request.setAttribute("fundError", "Vous ne disposez pas d'assez de crédits");
+				System.out.println("pas assez de crédit");
+			} else {
+				em.insertEnchere(nouvelleEnchere); // INSERTION NOUVELLE ENCHERE
+				// DEBIT DU NOUVEL ENCHERISSEUR (utilisateur)
+				System.out.println("Ancien credits de l'utilisateur: " + utilisateur.getCredit());
+				System.out.println("Last Montant Enchere : " + lastUserEnchere.getMontantEnchere());
+				System.out.println("Montant de l'enchère : " + nouvelleEnchere.getMontantEnchere());
+
+				int nouveauCreditEncherisseur = (utilisateur.getCredit() + lastUserEnchere.getMontantEnchere())
+						- nouvelleEnchere.getMontantEnchere();
+				System.out.println("Nouveau crédit de l'utilisateur" + nouveauCreditEncherisseur);
+
+				um.updateCredit(nouveauCreditEncherisseur, utilisateur.getNoUtilisateur());
+
+				// VERIFICATION DU PRECEDENT ENCHERISSEUR
+				if (lastEnchere.getUtilisateur().getNoUtilisateur() == articleConsulte.getUtilisateurVendeur()
+						.getNoUtilisateur()) {
+					System.out.println("Pas de remboursement possible au vendeur original");
+				} else {
+
+					// RENSEIGNEMENT SUR LE PRECEDENT ENCHERISSEUR
+					Utilisateur ancienEncherisseur = um.selectUserById(lastEnchere.getUtilisateur());
+					System.out.println("Ancien credit de l'ancien encherisseur : " + ancienEncherisseur.getCredit());
+					System.out.println("Montant de l'ancienne enchère : " + lastEnchere.getMontantEnchere());
+					int nouveauCreditAncienEncherisseur = ancienEncherisseur.getCredit()
+							+ lastEnchere.getMontantEnchere();
+					System.out.println("Nouveau crédit de l'ancien enchérisseur : " + nouveauCreditAncienEncherisseur);
+					request.setAttribute("success", "Votre enchère a bien étée prise en compte");
+				}
+
+				ArticleVenduManager am = ArticleVenduManager.getInstance();
+				ArticleVendu article = am.selectByDetails(noArticle);
+				request.setAttribute("article", article);
+				request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
+
+			}
 		}
-
 	}
 }
