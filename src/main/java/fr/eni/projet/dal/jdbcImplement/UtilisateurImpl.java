@@ -21,7 +21,7 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_UPDATE = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
-	private final static String SQL_DELETE =  "UPDATE ARTICLES_VENDUS set no_utilisateur = 48 WHERE no_utilisateur = ? "
+	private final static String SQL_DELETE =  "UPDATE ARTICLES_VENDUS set no_utilisateur = 48, date_fin_encheres = Convert (date, GETDATE()-1) WHERE no_utilisateur = ? "
 			+ "DELETE FROM ENCHERES WHERE no_utilisateur = ? "
 			+ "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
 

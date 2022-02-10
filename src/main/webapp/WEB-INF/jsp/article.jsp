@@ -53,7 +53,7 @@
 									${article.utilisateurVendeur.nom}</span></li>
 						</c:if>
 
-						<c:if test="${utilisateur.credit > article.prixVente && connected == true && article.utilisateurVendeur.noUtilisateur != utilisateur.noUtilisateur}">
+						<c:if test="${fundError == null && connected == true && article.utilisateurVendeur.noUtilisateur != utilisateur.noUtilisateur && notBegin == null}">
 							<form class="encherir"
 								action="${pageContext.request.contextPath }/article?noArticle=${article.noArticle}"
 								method="post">

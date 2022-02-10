@@ -88,6 +88,24 @@ public class ArticleServlet extends HttpServlet {
 			request.setAttribute("NomWinner", NomWinner);
 			
 		}
+		Enchere lastUserEnchere = new Enchere();
+		lastUserEnchere.setArticlevendu(article);
+		lastUserEnchere.setUtilisateur(utilisateur);
+		
+		lastUserEnchere = em.selectMaxByUser(lastUserEnchere);
+		
+		if (lastUserEnchere ==  null) {
+			lastUserEnchere = new Enchere();
+			lastUserEnchere.setMontantEnchere(0);
+	
+		}
+		if ((lastUserEnchere.getMontantEnchere() + utilisateur.getCredit()) < article.getPrixVente()) {
+			request.setAttribute("fundError", "Vous ne disposez pas d'assez de crédits");
+			System.out.println("pas assez de crédit");
+		}
+		if(article.getDateDebutEncheres().isAfter(LocalDate.now())) {
+			request.setAttribute("notBegin", "l'enchère n'a pas encore débuté");
+		}
 		
 		System.out.println(utilisateur.getCredit());
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
