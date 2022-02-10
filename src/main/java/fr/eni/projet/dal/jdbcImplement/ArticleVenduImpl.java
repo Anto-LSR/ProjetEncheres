@@ -33,7 +33,7 @@ public class ArticleVenduImpl implements ArticleVenduDAO {
 	private final static String SQL_SELECT_BY_MES_VENTES_EN_COURS = "SELECT * FROM ARTICLES_VENDUS WHERE date_fin_encheres > GETDATE() AND no_utilisateur = ?;";
 	private final static String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
 	private final static String SQL_SELECT_DETAILS = "SELECT av.no_article, av.nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, "
-			+ "prix_vente, av.no_utilisateur as vendeur, no_categorie, e.no_utilisateur as acheteur, "
+			+ "prix_vente, av.no_utilisateur as acheteur, no_categorie, e.no_utilisateur as vendeur, "
 			+ "montant_enchere, rue, code_postal, ville, "
 			+ "COALESCE("
 			+ "(SELECT MAX(montant_enchere) "

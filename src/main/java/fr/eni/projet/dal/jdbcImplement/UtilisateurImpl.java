@@ -21,7 +21,10 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	private final static String SQL_UPDATE = "UPDATE UTILISATEURS set pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	private final static String SQL_SELECTALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit FROM UTILISATEURS;";
-	private final static String SQL_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
+	private final static String SQL_DELETE =  "UPDATE ARTICLES_VENDUS set no_utilisateur = 48 WHERE no_utilisateur = ? "
+			+ "DELETE FROM ENCHERES WHERE no_utilisateur = ? "
+			+ "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
+
 	private final static String SQL_UPDATE_CREDITS = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?;";
 	
 	
@@ -195,16 +198,18 @@ public class UtilisateurImpl implements UtilisateurDAO {
 	public void deleteUser(Utilisateur utilisateur) {
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
-		
-		cnx = ConnectionProvider.getConnection();
-		
+				
 		try {
+			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_DELETE);
 			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+			pstmt.setInt(2, utilisateur.getNoUtilisateur());
+			pstmt.setInt(3, utilisateur.getNoUtilisateur());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
 		
 

@@ -18,7 +18,18 @@ import fr.eni.projet.dal.EnchereDAO;
 
 public class EnchereImpl implements EnchereDAO {
 
-	private static final String SQL_INSERT = "INSERT INTO Encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?,?,?,?);";
+	private static final String SQL_INSERT = "begin tran "
+			+ "if exists (select * from ENCHERES where no_article = ? AND no_utilisateur = ?)"
+			+ "begin "
+			+ "update ENCHERES set montant_enchere = ?, date_enchere = GETDATE() "
+			+ "where no_article = ? AND no_utilisateur = ? "
+			+ "end "
+			+ "else "
+			+ "begin "
+			+ "insert into ENCHERES (no_article, no_utilisateur, date_enchere, montant_enchere) "
+			+ "values (?, ?, GETDATE(), ?) "
+			+ "end "
+			+ "commit tran;";
 	private static final String SQL_SELECT_ALL_ENCHERES = "SELECT * FROM Encheres;";
 	private final static String SQL_SELECT_BY_UTILISATEUR = "SELECT * FROM Encheres WHERE no_utilisateur= ?;";
 	private final static String SQL_SELECT_BY_ARTICLE = "SELECT top 1  * FROM ENCHERES  WHERE no_article = ?  order by montant_enchere  desc;";
@@ -33,10 +44,15 @@ public class EnchereImpl implements EnchereDAO {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SQL_INSERT);
-			pstmt.setInt(1, enchere.getUtilisateur().getNoUtilisateur());
-			pstmt.setInt(2, enchere.getArticlevendu().getNoArticle());
-			pstmt.setDate(3, Date.valueOf(enchere.getDateEnchere()));
-			pstmt.setInt(4, enchere.getMontantEnchere());
+			pstmt.setInt(1, enchere.getArticlevendu().getNoArticle());
+			pstmt.setInt(2, enchere.getUtilisateur().getNoUtilisateur());
+			pstmt.setInt(3, enchere.getMontantEnchere());
+			pstmt.setInt(4, enchere.getArticlevendu().getNoArticle());
+			pstmt.setInt(5, enchere.getUtilisateur().getNoUtilisateur());
+			pstmt.setInt(6, enchere.getArticlevendu().getNoArticle());
+			pstmt.setInt(7, enchere.getUtilisateur().getNoUtilisateur());
+			pstmt.setInt(8, enchere.getMontantEnchere());
+			
 
 			int nbLigne = pstmt.executeUpdate();
 			if (nbLigne != 1) {
@@ -120,7 +136,10 @@ public class EnchereImpl implements EnchereDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			ConnectionProvider.closeConnection(cnx, pstmt);
 		}
+		
 		return enchere;
 	}
 

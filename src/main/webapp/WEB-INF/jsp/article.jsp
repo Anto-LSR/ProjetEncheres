@@ -35,7 +35,7 @@
 								${article.description}</span></li>
 						<li class="fielname">Categorie : <span>
 								${article.categorie.libelle}</span></li>
-						<li class="fielname">Meilleure offre : <span>
+						<li class="fielname">Meilleure offre : <a href="${pageContext.request.contextPath}/membres?no_utilisateur=${article.utilisateurAcheteur.noUtilisateur}"> ${article.utilisateurAcheteur.pseudo} </a> - <span>
 								${article.prixVente}</span> points
 						</li>
 						<li class="fielname">Mise à prix : <span>
