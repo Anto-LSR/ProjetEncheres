@@ -82,6 +82,11 @@ public class InscriptionServlet extends HttpServlet {
 			request.setAttribute("passError", "Les mots de passes doivent être identiques");
 			request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}
+		
+		if(!request.getParameter("mail").contains("@")) {
+			error = true;
+			request.setAttribute("atError", "Le format de l'email n'est pas bon");
+		}
 
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		Utilisateur utilisateur = new Utilisateur();

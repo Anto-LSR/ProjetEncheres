@@ -28,7 +28,7 @@
 						<div class="checkboxmenu">
 							<div>
 								<input type="checkbox" id="enchouvertes" name="enchouvertes"
-									checked /> <label for="enchouvertes">Enchères ouvertes</label>
+									 /> <label for="enchouvertes">Enchères ouvertes</label>
 							</div>
 							<div>
 								<input type="checkbox" id="enchencours" name="enchencours" /> <label
@@ -42,13 +42,13 @@
 
 						<div class="radiomenu">
 							<input type="radio" id="radioVentes" name="choice" value="Ventes"
-								checked /> <label for="Ventes">Ventes</label>
+								 /> <label for="Ventes">Ventes</label>
 						</div>
 
 						<div class="checkboxmenu">
 							<div>
 								<input type="checkbox" id="ventesencours" name="ventesencours"
-									checked /> <label for="ventesencours">Mes ventes en
+									 /> <label for="ventesencours">Mes ventes en
 									cours</label>
 							</div>
 							<div>

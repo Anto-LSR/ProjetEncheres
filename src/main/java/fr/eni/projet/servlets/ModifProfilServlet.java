@@ -86,6 +86,10 @@ public class ModifProfilServlet extends HttpServlet {
 		if (!request.getParameter("motdepasse").trim().isBlank() | request.getParameter("motdepasse") != null) {
 			utilisateur.setMotDePasse(request.getParameter("motdepasse"));
 		}
+		if(!request.getParameter("mail").contains("@")) {
+			error = true;
+			request.setAttribute("atError", "Le format de l'email n'est pas bon");
+		}
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		List<InputError> errors = um.verifUserModif(utilisateur);
 		
