@@ -72,10 +72,22 @@ public class ArticleServlet extends HttpServlet {
 		LocalDate today = LocalDate.now();
 		LocalDate dateFin = article.getDateFinEncheres();
 		String Fin = Tools.convertFormatDate(dateFin);
-		String NomWinner = utilisateur.getNom();
-		request.setAttribute("NomWinner", NomWinner);
-		request.setAttribute("Fin", Fin);
-		request.setAttribute("today", today);
+		
+		Enchere enchere = new Enchere();
+		enchere.setArticlevendu(article);
+		EnchereManager em = EnchereManager.getInstance();
+		enchere = em.selectByNumArticle(enchere);
+		int noUtilisateur =enchere.getUtilisateur().getNoUtilisateur();
+		UtilisateurManager um = UtilisateurManager.getInstance();
+		Utilisateur winner = new Utilisateur();
+		winner.setNoUtilisateur(noUtilisateur);
+		winner = um.selectUserById(winner);
+		String NomWinner = winner.getNom();
+		
+		if (dateFin.isBefore(today)) {
+			request.setAttribute("NomWinner", NomWinner);
+		}
+		
 		System.out.println(utilisateur.getCredit());
 		request.getRequestDispatcher("/WEB-INF/jsp/article.jsp").forward(request, response);
 	}

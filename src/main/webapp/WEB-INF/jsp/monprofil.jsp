@@ -33,6 +33,9 @@
 				<div class="updateBtn__container">
 				<a href="${pageContext.request.contextPath }/editerprofil"><button class="updateBtn">Modifier</button></a>
 				</div>
+				<div class="updateBtn__container">
+				<a href="${pageContext.request.contextPath }/"><button class="updateBtn">Retour</button></a>
+				</div>
 			</div>
 
 		</main>

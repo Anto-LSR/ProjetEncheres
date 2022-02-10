@@ -25,7 +25,7 @@
 				<div class="visuel_article_container">
 
 					<h1>${article.nomArticle}</h1>
-					<c:if test="${Fin < today}">
+					<c:if test="${NomWinner != null}">
 					<h3> ${NomWinner} à gagné la vente</h3>
 					</c:if>
 
