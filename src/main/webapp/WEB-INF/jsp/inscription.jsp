@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="./css/style.css">
 <title>Inscription</title>
@@ -46,6 +46,9 @@
 						<label for="nom">Nom:</label> <input type="text" id="nom"
 							name="nom">
 					</div>
+					<c:if test="${nomError != null}">
+						<p class="error">${nomError}</p>
+					</c:if>
 					<c:if test="${nomNull != null}">
 						<p class="error">${nomNull}</p>
 					</c:if>
@@ -53,6 +56,9 @@
 						<label for="prenom">Prénom:</label> <input type="text" id="prenom"
 							name="prenom">
 					</div>
+					<c:if test="${prenomError != null}">
+						<p class="error">${prenomError}</p>
+					</c:if>
 					<c:if test="${prenomNull != null}">
 						<p class="error">${prenomNull}</p>
 					</c:if>
@@ -70,6 +76,9 @@
 						<label for="nom">Telephone:</label> <input type="text"
 							id="telephone" name="telephone">
 					</div>
+					<c:if test="${telError != null}">
+						<p class="error">${telError}</p>
+					</c:if>
 					<c:if test="${telephoneNull != null}">
 						<p class="error">${telephoneNull}</p>
 					</c:if>

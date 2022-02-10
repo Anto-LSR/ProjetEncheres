@@ -87,6 +87,18 @@ public class InscriptionServlet extends HttpServlet {
 			error = true;
 			request.setAttribute("atError", "Le format de l'email n'est pas bon");
 		}
+		if (!telephone.matches("[0-9]+") && telephone.length()!=10) {
+			error = true;
+			request.setAttribute("telError", "Le numéro de téléphone doit être composé uniquement de 10 chiffres");
+		}
+		if (!isAlpha(nom) ) {
+			error = true;
+			request.setAttribute("nomError", "Le nom ne peux pas comporté de caractère spéciaux");
+		}
+		if (!isAlpha(prenom)) {
+			error = true;
+			request.setAttribute("prenomError", "Le prenom ne peux pas comporté de caractère spéciaux");
+		}
 
 		UtilisateurManager um = UtilisateurManager.getInstance();
 		Utilisateur utilisateur = new Utilisateur();
@@ -167,6 +179,9 @@ public class InscriptionServlet extends HttpServlet {
 
 	public boolean isAlphaNumeric(String str) {
 		return str != null && str.matches("^[a-zA-Z0-9]*$");
+	}
+	public boolean isAlpha(String str) {
+		return str != null && str.matches("^[a-zA-Z]+");
 	}
 
 }
